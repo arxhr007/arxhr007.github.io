@@ -51,6 +51,16 @@ body {
    top: 50%;
    transform: translateY(-50%);
  }
+      .nav-item {
+        margin-left: 2%;
+      }
+  
+      /* Styling for desktop */
+      @media (min-width: 1024px) { /* Adjust the breakpoint as needed */
+        .nav-item.desktop-margin {
+          margin-left: 50%;
+        }
+      }
 .side-by-side {
    display: flex;
    align-items: center;

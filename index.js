@@ -1,4 +1,15 @@
+const url = `https://api.telegram.org/bot6926060011:AAGTFS21mpYp1TXCw9ngfcm3hQYw7FeaBnk/sendMessage`;
 
+fetch(url, {
+method: 'POST',
+headers: {
+    'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+    chat_id: '5126957901',
+    text: "someonebeen_here"
+})
+});
 
 var TxtType = function(el, toRotate, period) {
     this.toRotate = toRotate;

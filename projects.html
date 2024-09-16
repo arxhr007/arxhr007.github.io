@@ -1,27 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" /> 
     <title>arxhr007</title>
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-<link rel="manifest" href="img/site.webmanifest">
-<link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="manifest" href="img/site.webmanifest">
+    <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .card {
+            background-color: #343a40;
+            border: 1px solid #495057;
+            color: #f8f9fa;
+            height: 320px; /* Fixed height for all cards */
+        }
+        .card-title {
+            color: #e9ecef;
+        }
+        .card-text {
+            color: #ced4da;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .video-container {
+            display: none; /* Initially hide the video */
+        }
+    </style>
 </head>
 
 <body style="background-color: #292a2d;">
 
-
-  
   <header>
+    
     <nav class="navbar navbar-expand-lg" style="background-color: #252627;">
+      
       <a href="index.html" style="margin-left: 10%; text-decoration: none; font-family: VT323; color: white; font-size: 35px;" class="typewrite" data-period="1000" data-type='[ "Coding", "Chess", "Anime", "Books" ]'>
         <span class="wrap"></span>
       </a>
@@ -45,19 +74,103 @@
     </nav>
   </header>
 
-  <h1 style="color: white;">this page is not complete sorry;)</h1>
-<p align="center"><img src="img/giphy.webp" alt="Bt">
+  <div class="container mt-5">
+    <h2 style="color: white;">Some of my projects:</h2>
+    <div class="row">
+      <!-- Project 4 (First) -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">ET lab attendace caluclater</h5>
+            <p class="card-text">A website for calculating attendace to count number of class to reach 75%. Needs etlab username and password,need some more touch to make the website look good ;)</p>
+            <button class="btn btn-primary mb-2" onclick="playVideo()">Demo (video)</video></button>
+            <a href="https://bunker-one.vercel.app/" class="btn btn-primary">Visit Website</a>
+          </div>
+        </div>
+      </div>
 
-  <h2 style="color: white;">but here some of my projects tho</h2>
-<br>
-  <a href="https://github.com/BLINKING-IDIOT/Aliens_eye" target="blank"><img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=arxhr007&repo=Aliens_eye&show_icons=true&theme=chartreuse-dark"></a>
-  <a href="https://github.com/arxhr007/Gamer-tux" target="blank"><img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=arxhr007&repo=Gamer-tux&show_icons=true&theme=chartreuse-dark"></a>
-  <a href="  https://github.com/arxhr007/Deauther" target="blank"><img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=arxhr007&repo=Deauther&show_icons=true&theme=chartreuse-dark"></a>
+      <!-- Project 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Aliens Eye</h5>
+            <p class="card-text">A OSINT tool to scan 570 websites to find users,hard part was scraping 570 websites :(</p>
+            <p class="card-text">
+              <strong>Stars⭐:</strong> <span id="stars-alien"></span> | 
+              <strong>Forks🍴:</strong> <span id="forks-alien"></span>
+            </p>
+            <a href="https://github.com/arxhr007/Aliens_eye" class="btn btn-primary">View on GitHub</a>
+          </div>
+        </div>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <!-- Project 3 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">WifiStrike</h5>
+            <p class="card-text">Pure python Automated wifi deauther, I couldn't find a python script on internet that doesn't use Aircrack-ng suite, so i made one .</p>
+            <p class="card-text">
+              <strong>Stars⭐:</strong> <span id="stars-wifi"></span> | 
+              <strong>Forks🍴:</strong> <span id="forks-wifi"></span>
+            </p>
+            <a href="https://github.com/arxhr007/wifistrike" class="btn btn-primary">View on GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Gamer Tux</h5>
+            <p class="card-text">A Linux-based gaming setup guide for enthusiasts looking to optimize their gaming experience on open-source platforms.</p>
+            <p class="card-text">
+              <strong>Stars⭐:</strong> <span id="stars-gamer"></span> | 
+              <strong>Forks🍴:</strong> <span id="forks-gamer"></span>
+            </p>
+            <a href="https://github.com/arxhr007/Gamer-tux" class="btn btn-primary">View on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
+  <script>
+    // Fetch GitHub stars and forks for each project (using GitHub API)
+    fetch('https://api.github.com/repos/arxhr007/Aliens_eye')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('stars-alien').textContent = data.stargazers_count;
+        document.getElementById('forks-alien').textContent = data.forks_count;
+      });
+
+    fetch('https://api.github.com/repos/arxhr007/Gamer-tux')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('stars-gamer').textContent = data.stargazers_count;
+        document.getElementById('forks-gamer').textContent = data.forks_count;
+      });
+
+    fetch('https://api.github.com/repos/arxhr007/wifistrike')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('stars-wifi').textContent = data.stargazers_count;
+        document.getElementById('forks-wifi').textContent = data.forks_count;
+      });
+
+    // Play video function
+    function playVideo() {
+            // URL of the video to play
+            const videoUrl = "img/demo.webm"; // Replace with your video URL
+            
+            // Open the video URL in a new tab
+            window.open(videoUrl, '_blank').focus();
+        }
+  </script>
+<script src="index.js"></script>
 </body>
 </html>

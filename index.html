@@ -1,11 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hello</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aaron Thomas | Portfolio</title>
+  <style>
+    :root {
+      --bg: #ededee;
+      --text: #1f2937;
+      --muted: #4b6b64;
+      --accent: #0f766e;
+      --line: #d8dde4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 56px 28px;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: grid;
+      gap: 56px;
+    }
+
+    .card {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+    }
+
+    .top-nav {
+      max-width: 1150px;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #115e59;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border: 1px solid #9dc8c2;
+      border-radius: 999px;
+      color: #115e59;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: #edf8f6;
+    }
+
+    .nav-btn:hover {
+      background: #ddf1ed;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2.5px;
+      background: #115e59;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #dfe3e8;
+      display: block;
+      justify-self: start;
+    }
+
+    h1 {
+      font-size: 2.35rem;
+      font-weight: 300;
+      letter-spacing: 0.2px;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+      font-weight: 300;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    p, li {
+      color: var(--text);
+      font-size: 1.04rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.35rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 26px;
+      color: var(--muted);
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+
+    .meta a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .meta a:hover {
+      text-decoration: underline;
+    }
+
+    .about-text {
+      max-width: 1020px;
+      font-size: 1.05rem;
+      color: #2f3b4a;
+      line-height: 1.75;
+    }
+
+    .hl {
+      color: #0f766e;
+      font-weight: 600;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .list {
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .job {
+      margin-bottom: 14px;
+    }
+
+    .job-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .job-meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      background: #f3f5f7;
+      color: #273447;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+    }
+
+    .tech-skills .tag {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .tech-skills .tag:hover {
+      background: #ddf1ed;
+      border-color: #9dc8c2;
+      color: #115e59;
+    }
+
+    .project-title {
+      margin-bottom: 6px;
+    }
+
+    .project-title a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .project-title a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: #8b96a6;
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .hero .avatar {
+        order: -1;
+        justify-self: center;
+      }
+
+      h1 {
+        font-size: 1.95rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .meta,
+      .meta a {
+        font-size: 1.05rem;
+      }
+
+      .about-text {
+        font-size: 1.05rem;
+      }
+
+      .meta {
+        justify-content: center;
+      }
+
+      body {
+        padding: 20px 14px;
+      }
+
+      .top-nav {
+        margin-bottom: 24px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-actions {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        background: var(--bg);
+        padding: 14px;
+        border-bottom: 1px solid var(--line);
+        gap: 8px;
+      }
+
+      .nav-actions.active {
+        display: flex;
+      }
+
+      .nav-btn {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>This is my first simple website.</p>
+  <nav class="top-nav">
+    <div class="brand">Aaron Thomas</div>
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-actions" id="navActions">
+      <a class="nav-btn" href="https://arxhr007.tech/Aaron_Thomas.pdf" target="_blank" rel="noreferrer">Download Resume</a>
+      <a class="nav-btn" href="https://arxhr007.tech/blog" target="_blank" rel="noreferrer">Blogs</a>
+    </div>
+  </nav>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navActions = document.getElementById('navActions');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navActions.classList.toggle('active');
+    });
+  </script>
+  <main class="container">
+    <section class="card">
+      <div class="hero">
+        <img class="avatar" src="Aaron.webp" alt="Aaron Thomas" />
+        <div>
+          <h1>Aaron Thomas</h1>
+          <p class="subtitle">Full Stack Developer and AI Systems Engineer</p>
+          <div class="meta">
+            <a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/aaron-thomas-parakkal" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="mailto:aaron123thomas098@gmail.com">aaron123thomas098@gmail.com</a>
+            <a href="https://arxhr007.tech" target="_blank" rel="noreferrer">arxhr007.tech</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>About</h2>
+      <p class="about-text">
+        Computer Science Engineering undergraduate specializing in <span class="hl">scalable backend systems</span>,
+        <span class="hl">modern web applications</span>, and <span class="hl">agentic AI systems and autonomous workflows</span>.
+        Focused on building <span class="hl">production ready AI solutions</span> and <span class="hl">secure architectures</span> with strong
+        emphasis on <span class="hl">performance</span>, <span class="hl">reliability</span>, and <span class="hl">maintainability</span>.
+      </p>
+    </section>
+
+    <section class="card tech-skills">
+      <h2>Technical Skills</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Languages</h3>
+          <div class="tag-list">
+            <span class="tag">Python</span>
+            <span class="tag">TypeScript/JavaScript</span>
+            <span class="tag">Rust</span>
+            <span class="tag">Java</span>
+            <span class="tag">Go</span>
+            <span class="tag">C/C++</span>
+          </div>
+        </div>
+        <div>
+          <h3>AI/ML Stack</h3>
+          <div class="tag-list">
+            <span class="tag">PyTorch</span>
+            <span class="tag">TensorFlow</span>
+            <span class="tag">LangGraph</span>
+            <span class="tag">LlamaIndex</span>
+            <span class="tag">vLLM</span>
+            <span class="tag">DeepSpeed</span>
+            <span class="tag">ONNX Runtime</span>
+            <span class="tag">MLflow</span>
+          </div>
+        </div>
+        <div>
+          <h3>Backend</h3>
+          <div class="tag-list">
+            <span class="tag">Node.js</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </div>
+        <div>
+          <h3>Frontend</h3>
+          <div class="tag-list">
+            <span class="tag">Next.js</span>
+            <span class="tag">React</span>
+            <span class="tag">React Native</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+          </div>
+        </div>
+        <div>
+          <h3>Other</h3>
+          <div class="tag-list">
+            <span class="tag">AWS</span>
+            <span class="tag">GCP</span>
+            <span class="tag">Azure</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Milvus</span>
+            <span class="tag">FAISS</span>
+            <span class="tag">CI/CD</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Professional Experience</h2>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>Software Engineering Intern • Stride, K-Disc</h3>
+          <span class="job-meta">03/2026 - Present | Thiruvananthapuram, KL</span>
+        </div>
+        <ul class="list">
+          <li>Built <span class="hl">scalable backend services</span> and <span class="hl">cloud functions</span> with <span class="hl">Node.js</span> and <span class="hl">Firebase</span> for a government platform.</li>
+          <li>Improved <span class="hl">accessibility</span> and reduced <span class="hl">frontend bottlenecks</span> in core user flows.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>AI System Engineer • Sahrdaya College of Engineering and Technology</h3>
+          <span class="job-meta">02/2026 - 03/2026 | Kodakara, Kerala</span>
+        </div>
+        <ul class="list">
+          <li>Developed <span class="hl">scalable ingestion</span> and <span class="hl">ETL pipelines</span> using <span class="hl">Python</span>.</li>
+          <li>Engineered a <span class="hl">RAG system</span> using <span class="hl">embeddings</span> and <span class="hl">vector search</span>.</li>
+          <li>Optimized <span class="hl">latency</span> and <span class="hl">throughput</span> with <span class="hl">Docker</span>, <span class="hl">Kubernetes</span>, and <span class="hl">CI/CD</span>.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>Backend & Automation Developer • Sahrdaya College of Engineering and Technology</h3>
+          <span class="job-meta">08/2025 - 02/2026 | Kodakara, Kerala</span>
+        </div>
+        <ul class="list">
+          <li>Architected <span class="hl">cloud backend systems</span> with <span class="hl">Firebase</span> and <span class="hl">Node.js</span>.</li>
+          <li>Built <span class="hl">REST APIs</span> and automated <span class="hl">operational workflows</span>.</li>
+          <li>Integrated <span class="hl">CMS modules</span> and improved <span class="hl">scalability</span> and <span class="hl">maintainability</span>.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>App Developer • Xqlusive Software</h3>
+          <span class="job-meta">08/2025 - 12/2025 | Thrissur, KL</span>
+        </div>
+        <ul class="list">
+          <li>Engineered a <span class="hl">React Native</span> mobile app with an <span class="hl">offline-first architecture</span>.</li>
+          <li>Integrated <span class="hl">Supabase</span> for <span class="hl">real-time geolocation</span> and <span class="hl">high-frequency sync</span>.</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>Web Development Intern • Pexcel Solutions</h3>
+          <span class="job-meta">12/2024 - 06/2025 | New Zealand (Remote)</span>
+        </div>
+        <ul class="list">
+          <li>Built <span class="hl">responsive UIs</span> with <span class="hl">React.js</span> and <span class="hl">Tailwind CSS</span> for international clients.</li>
+          <li>Implemented <span class="hl">SEO best practices</span> to improve <span class="hl">organic visibility</span>.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Technical Projects</h2>
+      <div class="grid-2">
+        <div>
+          <h3 class="project-title">
+            <a href="https://github.com/arxhr007/Aliens_eye" target="_blank" rel="noreferrer">Aliens-Eye ↗</a>
+          </h3>
+          <ul class="list">
+            <li>Hunt down <span class="hl">840+ social media accounts</span> using <span class="hl">AI</span> and <span class="hl">OSINT workflows</span>, earned <span class="hl">400+ stars</span> on GitHub.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">Python</span>
+            <span class="tag">Bash</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="project-title">
+            <a href="https://github.com/arxhr007/amma" target="_blank" rel="noreferrer">Amma ↗</a>
+          </h3>
+          <ul class="list">
+            <li>A <span class="hl">Malayalam programming language</span> and <span class="hl">interpreter</span>.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">Rust</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="project-title">
+            <a href="https://github.com/arxhr007/sahrdaya_ragx" target="_blank" rel="noreferrer">Sahrdaya RagX ↗</a>
+          </h3>
+          <ul class="list">
+            <li>Dynamic <span class="hl">RAG system</span> for Sahrdaya College with <span class="hl">hybrid retrieval</span> and <span class="hl">data ingestion</span>.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">FastAPI</span>
+            <span class="tag">LangChain</span>
+            <span class="tag">FAISS + BM25</span>
+            <span class="tag">NetworkX</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="project-title">
+            <a href="https://github.com/arxhr007/neurolearn" target="_blank" rel="noreferrer">NeuroLearn ↗</a>
+          </h3>
+          <ul class="list">
+            <li><span class="hl">Malayalam adaptive AI tutor</span> for <span class="hl">neurodivergent learners</span>.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">FastAPI</span>
+            <span class="tag">LangGraph</span>
+            <span class="tag">ChromaDB</span>
+            <span class="tag">Tesseract</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="project-title">
+            <a href="https://cps.sahrdaya.ac.in/cps" target="_blank" rel="noreferrer">CPS ↗</a>
+          </h3>
+          <ul class="list">
+            <li><span class="hl">AI-centric cyber-physical agriculture project</span> focused on <span class="hl">predictive</span> and <span class="hl">autonomous optimization</span>.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">Keras</span>
+            <span class="tag">MobileNet</span>
+            <span class="tag">React</span>
+            <span class="tag">Firebase</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="project-title">
+            <a href="https://sahrdaya.ac.in/" target="_blank" rel="noreferrer">Sahrdaya Website ↗</a>
+          </h3>
+          <ul class="list">
+            <li><span class="hl">Official college platform</span> and <span class="hl">CMS-driven web presence</span>.</li>
+          </ul>
+          <div class="tag-list" style="margin-top: 10px;">
+            <span class="tag">Next.js</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">Firebase</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card grid-2">
+      <div>
+        <h2>Leadership & Volunteering</h2>
+        <ul class="list">
+          <li><span class="hl">Coders Club Lead</span> (IEDC Sahrdaya): <span class="hl">Organized workshops</span> and <span class="hl">innovation challenges</span>.</li>
+          <li><span class="hl">Mentor</span> (TinkerHub SCET): Guided peers on <span class="hl">architecture</span> and <span class="hl">modern workflows</span>.</li>
+          <li><span class="hl">Technical Team</span> (IEEE Sahrdaya): <span class="hl">Built attendance</span> and <span class="hl">event management systems</span>.</li>
+          <li><span class="hl">ACES Webmaster</span> (ACES Sahrdaya): <span class="hl">Developed event sites</span> and <span class="hl">registration workflows</span>.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Education</h2>
+        <h3>B.Tech Computer Science</h3>
+        <p>Sahrdaya College of Engineering and Technology</p>
+        <p class="job-meta">2023 - 2027 | Kodakara, KL</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Get In Touch</h2>
+      <p style="font-size: 1.15rem; margin-bottom: 14px;">
+        I'm <span class="hl">open to work</span> on exciting projects. Feel free to reach out!
+      </p>
+      <p style="font-size: 1.05rem;">
+        Email me at <a href="mailto:aaron123thomas098@gmail.com" style="color: var(--accent); font-weight: 600; text-decoration: none;">aaron123thomas098@gmail.com</a>
+      </p>
+    </section>
+
+    <footer class="footer">
+      <p>Aaron Thomas — <span>2026</span></p>
+      <p><a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a> • <a href="https://arxhr007.tech" target="_blank" rel="noreferrer">Website</a> • <a href="mailto:aaron123thomas098@gmail.com">Email</a></p>
+    </footer>
+  </main>
 </body>
 </html>

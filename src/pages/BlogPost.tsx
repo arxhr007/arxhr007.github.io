@@ -1,6 +1,7 @@
 import { Markdown } from "../components/Markdown";
-import { Tags } from "../components/Bits";
-import { getBlog } from "../blogs";
+import { Toc } from "../components/Toc";
+import { Link } from "../router";
+import { adjacentBlogs, formatDate, getBlog } from "../blogs";
 
 export function BlogPost({ slug }: { slug: string }) {
   const post = getBlog(slug);
@@ -11,28 +12,59 @@ export function BlogPost({ slug }: { slug: string }) {
         <section className="card">
           <h2>Not found</h2>
           <p>
-            No blog post named <code>{slug}</code>.{" "}
-            <a href="#/blog">Back to all posts</a>.
+            No blog post named <code>{slug}</code>. <Link to="/blog">Back to all posts</Link>.
           </p>
         </section>
       </main>
     );
   }
 
+  const { prev, next } = adjacentBlogs(slug);
+
   return (
     <main className="container">
-      <article className="card">
-        <a href="#/blog" className="back-link">
+      <article className="card post">
+        <Link to="/blog" className="back-link">
           &larr; All posts
-        </a>
-        <h1 style={{ marginTop: 12 }}>{post.meta.title}</h1>
-        <p className="job-meta" style={{ margin: "6px 0 14px" }}>
-          {post.meta.description}
-        </p>
-        <div style={{ marginBottom: 24 }}>
-          <Tags items={post.meta.tags} />
+        </Link>
+
+        <header className="post-header">
+          <h1>{post.meta.title}</h1>
+          <p className="post-meta">
+            {formatDate(post.meta.date)} &middot; {post.meta.readingTime} min read
+          </p>
+          <div className="tag-list">
+            {post.meta.tags.map((t) => (
+              <span className="tag" key={t}>
+                {t}
+              </span>
+            ))}
+          </div>
+        </header>
+
+        <div className="post-body">
+          <Toc markdown={post.markdown} />
+          <Markdown source={post.markdown} />
         </div>
-        <Markdown source={post.markdown} />
+
+        <nav className="post-nav">
+          {prev ? (
+            <Link to={`/blog/${prev.slug}`} className="post-nav-link">
+              <span>&larr; Older</span>
+              <strong>{prev.title}</strong>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <Link to={`/blog/${next.slug}`} className="post-nav-link post-nav-next">
+              <span>Newer &rarr;</span>
+              <strong>{next.title}</strong>
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
       </article>
     </main>
   );

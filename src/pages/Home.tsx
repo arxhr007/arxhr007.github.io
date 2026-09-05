@@ -1,5 +1,8 @@
 import { Rich } from "../components/Rich";
 import { Tags, Points } from "../components/Bits";
+import { Link } from "../router";
+import { useRevealAll } from "../useReveal";
+import { blogs, formatDate } from "../blogs";
 import {
   profile,
   summary,
@@ -12,11 +15,20 @@ import {
 } from "../data";
 
 export function Home() {
+  useRevealAll([]);
+  const latest = blogs.slice(0, 2);
+
   return (
     <main className="container">
       <section className="card">
         <div className="hero">
-          <img className="avatar" src="/Aaron.webp" alt={profile.name} />
+          <img
+            className="avatar"
+            src="/Aaron.webp"
+            alt={profile.name}
+            width={180}
+            height={180}
+          />
           <div>
             <h1>{profile.name}</h1>
             <p className="subtitle">{profile.title}</p>
@@ -39,14 +51,14 @@ export function Home() {
         </div>
       </section>
 
-      <section className="card">
+      <section className="card reveal">
         <h2>Profile</h2>
         <p className="about-text">
           <Rich>{summary}</Rich>
         </p>
       </section>
 
-      <section className="card tech-skills">
+      <section className="card tech-skills reveal">
         <h2>Technical Skills</h2>
         <div className="grid-2">
           {skills.map((s) => (
@@ -58,7 +70,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="card">
+      <section className="card reveal">
         <h2>Experience</h2>
         {experience.map((job, i) => (
           <article className="job" key={i}>
@@ -71,7 +83,7 @@ export function Home() {
         ))}
       </section>
 
-      <section className="card">
+      <section className="card reveal">
         <h2>Projects</h2>
         <div className="grid-2">
           {projects.map((p) => (
@@ -97,7 +109,27 @@ export function Home() {
         </div>
       </section>
 
-      <section className="card grid-2">
+      <section className="card reveal">
+        <div className="section-head">
+          <h2>Writing</h2>
+          <Link to="/blog" className="see-all">
+            All posts &rarr;
+          </Link>
+        </div>
+        <div className="blog-list">
+          {latest.map((b) => (
+            <Link className="blog-card" to={`/blog/${b.slug}`} key={b.slug}>
+              <h3>{b.title}</h3>
+              <p className="post-meta">
+                {formatDate(b.date)} &middot; {b.readingTime} min read
+              </p>
+              <p className="job-meta">{b.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="card grid-2 reveal">
         <div>
           <h2>Leadership</h2>
           <Points items={leadership} />
@@ -112,15 +144,16 @@ export function Home() {
         </div>
       </section>
 
-      <section className="card">
+      <section className="card reveal">
         <h2>Achievements</h2>
         <Points items={achievements} />
       </section>
 
-      <section className="card">
+      <section className="card reveal">
         <h2>Get In Touch</h2>
         <p style={{ fontSize: "1.15rem", marginBottom: 14 }}>
-          I'm <span className="hl">open to work</span> on exciting projects. Feel free to reach out!
+          I'm <span className="hl">open to work</span> on exciting projects. Feel free to reach
+          out!
         </p>
         <p style={{ fontSize: "1.05rem" }}>
           Email me at{" "}

@@ -1,38 +1,34 @@
-import { Nav } from "./components/Nav";
-import { useHashRoute } from "./useHashRoute";
+import { useEffect } from "react";
+import { Router, useRouter } from "./router";
+import { Shell } from "./Shell";
 import { Home } from "./pages/Home";
 import { BlogList } from "./pages/BlogList";
 import { BlogPost } from "./pages/BlogPost";
-import { profile } from "./data";
+import { NotFound } from "./pages/NotFound";
+import { matchRoute } from "./routes";
+import { applyHead, getHead } from "./seo";
 
-export default function App() {
-  const path = useHashRoute();
-  const blogMatch = path.match(/^\/blog\/(.+)$/);
+function Routed() {
+  const { path } = useRouter();
+  const match = matchRoute(path);
+
+  useEffect(() => {
+    applyHead(getHead(path));
+  }, [path]);
 
   let page;
-  if (blogMatch) page = <BlogPost slug={blogMatch[1]} />;
-  else if (path === "/blog") page = <BlogList />;
-  else page = <Home />;
+  if (match.name === "home") page = <Home />;
+  else if (match.name === "blog-list") page = <BlogList />;
+  else if (match.name === "blog-post") page = <BlogPost slug={match.slug} />;
+  else page = <NotFound />;
 
+  return <Shell>{page}</Shell>;
+}
+
+export default function App({ location }: { location?: string }) {
   return (
-    <>
-      <Nav />
-      {page}
-      <footer className="footer">
-        <p>
-          {profile.name} &mdash; <span>2026</span>
-        </p>
-        <p>
-          <a href={profile.links.github} target="_blank" rel="noreferrer">
-            GitHub
-          </a>{" "}
-          &bull;{" "}
-          <a href={profile.links.website} target="_blank" rel="noreferrer">
-            Website
-          </a>{" "}
-          &bull; <a href={`mailto:${profile.email}`}>Email</a>
-        </p>
-      </footer>
-    </>
+    <Router location={location}>
+      <Routed />
+    </Router>
   );
 }

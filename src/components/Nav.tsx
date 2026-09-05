@@ -3,10 +3,13 @@ import { profile } from "../data";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
   return (
     <nav className="top-nav">
-      <div className="brand">{profile.name}</div>
+      <a className="brand" href="#/" onClick={close}>
+        {profile.name}
+      </a>
       <button
         className={`hamburger${open ? " active" : ""}`}
         aria-label="Toggle menu"
@@ -18,11 +21,11 @@ export function Nav() {
         <span />
       </button>
       <div className={`nav-actions${open ? " active" : ""}`}>
+        <a className="nav-btn" href="#/blog" onClick={close}>
+          Blog
+        </a>
         <a className="nav-btn" href={profile.links.resume} target="_blank" rel="noreferrer">
           Download Resume
-        </a>
-        <a className="nav-btn" href={profile.links.blog} target="_blank" rel="noreferrer">
-          Blogs
         </a>
       </div>
     </nav>

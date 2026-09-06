@@ -11,23 +11,23 @@ export function Nav() {
 
   return (
     <nav className="top-nav">
-      <Link className="brand" to="/" onClick={close}>
-        {profile.name}
-      </Link>
-
-      <div className="nav-right">
+      <div className="nav-left">
+        <Link className="brand" to="/" onClick={close}>
+          {profile.name}
+        </Link>
         <ThemeToggle />
-        <button
-          className={`hamburger${open ? " active" : ""}`}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
       </div>
+
+      <button
+        className={`hamburger${open ? " active" : ""}`}
+        aria-label="Toggle menu"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
 
       <div className={`nav-actions${open ? " active" : ""}`}>
         <Link

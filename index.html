@@ -11,7 +11,7 @@
       document.documentElement.classList.add("js");
       try {
         var s = localStorage.getItem("theme");
-        var t = s || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        var t = s || "light";
         document.documentElement.dataset.theme = t;
       } catch (e) {}
     })();

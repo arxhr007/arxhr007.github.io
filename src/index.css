@@ -20,28 +20,6 @@
   --footer-text: #8b96a6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f1513;
-    --surface: #161d1b;
-    --surface-2: #1b2422;
-    --text: #c9d3d0;
-    --text-strong: #f1f5f4;
-    --muted: #8fa8a2;
-    --accent: #4fd1c5;
-    --accent-strong: #7fdcd2;
-    --accent-soft: #14201e;
-    --accent-soft-hover: #1c2c29;
-    --accent-border: #2f4c47;
-    --line: #263230;
-    --code-bg: #202b29;
-    --pre-bg: #10201d;
-    --pre-text: #d7e6e2;
-    --quote-bg: #16211f;
-    --footer-text: #6b7d78;
-  }
-}
-
 :root[data-theme="dark"] {
   --bg: #0f1513;
   --surface: #161d1b;
@@ -60,6 +38,7 @@
   --pre-text: #d7e6e2;
   --quote-bg: #16211f;
   --footer-text: #6b7d78;
+  color-scheme: dark;
 }
 
 /* ============ Base ============ */
@@ -71,7 +50,7 @@
 }
 
 html {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 body {
@@ -145,7 +124,12 @@ li {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  flex-wrap: wrap;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand {
@@ -158,12 +142,6 @@ li {
 
 .brand:hover {
   text-decoration: underline;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .nav-actions {

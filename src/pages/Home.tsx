@@ -75,7 +75,16 @@ export function Home() {
         {experience.map((job, i) => (
           <article className="job" key={i}>
             <div className="job-head">
-              <h3>{job.role}</h3>
+              <h3>
+                {job.role} &bull;{" "}
+                {job.url ? (
+                  <a href={job.url} target="_blank" rel="noreferrer">
+                    {job.company} &#8599;
+                  </a>
+                ) : (
+                  job.company
+                )}
+              </h3>
               <span className="job-meta">{job.meta}</span>
             </div>
             <Points items={job.points} />

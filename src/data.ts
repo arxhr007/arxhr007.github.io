@@ -8,7 +8,7 @@ export const profile = {
     github: "https://github.com/arxhr007",
     linkedin: "https://www.linkedin.com/in/aaron-thomas-parakkal",
     website: "https://arxhr007.tech",
-    resume: "https://arxhr007.tech/Aaron_Thomas.pdf",
+    resume: "/Aaron_Thomas.pdf",
     blog: "https://arxhr007.tech/blog",
   },
 };
@@ -44,30 +44,45 @@ export const skills: { group: string; items: string[] }[] = [
 
 export const experience: {
   role: string;
+  company: string;
+  url?: string;
   meta: string;
   points: string[];
 }[] = [
   {
-    role: "Software Engineering Intern • Stride, K-DISC",
-    meta: "03/2026 - 05/2026 | Thiruvananthapuram, KL",
+    role: "Backend Developer (Contract)",
+    company: "Lions Information Technology L.L.C",
+    url: "https://www.lionsinfosys.com/",
+    meta: "04/2026 - 08/2026 | Dubai, UAE (Remote)",
+    points: [
+      "Built **backend services** and **REST APIs** powering **Android applications** using **Python** and **FastAPI**.",
+      "Designed **PostgreSQL data models** and deployed services on **AWS** for mobile clients.",
+    ],
+  },
+  {
+    role: "Software Engineering Intern",
+    company: "Stride, K-DISC",
+    meta: "10/2025 - Present | Thiruvananthapuram, KL",
     points: [
       "Developed enterprise **CMS** and **LMS platforms** for the **Government of Kerala** using **Next.js**, **Node.js**, and **AWS**.",
       "Built **scalable backend services**, **REST APIs**, and **cloud-integrated workflows** for reliable content delivery.",
     ],
   },
   {
-    role: "Backend & Automation Developer • Sahrdaya College of Engineering & Technology (Autonomous)",
-    meta: "08/2025 - 02/2026 | Kodakara, Kerala",
+    role: "Backend & Automation Engineer (Part-time)",
+    company: "Sahrdaya College of Engineering & Technology (Autonomous)",
+    meta: "08/2025 - 02/2026 | Kodakara, KL",
     points: [
       "Architected backend systems for the **official college website** and **CMS** using **Firebase**, **Node.js**, and **REST APIs**.",
-      "Built **workflow automation** and **system orchestration** to streamline CMS operations and reduce repetitive manual processes.",
+      "Built **workflow automation** and **system orchestration** to streamline CMS operations and reduce repetitive manual work.",
     ],
   },
   {
-    role: "Web Development Intern • Pexcel Solutions",
+    role: "Web Development Intern",
+    company: "Pexcel Solutions",
     meta: "12/2024 - 06/2025 | New Zealand (Remote)",
     points: [
-      "Developed **responsive frontend interfaces** using **React.js** and **Tailwind CSS**, improving performance scores for international client projects.",
+      "Developed **responsive frontend interfaces** using **React.js** and **Tailwind CSS** for international client projects.",
       "Integrated **SEO best practices** that increased **organic search visibility** for project deployments.",
     ],
   },
@@ -86,7 +101,7 @@ export const projects: {
     tagline: "AI-Powered Public Data Analysis Platform",
     points: [
       "Built an **AI-powered platform** for large-scale public data analysis, with **parallel processing pipelines** and **automated information extraction** over high-volume web data.",
-      "Achieved **3000+ GitHub stars**, demonstrating strong community adoption and developer interest.",
+      "Achieved **4000+ GitHub stars**, demonstrating strong community adoption and developer interest.",
     ],
     tags: ["Python", "Bash"],
   },
@@ -112,10 +127,12 @@ export const projects: {
   },
   {
     name: "AYRA",
+    url: "https://blog.myosa-sensors.org/blog.html?file=blogs%2Fayra.md",
     tagline: "TinyML-Based Autonomic Dysreflexia Early Warning System",
     points: [
       "Developed a **below-knee wearable** for real-time autonomic dysreflexia early warning, fusing **GSR**, **PPG/HRV**, **ECG**, skin temperature, humidity, and motion signals from a single placement.",
       "Implemented an **int8 quantized TinyML neural network** on an **ESP32** for on-device inference with **sub-50 ms latency** and real-time alerts via OLED, buzzer, and **MQTT**.",
+      "Presented at the **IEEE BioSensors 2026** international conference in Bangkok, Thailand.",
     ],
     tags: ["TinyML", "ESP32", "TensorFlow Lite", "MQTT"],
   },
@@ -139,5 +156,5 @@ export const education = {
 export const achievements: string[] = [
   "**4x CTF Winner** — First-place finishes across four Capture The Flag security competitions.",
   "**MYOSA International Hackathon Finalist** — Selected as a finalist for developing **AYRA**, a real-time autonomic dysreflexia early-warning wearable using TinyML.",
-  "**IEEE BioSensors 2026** — Selected to present **AYRA** at the IEEE BioSensors 2026 international conference in Bangkok, Thailand.",
+  "**IEEE BioSensors 2026** — Presented **AYRA** at the IEEE BioSensors 2026 international conference in Bangkok, Thailand.",
 ];

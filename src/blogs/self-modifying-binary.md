@@ -34,7 +34,9 @@ payload: db 0x30, 0x13, 0x78, 0x5E, 0x37, 0x01, 0x7B, 0x40, 0x34, 0x12, 0x00
 payload_max_len = 31  ; 0x00 is a C-string terminator; payload_stored_length=10 excludes it
 ```
 
-At runtime, when the binary wants to rewrite itself, it reads its own file into a 64 KB heap buffer and linearly scans for those byte sequences. The moment it finds `KEYBEGIN/9a7c4f2e:`, the next 4 bytes are the key. Find `PAYLOAD/5b2e1c9d:` and the next `payload_stored_length` bytes are the ciphertext to patch. No ELF header parsing required.
+At runtime, when the binary wants to rewrite itself, it reads its own file into a fixed 64 KB static buffer (`file_buffer: rb 65536`) and linearly scans for those byte sequences. The moment it finds `KEYBEGIN/9a7c4f2e:`, the next 4 bytes are the key. Find `PAYLOAD/5b2e1c9d:` and the next `payload_stored_length` bytes are the ciphertext to patch. No ELF header parsing required.
+
+The fixed buffer is also a hard limit: the read routine checks the file size against 65536 and bails out if the binary is larger, so this design only works for small single-file binaries. A production tool would size the buffer dynamically or reject oversized input explicitly rather than relying on a compile-time constant.
 
 The marker strings include random-looking hex suffixes (`9a7c4f2e`, `5b2e1c9d`) to avoid false positives if the payload ever happens to contain the word `PAYLOAD`.
 
@@ -137,7 +139,7 @@ generate_new_key:
 
 **5. Re-encrypt.** The decrypted plaintext is XOR'd with the new key, producing a new ciphertext.
 
-**6. Patch the in-memory binary image.** The entire binary is read into a 64 KB heap buffer. Three marker scans locate the key field, metadata block, and payload region. All three are overwritten in the buffer with their new values.
+**6. Patch the in-memory binary image.** The entire binary is read into the 64 KB static buffer. Three marker scans locate the key field, metadata block, and payload region. All three are overwritten in the buffer with their new values.
 
 **7. Write and replace self.** The patched buffer is written to `argv[0].tmp`, then:
 

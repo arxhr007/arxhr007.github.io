@@ -27,6 +27,14 @@ export type Blog = {
 // Titles/descriptions curated (source files have no frontmatter).
 const entries: Omit<Blog, "readingTime">[] = [
   {
+    slug: "self-modifying-binary",
+    title: "How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC",
+    description:
+      "A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV.",
+    tags: ["Assembly", "Malware PoC", "Reverse Engineering", "Linux"],
+    date: "2026-10-12",
+  },
+  {
     slug: "parivahan-scam",
     title: "Android Malware Analysis: A Sophisticated SMS Stealer",
     description:

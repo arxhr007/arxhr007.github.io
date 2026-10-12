@@ -4,7 +4,7 @@
 
 Signature-based antivirus works by matching known byte patterns against files on disk. Feed it a binary it has never seen before and it has nothing to match. Polymorphic malware exploits this: it mutates its own bytes on every execution so no two copies share the same signature.
 
-This post dissects a minimal PoC written in FASM (Flat Assembler) for x86-64 Linux that demonstrates exactly how this works. By the end you'll understand the marker-scanning self-locate trick, the rotating XOR cipher, the atomic rename technique, and — crucially — why none of this helps against a behavioral detection engine.
+This post dissects a minimal PoC written in FASM (Flat Assembler) for x86-64 Linux that demonstrates exactly how this works. By the end you'll understand the marker-scanning self-locate trick, the rotating XOR cipher, the write-then-replace technique, and — crucially — why none of this defeats a behavioral detection engine.
 
 ---
 
@@ -26,9 +26,12 @@ payload_checksum: dd 0x00000000  ; XOR fold of plaintext
 
 ; Encrypted payload
 marker_begin_payload: db "PAYLOAD/5b2e1c9d:"
-; "HELLOWORLD" XOR 0x12345678 (little-endian bytes: 0x78, 0x56, 0x34, 0x12)
+; "HELLOWORLD" XOR 0x12345678 (little-endian key bytes: 0x78, 0x56, 0x34, 0x12)
+; H=0x48^0x78=0x30  E=0x45^0x56=0x13  L=0x4C^0x34=0x78  L=0x4C^0x12=0x5E
+; O=0x4F^0x78=0x37  W=0x57^0x56=0x01  O=0x4F^0x34=0x7B  R=0x52^0x12=0x40
+; L=0x4C^0x78=0x34  D=0x44^0x56=0x12  (null terminator not part of payload)
 payload: db 0x30, 0x13, 0x78, 0x5E, 0x37, 0x01, 0x7B, 0x40, 0x34, 0x12, 0x00
-payload_max_len = 31
+payload_max_len = 31  ; 0x00 is a C-string terminator; payload_stored_length=10 excludes it
 ```
 
 At runtime, when the binary wants to rewrite itself, it reads its own file into a 64 KB heap buffer and linearly scans for those byte sequences. The moment it finds `KEYBEGIN/9a7c4f2e:`, the next 4 bytes are the key. Find `PAYLOAD/5b2e1c9d:` and the next `payload_stored_length` bytes are the ciphertext to patch. No ELF header parsing required.
@@ -57,37 +60,50 @@ The assembly that implements it:
 ```asm
 ; xor_payload: rsi=src, rdi=dst, ecx=length, eax=key
 xor_payload:
-    ; Unpack key bytes into registers
-    mov r8b,  bl    ; key[0] = low byte
+    ; Key arrives in eax; copy to ebx so al is free for byte loads
+    mov ebx, eax
+    ; Unpack key into four byte registers
+    mov r8b, bl          ; key[0] = byte 0 (low)
     shr ebx, 8
-    mov r9b,  bl    ; key[1]
+    mov r9b, bl          ; key[1]
     shr ebx, 8
-    mov dl,   bl    ; key[2]
+    mov dl,  bl          ; key[2]
     shr ebx, 8
-    mov bl,   bl    ; key[3]
+                         ; key[3] now in bl
 
-    xor r10, r10    ; position counter
+    xor r10, r10         ; position counter
 .xor_loop:
     test ecx, ecx
     jz .xor_done
-    mov al, [rsi]   ; load source byte
+    mov al, [rsi]        ; load source byte
     mov r11, r10
-    and r11, 3      ; r11 = position % 4
-    cmp r11, 0 / je .use_key0
-    cmp r11, 1 / je .use_key1
-    cmp r11, 2 / je .use_key2
-    xor al, bl      ; key[3]
+    and r11, 3           ; r11 = position % 4
+    cmp r11, 0
+    je .use_key0
+    cmp r11, 1
+    je .use_key1
+    cmp r11, 2
+    je .use_key2
+    xor al, bl           ; key[3]
     jmp .store_result
-.use_key0: xor al, r8b / jmp .store_result
-.use_key1: xor al, r9b / jmp .store_result
-.use_key2: xor al, dl
+.use_key0:
+    xor al, r8b
+    jmp .store_result
+.use_key1:
+    xor al, r9b
+    jmp .store_result
+.use_key2:
+    xor al, dl
 .store_result:
     mov [rdi], al
-    inc rsi / inc rdi / inc r10 / dec ecx
+    inc rsi
+    inc rdi
+    inc r10
+    dec ecx
     jmp .xor_loop
 ```
 
-**Why this defeats signature-based AV:** the encrypted bytes change with every new key. AV databases store patterns of known-malicious byte sequences. If the ciphertext is different each run, there is no stable byte sequence to match.
+**Why this can invalidate naive byte-pattern signatures:** the encrypted bytes change with every new key. A signature that depends on the exact ciphertext bytes will fail to match after one run. The binary's code segment is unchanged, so scanners that use structural features, heuristics, or entropy analysis are unaffected by this technique.
 
 **Why this is trivially breakable:** XOR with a known plaintext is trivially reversible. If an analyst knows (or guesses) any portion of the plaintext, they recover the key in one XOR. Sophisticated polymorphic malware layers this with compression, multiple cipher rounds, and metamorphic code restructuring. This PoC is the minimal baseline.
 
@@ -123,7 +139,7 @@ generate_new_key:
 
 **6. Patch the in-memory binary image.** The entire binary is read into a 64 KB heap buffer. Three marker scans locate the key field, metadata block, and payload region. All three are overwritten in the buffer with their new values.
 
-**7. Write and atomically replace self.** The patched buffer is written to `argv[0].tmp`, then:
+**7. Write and replace self.** The patched buffer is written to `argv[0].tmp`, then:
 
 ```asm
 replace_original_with_temp:
@@ -139,16 +155,19 @@ replace_original_with_temp:
 
 ---
 
-## The Atomic Rename Trick
+## The Write-Then-Replace Pattern
 
-Writing directly to the binary while it's executing is dangerous: if the process is interrupted mid-write, the file on disk is a partial mix of old and new bytes — corrupt, unexecutable. The solution is the write-then-rename pattern:
+Writing directly to the binary while it's executing is risky: an interruption mid-write can corrupt the file. The safer pattern writes a complete replacement first, then swaps the filename.
 
-1. Write the full patched image to a temp file (`argv[0].tmp`).
-2. `sys_rename` the temp file over the original.
+This PoC uses an `unlink` → `rename` sequence:
 
-On Linux, `sys_rename` is atomic at the VFS layer when source and destination are on the same filesystem. The original file either exists or the renamed file does — there is never a moment where neither exists or where the destination is partially overwritten.
+1. Write the full patched image to `argv[0].tmp`.
+2. `sys_unlink` the original — the pathname disappears.
+3. `sys_rename` the temp file to the original name.
 
-There is an interesting forensic consequence: the moment `sys_rename` fires, the on-disk binary has new bytes while the running process's memory (mapped from the old inode) still has the old bytes. `diff <(xxd /proc/<pid>/mem ...) <(xxd ./selfrewrite ...)` would show divergence. Incident responders who hash a binary on disk after execution and compare to known-good hashes will see a mismatch on every run.
+**The gap.** This is not atomic. Between `sys_unlink` completing and `sys_rename` completing, the original pathname does not exist. If the process is killed or the rename fails in that window, the executable is gone. A truly atomic replacement on Linux passes the destination path directly to `rename()` without unlinking first — `rename()` can replace an existing destination atomically when both paths are on the same filesystem. This PoC's unlink-first approach sacrifices that guarantee, but works in practice for a single-threaded self-rewriter with no concurrent writers on the file.
+
+**Forensic consequence.** When `sys_rename` completes, the on-disk binary references a new inode with the updated bytes. The process that just ran, however, was mapped from the old inode. Linux keeps open file descriptors and memory mappings alive until all references drop, so the running process's pages still reflect the pre-mutation image. An incident responder who hashes the binary on disk after execution and compares it to a memory dump of the process would see divergence — the on-disk and in-memory images are different files. The exact comparison requires identifying the correct mapped region in `/proc/<pid>/maps` and `/proc/<pid>/mem`, not a simple xxd diff, but the divergence is real and repeatable.
 
 ---
 
@@ -169,9 +188,9 @@ unlink(argv[0])                 ← deletes itself
 rename("argv[0].tmp", argv[0])  ← replaces itself
 ```
 
-A process opening its own executable path, reading it, modifying the bytes, and then replacing the file via rename is a strong behavioral IOC (indicator of compromise). EDR products and sandboxes that trace syscall sequences or monitor filesystem events will flag this pattern independent of any byte signature.
+A process opening its own executable path, reading it, modifying the bytes, and then replacing the file via rename is a strong behavioral IOC (indicator of compromise). EDR products and sandboxes that trace syscall sequences or monitor filesystem events can flag this pattern independent of any byte signature.
 
-This is why polymorphism alone stopped being sufficient sometime around 2010. Modern malware pairs it with rootkit techniques, process hollowing, signed binary abuse, or living-off-the-land tactics — none of which are in scope for this PoC, but all of which are rooted in understanding this baseline first.
+Polymorphism that mutates only the encrypted data region — as this PoC does — leaves the code segment completely unchanged, so any signature anchored to stable code bytes still matches. Modern malware pairs byte mutation with additional techniques like metamorphism (restructuring the code itself), process hollowing, signed binary abuse, or living-off-the-land tactics. This PoC demonstrates the baseline that those techniques build on.
 
 ---
 
@@ -211,7 +230,7 @@ Re-encrypted payload (hex): 26746C9521666F8B2275
 Binary updated with new key and payload re-encrypted
 ```
 
-Each run: key mutates, ciphertext changes, plaintext stays `HELLOWORLD`. A signature scanner scanning the file between any two runs would see a different binary.
+Each run: key mutates, ciphertext changes, plaintext stays `HELLOWORLD`. A signature anchored to the payload ciphertext bytes would fail to match after the first run. The code segment — everything outside the three marker regions — is byte-for-byte identical across all runs.
 
 ### Hex dump: on-disk mutation
 
@@ -234,13 +253,13 @@ Line `0x0c0` is the key field (immediately after `KEYBEGIN/9a7c4f2e:`). Line `0x
 
 ## Conclusion
 
-Self-modifying code is not new. The concept predates modern AV by decades. But it remains relevant as a foundation: every polymorphic and metamorphic malware family, from the Vienna virus to contemporary ransomware droppers, builds on the same primitives — locate your own data, re-encrypt it, atomically replace the file.
+Self-modifying code is not new. The concept predates modern AV by decades. But it remains relevant as a foundation: polymorphic malware families — which change their encrypted representation each generation — and metamorphic families — which restructure their code itself — both rely on the same core primitives this PoC exposes: locate your own data, mutate it, replace the file on disk.
 
 What this PoC makes concrete:
 
-- **Marker-based self-location** is simpler and more robust than ELF section parsing for small binaries.
-- **Rotating XOR is sufficient to defeat naive signature scanning** and insufficient to withstand any real cryptanalysis.
-- **The atomic rename trick** is the correct engineering choice and creates a forensically interesting memory-vs-disk divergence window.
-- **Behavioral detection wins.** No amount of byte mutation hides the syscall sequence of a process that opens, reads, modifies, and replaces its own binary.
+- **Marker-based self-location** is simpler than ELF section parsing for small, single-file binaries. Robustness requires validating bounds after every marker find.
+- **Rotating XOR can invalidate a naive ciphertext-anchored signature** and is insufficient to withstand any real cryptanalysis.
+- **Unlink-then-rename** avoids partial-write corruption but is not atomic — there is a brief window where the original pathname does not exist. It creates a forensically interesting inode-vs-pathname divergence after completion.
+- **Behavioral monitoring can detect this pattern** regardless of what the bytes look like, because the syscall sequence of a process that reads and replaces its own binary is distinctive.
 
 Source: [github.com/arxhr007/self-modifying-binary-PoC](https://github.com/arxhr007/self-modifying-binary-PoC)

@@ -15,7 +15,7 @@ src/lxask/     Python wrappers over lxask._core for training and evaluation, llm
 scripts/      sources -> index -> generated data -> dataset -> fine-tune -> GGUF -> eval
 evalsets/     the test sets (see "Measuring it")
 docs/         user and developer documentation
-seed/         inputs that are not downloaded: paraphrases (the generated data is not published)
+seed/         inputs that are not downloaded: paraphrases; the data a hosted model wrote is not published
 tests/        pytest, no model needed
 ```
 
@@ -83,11 +83,13 @@ model judge every task the small model wrote, and the filter drops what it rejec
 arguable). A sample is still read by hand, and a percent or two of the remaining
 answers are expected to be wrong in meaning.
 
-The data written by language models is not published with this repository: the
-filtered output (`seed/generated_tasks.jsonl`, `generated_scenarios.jsonl`,
+The data written with hosted language models is not published with this repository:
+the filtered output (`seed/generated_tasks.jsonl`, `generated_scenarios.jsonl`,
 `generated_exec.jsonl`, `generated_fixes.jsonl`) and the evaluation sets made from
 it (`multistep_heldout`, `multistep3_heldout`, `exec_heldout`, `forbidden_heldout`)
-were used to train and measure the released model but are kept private. Without
+were used to train and measure the released model but are kept private. The
+rephrasings of tldr examples (`seed/paraphrases.jsonl`), which are published, were
+written with Qwen2.5-7B-Instruct run locally (NOTICE says the same). Without
 them `build_dataset.py` builds from tldr, NL2Bash and the paraphrases, and says so;
 `eval.py` skips the sets it does not find. To make them again, `generate_data.py`
 needs an API key in `LXASK_GEN_API_KEY` or `~/.config/lxask/gen_api_key`, an endpoint in

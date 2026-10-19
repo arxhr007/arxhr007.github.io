@@ -201,7 +201,7 @@ Without a link: open an issue with the "Bad answer" template on
 
 ```
 $ lxask "who made you?"
-lxask 0.11.0: an offline Linux command assistant.
+lxask 1.0.0: an offline Linux command assistant.
 Made by Aaron Thomas (arxhr007).
 
   project  https://github.com/arxhr007/lxask

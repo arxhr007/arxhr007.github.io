@@ -37,9 +37,9 @@ The sets above are lxask's own. For a number that can be checked against other
 tools, the model was also run on the public
 [NL2SH-ALFA](https://huggingface.co/datasets/westenfelder/NL2SH-ALFA) test set (300
 shell tasks) through the InterCode-ALFA harness (`icalfa` 0.3.6): each answer is run
-in a Docker container and counts as solved only when the harness rewards it exactly
-1. The harness's embedding judge decides (threshold 0.75, a local embedding model;
-nothing hosted).
+in a Docker container and counts as solved only when the harness gives it a reward
+of exactly 1. The harness's embedding judge decides (threshold 0.75, a local
+embedding model; nothing hosted).
 
 Answers come from the real pipeline (retrieval, checks, retries, the 0.8 adapter),
 and, for comparison, from the untuned Qwen2.5-Coder-1.5B the model was trained from,

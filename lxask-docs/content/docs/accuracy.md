@@ -31,6 +31,66 @@ alone when the task only asks a question, and use nothing the task ruled out.
 How each set is made and scored: [development.md](development.md#measuring-it).
 Every version's numbers: [results.md](results.md).
 
+## The public benchmark: NL2SH-ALFA
+
+The sets above are lxask's own. For a number that can be checked against other
+tools, the model was also run on the public
+[NL2SH-ALFA](https://huggingface.co/datasets/westenfelder/NL2SH-ALFA) test set (300
+shell tasks) through the InterCode-ALFA harness (`icalfa` 0.3.6): each answer is run
+in a Docker container and counts as solved only when the harness rewards it exactly
+1. The harness's embedding judge decides (threshold 0.75, a local embedding model;
+nothing hosted).
+
+Answers come from the real pipeline (retrieval, checks, retries, the 0.8 adapter),
+and, for comparison, from the untuned Qwen2.5-Coder-1.5B the model was trained from,
+asked for one Bash command, greedy, with no retrieval and no checks.
+
+| variant | solved | 95% CI (Wilson) |
+|---|---|---|
+| **lxask** | **187/300 (62%)** | 57-68% |
+| untuned base model | 92/300 (31%) | 26-36% |
+| the test set's own reference commands (harness sanity check) | 299/300 (99.7%) | |
+| lxask, first answer kept (no retries) | 187/300 (62%) | 57-68% |
+| lxask, without retrieved notes | 186/300 (62%) | 56-67% |
+
+Paired, lxask solves 106 tasks the base model misses and misses 11 the base solves
+(exact McNemar, two-sided p = 1.2e-20).
+
+63 of the 300 tasks overlap lxask's training sources (19 share the request text, 61
+share a command). On the 237 that do not:
+
+| variant | solved |
+|---|---|
+| **lxask** | **145/237 (61%, CI 55-67%)** |
+| untuned base model | 80/237 (34%, CI 28-40%) |
+
+(74 tasks lxask only, 9 base only; p = 7.7e-14.) On the 63 overlapping tasks lxask
+solves 42 (67%) against the base model's 12 (19%).
+
+The set's own difficulty field, 100 tasks each:
+
+| difficulty | lxask | untuned base |
+|---|---|---|
+| 0 (easiest) | 75% | 41% |
+| 1 | 64% | 30% |
+| 2 | 48% | 21% |
+
+Two things to read honestly here. The retries and the retrieved notes make no
+measurable difference on this set: keeping the first answer scores the same 187, and
+dropping retrieval moves one task (186). The gain is fine-tuning, not the pipeline
+around it. And 19 of the 1,200 scored answers (4 to 5 per variant, none of them the
+reference-command rows) got 0 from an embedding-judge context error, spread evenly
+across variants; the reference commands scoring 299/300 is what says the harness
+itself is sound.
+
+Numbers from other tools on this set are not comparable with these.
+whatisit-nl2sh self-reports 0.62 for its tuned 1.5B and 0.54 for the untuned one, and
+barbarabhb/nl2sh-qwen25-coder-1.5b-GGUF self-reports 0.657; both used their own
+answer protocol (one reports `max_tokens=64`), and the same untuned base model scores
+0.54 there against 0.31 here, so the difference between harness runs is as large as
+the differences being compared. The benchmark authors publish 0.73 for GPT-4o, a
+hosted model; that number is theirs and was not re-run here.
+
 ## Where it goes wrong
 
 - **Details.** The wrong field in `awk '{print $3}'`, `sort -u` where duplicates

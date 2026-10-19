@@ -11,9 +11,8 @@ rust/         crates/lxask-core: answer (the flow), split, retrieve, prompt, val
               explain, safety; crates/lxask-llm: llama.cpp; crates/lxask: the program (CLI, server,
               feedback); crates/lxask-py: the core for Python, as lxask._core
 src/lxask/     Python wrappers over lxask._core for training and evaluation, llm (llama-cpp-python,
-              GPU evaluation), index (builds docs.sqlite), and the 0.5 CLI and server
+              GPU evaluation), index (builds docs.sqlite)
 scripts/      sources -> index -> generated data -> dataset -> fine-tune -> GGUF -> eval
-notebooks/    lxask_colab.ipynb: the heavy steps on a free Colab GPU
 evalsets/     the test sets (see "Measuring it")
 docs/         user and developer documentation
 seed/         inputs that are not downloaded: paraphrases (the generated data is not published)
@@ -31,7 +30,7 @@ cargo build --release --manifest-path rust/Cargo.toml -p lxask   # the program, 
 uv run python scripts/fetch_sources.py     # tldr, NL2Bash, man pages -> data/raw
 uv run python scripts/fetch_models.py embed qwen2.5-coder-1.5b --use qwen2.5-coder-1.5b
 uv run python scripts/build_index.py       # -> ~/.local/share/lxask/docs.sqlite
-uv run lxask "show disk usage of each folder"
+./rust/target/release/lxask "show disk usage of each folder"   # the program just built
 ```
 
 The release programs are built with `scripts/build_release.sh DIR`: `cargo zigbuild`
@@ -47,9 +46,8 @@ scripts/release_files.sh DIR      # adds the installed model, adapter, encoder, 
 gh release create vX.Y.Z -R arxhr007/lxask DIR/*
 ```
 
-Training, export and evaluation are heavy; `notebooks/lxask_colab.ipynb` runs them
-on a free Colab T4 in resumable stages that save to Google Drive. The same steps
-by hand:
+Training, export and evaluation are heavy and want a GPU (a free Colab T4 or a
+laptop RTX card is enough):
 
 ```sh
 uv run python scripts/build_dataset.py            # -> data/train.jsonl, data/val.jsonl

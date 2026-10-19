@@ -33,10 +33,10 @@ Open a "Something else" issue: what you ran, what happened, what you expected, a
 
 ## Training data
 
-The training data written with OpenAI models is not in this repository (see
+The training data written by language models is not in this repository (see
 [NOTICE](NOTICE) and [docs/development.md](docs/development.md#training-data)).
-`scripts/generate_openai.py` makes it again with your own API key; read OpenAI's
-terms on using model output for training before you do.
+`scripts/generate_data.py` makes it again with your own API key; read your
+model provider's terms on using its output for training before you do.
 
 ## Licence
 

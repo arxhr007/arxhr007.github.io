@@ -257,7 +257,7 @@ reward.
 
 ### Round 4 (reinforcement learning; the installed model since v0.4.0)
 
-Reinforcement learning on executed commands. `generate_openai.py exec` wrote 3,600
+Reinforcement learning on executed commands. `generate_data.py exec` wrote 3,600
 file and text tasks, each with a fixture, an expected output or check, and a
 reference command ($0.27); `prove_exec_tasks.py` kept the 3,353 whose reference passes
 and whose check fails `true` and an empty command; `prepare_rl.py` removed

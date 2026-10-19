@@ -158,7 +158,7 @@ flowchart TD
         man["man pages of<br/>this machine"]
     end
     tldr & man --> buildindex["build_index.py"] --> docs[("docs.sqlite")]
-    tldr --> gen["generate_openai.py<br/>requests, scenarios,<br/>execution tasks"]
+    tldr --> gen["generate_data.py<br/>requests, scenarios,<br/>execution tasks"]
     gen --> filter["filter_generated.py<br/>validator + reviewer model"]
     filter --> seed[("seed/")]
     seed & tldr & nl2bash --> dataset["build_dataset.py<br/>prompts as the program builds them"]

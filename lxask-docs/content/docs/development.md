@@ -11,8 +11,9 @@ rust/         crates/lxask-core: answer (the flow), split, retrieve, prompt, val
               explain, safety; crates/lxask-llm: llama.cpp; crates/lxask: the program (CLI, server,
               feedback); crates/lxask-py: the core for Python, as lxask._core
 src/lxask/     Python wrappers over lxask._core for training and evaluation, llm (llama-cpp-python,
-              GPU evaluation), index (builds docs.sqlite)
+              GPU evaluation), index (builds docs.sqlite), and the 0.5 CLI and server
 scripts/      sources -> index -> generated data -> dataset -> fine-tune -> GGUF -> eval
+notebooks/    lxask_colab.ipynb: the heavy steps on a free Colab GPU
 evalsets/     the test sets (see "Measuring it")
 docs/         user and developer documentation
 seed/         inputs that are not downloaded: paraphrases (the generated data is not published)
@@ -46,8 +47,9 @@ scripts/release_files.sh DIR      # adds the installed model, adapter, encoder, 
 gh release create vX.Y.Z -R arxhr007/lxask DIR/*
 ```
 
-Training, export and evaluation are heavy and want a GPU (a free Colab T4 or a
-laptop RTX card is enough):
+Training, export and evaluation are heavy; `notebooks/lxask_colab.ipynb` runs them
+on a free Colab T4 in resumable stages that save to Google Drive. The same steps
+by hand:
 
 ```sh
 uv run python scripts/build_dataset.py            # -> data/train.jsonl, data/val.jsonl
@@ -65,7 +67,7 @@ Commands in the training set come from three places, and every one has passed
 - **tldr-pages**: the documentation's own examples.
 - **NL2Bash**: human-written pairs, minus what the validator rejects. That
   removes the macOS commands (`top -l`, `pbcopy`, `sed -i ''`) round 1 learned from.
-- **Generated**: `scripts/generate_openai.py` asks an OpenAI model for natural
+- **Generated**: `scripts/generate_data.py` asks a language model for natural
   questions with commands and for multi-part requests split into self-contained
   steps. Single tasks come from three jobs: `tasks` and `depth` (one request per
   command, grounded in its tldr page and man options; `depth` asks again for the
@@ -83,16 +85,18 @@ model judge every task the small model wrote, and the filter drops what it rejec
 arguable). A sample is still read by hand, and a percent or two of the remaining
 answers are expected to be wrong in meaning.
 
-The data written with OpenAI models is not published with this repository: the
+The data written by language models is not published with this repository: the
 filtered output (`seed/generated_tasks.jsonl`, `generated_scenarios.jsonl`,
 `generated_exec.jsonl`, `generated_fixes.jsonl`) and the evaluation sets made from
 it (`multistep_heldout`, `multistep3_heldout`, `exec_heldout`, `forbidden_heldout`)
 were used to train and measure the released model but are kept private. Without
 them `build_dataset.py` builds from tldr, NL2Bash and the paraphrases, and says so;
-`eval.py` skips the sets it does not find. To make them again, `generate_openai.py`
-needs an API key in `OPENAI_API_KEY` or `~/.config/lxask/openai_key` (it keeps a spend
-ledger and stops at `--cap`, default $50), then `filter_generated.py`; read OpenAI's
-terms on using model output for training first.
+`eval.py` skips the sets it does not find. To make them again, `generate_data.py`
+needs an API key in `LXASK_GEN_API_KEY` or `~/.config/lxask/gen_api_key`, an endpoint in
+`LXASK_GEN_API_URL`, a model in `LXASK_GEN_MODEL` or `--model`, and prices in
+`--price-in`/`--price-out` (it keeps a spend ledger and stops at `--cap`, default $50),
+then `filter_generated.py`; read your model
+provider's terms on using its output for training first.
 
 The man pages come from the machine that builds the index (`fetch_sources.py man`
 renders `/usr/share/man`), so build it on a full install: a container or Colab has

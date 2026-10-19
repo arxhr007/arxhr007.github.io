@@ -11,7 +11,9 @@
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server --emptyOutDir",
     "prerender": "node scripts/prerender.mjs",
-    "build": "npm run build:client && npm run build:server && npm run prerender",
+    "docs:lxask": "node scripts/build-lxask-docs.mjs",
+    "docs:lxask:sync": "node scripts/sync-lxask-docs.mjs",
+    "build": "npm run build:client && npm run build:server && npm run prerender && npm run docs:lxask",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -45,6 +45,12 @@ One-time: repo **Settings → Pages → Source: GitHub Actions**.
 - **Blog posts** — drop `src/blogs/<slug>.md`, then add an entry (title, description,
   tags, date) to `blogs` in `src/blogs.ts`. Posts are bundled at build time.
 - **OG image** — `public/og-image.png`. Regenerate: `npm i -D sharp && node scripts/gen-og.mjs`.
+- **lxask docs (`/lxask`)** — a separate GitBook-style site, not part of the React app.
+  `npm run build` ends with `scripts/build-lxask-docs.mjs`, which turns the markdown in
+  `lxask-docs/content` into `dist/lxask/*.html` (landing page, one page per doc, search
+  index; theme in `lxask-docs/theme`). That content is copied from the lxask repository:
+  `node scripts/sync-lxask-docs.mjs PATH_TO_LXASK` (set `MMDC` to a mermaid-cli `mmdc`
+  to render new diagrams to `lxask-docs/diagrams`), then commit the result.
 
 ## Routing
 

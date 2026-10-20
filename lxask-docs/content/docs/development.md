@@ -151,7 +151,7 @@ docker run --rm --init --network none --memory 2g -v ~/.local/share/lxask:/data:
 ```
 
 where IMAGE is any Python 3.12 image with the repository's scripts and evalsets and the
-release wheel installed (`pip install lxask-0.6.0-cp310-abi3-manylinux_2_28_x86_64.whl
+release wheel installed (`pip install lxask-1.0.0-cp310-abi3-manylinux_2_28_x86_64.whl
 llama-cpp-python`). `--binary lxask` takes the answers from the program instead.
 
 Anything too close to a test case (same command as a reference, or a question

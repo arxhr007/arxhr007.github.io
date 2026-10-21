@@ -15,7 +15,8 @@ src/lxask/     Python wrappers over lxask._core for training and evaluation, llm
 scripts/      sources -> index -> generated data -> dataset -> fine-tune -> GGUF -> eval
 evalsets/     the test sets (see "Measuring it")
 docs/         user and developer documentation
-seed/         inputs that are not downloaded: paraphrases; the data a hosted model wrote is not published
+seed/         inputs that are not downloaded: paraphrases, and the filtered data a
+              hosted model wrote (published since 2026-10-21)
 tests/        pytest, no model needed
 ```
 
@@ -83,15 +84,17 @@ model judge every task the small model wrote, and the filter drops what it rejec
 arguable). A sample is still read by hand, and a percent or two of the remaining
 answers are expected to be wrong in meaning.
 
-The data written with hosted language models is not published with this repository:
-the filtered output (`seed/generated_tasks.jsonl`, `generated_scenarios.jsonl`,
-`generated_exec.jsonl`, `generated_fixes.jsonl`) and the evaluation sets made from
-it (`multistep_heldout`, `multistep3_heldout`, `exec_heldout`, `forbidden_heldout`)
-were used to train and measure the released model but are kept private. The
-rephrasings of tldr examples (`seed/paraphrases.jsonl`), which are published, were
-written with Qwen2.5-7B-Instruct run locally (NOTICE says the same). Without
-them `build_dataset.py` builds from tldr, NL2Bash and the paraphrases, and says so;
-`eval.py` skips the sets it does not find. To make them again, `generate_data.py`
+The data written with hosted language models is published in this repository, and has
+been since 2026-10-21: the filtered output (`seed/generated_tasks.jsonl`,
+`generated_scenarios.jsonl`, `generated_exec.jsonl`, `generated_fixes.jsonl`) and the
+evaluation sets made from it (`multistep_heldout`, `multistep3_heldout`, `exec_heldout`,
+`forbidden_heldout`) were used to train and measure the released model. They were kept
+out of the public repository when it first opened on 2026-10-19, and added on 2026-10-21,
+so anyone can now retrain the model and re-measure every number in `accuracy.md` from a
+clone. The rephrasings of tldr examples (`seed/paraphrases.jsonl`) were written with
+Qwen2.5-7B-Instruct run locally (NOTICE says the same). `build_dataset.py` builds from
+tldr, NL2Bash and these files; `eval.py` finds every set. To make more of it,
+`generate_data.py`
 needs an API key in `LXASK_GEN_API_KEY` or `~/.config/lxask/gen_api_key`, an endpoint in
 `LXASK_GEN_API_URL`, a model in `LXASK_GEN_MODEL` or `--model`, and prices in
 `--price-in`/`--price-out` (it keeps a spend ledger and stops at `--cap`, default $50),
@@ -117,15 +120,15 @@ LXASK_ALLOW_EXEC=1 python scripts/exec_eval.py   # runs the commands; Colab or a
 | `everyday` | 70 hand-written single questions | dev: retrieval was tuned on it |
 | `test_everyday` | 80 hand-written single questions | test |
 | `multistep` | 10 multi-part requests, with the programs accepted for each part and patterns that must not appear | test |
-| `multistep_heldout` | 205 generated scenarios set aside before training (not published) | test |
-| `multistep3_heldout` | 73 round-3 scenarios (literals kept in every step) set aside before training (not published) | test |
+| `multistep_heldout` | 205 generated scenarios set aside before training | test |
+| `multistep3_heldout` | 73 round-3 scenarios (literals kept in every step) set aside before training | test |
 | `nl2bash_test` | 150 held-out NL2Bash pairs with Linux-valid references (GPL-3.0, see its NOTICE) | test |
 | `tldr_heldout` | 150 tldr examples kept out of round-1 training | weaker test: round 2's generator saw these pages |
 | `exec_tasks` | 46 file and text tasks with fixtures and expected results, 13 of them with a restriction | test, by execution |
-| `exec_heldout` | 200 generated execution tasks set aside before RL training (not published) | test, by execution |
+| `exec_heldout` | 200 generated execution tasks set aside before RL training | test, by execution |
 | `regressions` | earlier failures | each must pass |
 | `forbidden` | 40 requests that rule a program out ("without lsof"), single and multi-part | test |
-| `forbidden_heldout` | 79 generated requests ruling out programs no training request rules out (not published) | test |
+| `forbidden_heldout` | 79 generated requests ruling out programs no training request rules out | test |
 | `ambiguous` | 24 proxy requests: 8 too vague (must be asked back), 16 naming a context with the form a right command has | test |
 
 `eval.py` reports each of these on its own, because they answer different

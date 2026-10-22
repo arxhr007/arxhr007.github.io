@@ -41,20 +41,33 @@ in a Docker container and counts as solved only when the harness gives it a rewa
 of exactly 1. The harness's embedding judge decides (threshold 0.75, a local
 embedding model; nothing hosted).
 
-Answers come from the real pipeline (retrieval, checks, retries, the 0.8 adapter),
-and, for comparison, from the untuned Qwen2.5-Coder-1.5B the model was trained from,
-asked for one Bash command, greedy, with no retrieval and no checks.
+Answers come from the real pipeline (retrieval, checks, retries, the 0.8 adapter) and,
+for comparison, from the untuned Qwen2.5-Coder-1.5B the model was trained from (the stock
+Q4_K_M build), greedy, with no retrieval and no checks. The untuned model is run three
+ways, because how it is asked changes its score a lot:
+
+- **base, raw**: a plain instruction, and only code fences stripped from its reply. This
+  was the baseline first published here (31%). It was handicapped: 199 of its 300 replies
+  were wrapped in backticks or started with `$ `, which fail when run, and 169 of those
+  scored 0 for that reason alone.
+- **base, cleaned**: the same replies with the backticks and `$ ` removed.
+- **base, three examples**: the plain instruction plus three worked examples (none from
+  the test set) and "no backticks, no `$`". This is the strongest baseline and the one the
+  README compares against.
 
 | variant | solved | 95% CI (Wilson) |
 |---|---|---|
 | **lxask** | **187/300 (62%)** | 57-68% |
-| untuned base model | 92/300 (31%) | 26-36% |
+| untuned base, three examples | 162/300 (54%) | 48-60% |
+| untuned base, cleaned | 153/300 (51%) | 45-57% |
+| untuned base, raw (the handicapped first run) | 92/300 (31%) | 26-36% |
 | the test set's own reference commands (harness sanity check) | 299/300 (99.7%) | |
 | lxask, first answer kept (no retries) | 187/300 (62%) | 57-68% |
 | lxask, without retrieved notes | 186/300 (62%) | 56-67% |
 
-Paired, lxask solves 106 tasks the base model misses and misses 11 the base solves
-(exact McNemar, two-sided p = 1.2e-20).
+Paired, against the strongest baseline (three examples), lxask solves 46 tasks the base
+model misses and misses 21 the base solves (exact McNemar, two-sided p = 0.003). Against
+the cleaned base: 54 vs 20 (p = 1e-4).
 
 63 of the 300 tasks overlap lxask's training sources (19 share the request text, 61
 share a command). On the 237 that do not:
@@ -62,34 +75,45 @@ share a command). On the 237 that do not:
 | variant | solved |
 |---|---|
 | **lxask** | **145/237 (61%, CI 55-67%)** |
-| untuned base model | 80/237 (34%, CI 28-40%) |
+| untuned base, three examples | 128/237 (54%, CI 48-60%) |
+| untuned base, cleaned | 118/237 (50%, CI 44-56%) |
 
-(74 tasks lxask only, 9 base only; p = 7.7e-14.) On the 63 overlapping tasks lxask
-solves 42 (67%) against the base model's 12 (19%).
+(Against the three-example base: 34 tasks lxask only, 17 base only; p = 0.024.) On the 63
+overlapping tasks lxask solves 42 (67%) against 34 (54%) for the three-example base.
 
 The set's own difficulty field, 100 tasks each:
 
-| difficulty | lxask | untuned base |
-|---|---|---|
-| 0 (easiest) | 75% | 41% |
-| 1 | 64% | 30% |
-| 2 | 48% | 21% |
+| difficulty | lxask | base, three examples | base, cleaned |
+|---|---|---|---|
+| 0 (easiest) | 75% | 69% | 66% |
+| 1 | 64% | 54% | 51% |
+| 2 | 48% | 39% | 36% |
 
-Two things to read honestly here. The retries and the retrieved notes make no
-measurable difference on this set: keeping the first answer scores the same 187, and
-dropping retrieval moves one task (186). The gain is fine-tuning, not the pipeline
-around it. And 19 of the 1,200 scored answers (4 to 5 per variant, none of them the
-reference-command rows) got 0 from an embedding-judge context error, spread evenly
-across variants; the reference commands scoring 299/300 is what says the harness
-itself is sound.
+Things to read honestly here. The gain over a fairly prompted untuned model is about 8
+points, and the two confidence intervals overlap (the paired test does not, because the
+same tasks are compared). The retries and the retrieved notes make no measurable
+difference on this set: keeping the first answer scores the same 187, and dropping
+retrieval moves one task (186). The gain is fine-tuning, not the pipeline around it. And
+30 of the 1,800 scored answers (4 to 6 per variant, none of them the reference-command
+rows) got 0 from an embedding-judge context error, spread evenly across variants; the
+reference commands scoring 299/300 is what says the harness itself is sound.
 
-Numbers from other tools on this set are not comparable with these.
-whatisit-nl2sh self-reports 0.62 for its tuned 1.5B and 0.54 for the untuned one, and
-barbarabhb/nl2sh-qwen25-coder-1.5b-GGUF self-reports 0.657; both used their own
-answer protocol (one reports `max_tokens=64`), and the same untuned base model scores
-0.54 there against 0.31 here, so the difference between harness runs is as large as
-the differences being compared. The benchmark authors publish 0.73 for GPT-4o, a
+**A correction.** Until 2026-10-23 this page and the README reported the raw baseline
+(31%) and so a 31-point gap. The raw run's reply cleanup only removed code fences, so
+most of its replies failed on formatting, not on content. It is kept in the table above
+for the record and the cleanup is fixed in `scripts/nl2sh_alfa_answers.py`.
+
+Numbers from other tools on this set are not directly comparable. whatisit-nl2sh
+self-reports 0.62 for its tuned 1.5B and 0.54 for the untuned one, and
+barbarabhb/nl2sh-qwen25-coder-1.5b-GGUF self-reports 0.657; both used their own answer
+protocol (one reports `max_tokens=64`). The untuned model scoring 0.54 there and 0.54
+here with three examples is consistent. The benchmark authors publish 0.73 for GPT-4o, a
 hosted model; that number is theirs and was not re-run here.
+
+To reproduce: `scripts/nl2sh_alfa_answers.py` makes the answers (variants `lxask`,
+`no_retry`, `no_rag`, `base`, `base_fewshot`), `scripts/nl2sh_alfa_score.py` scores them
+with `icalfa` 0.3.6 (Docker, plus an Ollama server with `mxbai-embed-large`), and
+`scripts/nl2sh_alfa_stats.py` prints the tables above.
 
 ## Where it goes wrong
 

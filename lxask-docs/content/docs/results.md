@@ -9,14 +9,16 @@ Every version and training round, newest first, with what was tried and not ship
 The model shipped since 0.8 (round 4 with the restriction adapter) was run on the
 public NL2SH-ALFA test set through the InterCode-ALFA harness (`icalfa` 0.3.6, every
 answer executed in Docker, embedding judge at 0.75, local). It solves 187 of 300
-(62%, 95% CI 57-68%) against 92 of 300 (31%) for the untuned Qwen2.5-Coder-1.5B it
-was trained from (paired exact McNemar, p = 1.2e-20); on the 237 tasks with no
-overlap with its training sources, 61% against 34% (p = 7.7e-14). Keeping the first
-answer (no retries) scores the same 187 and dropping retrieved notes 186, so the
-checks and the retrieval show no measurable effect on this set; the difference is
-fine-tuning. The full table, the difficulty breakdown, the judge's context-error
-caveat and why other tools' numbers on this set are not comparable:
-[accuracy.md](accuracy.md#the-public-benchmark-nl2sh-alfa).
+(62%, 95% CI 57-68%) against 162 of 300 (54%, CI 48-60%) for the untuned
+Qwen2.5-Coder-1.5B it was trained from when that model is given three worked examples
+(paired exact McNemar, p = 0.003); on the 237 tasks with no overlap with its training
+sources, 61% against 54% (p = 0.024). Keeping the first answer (no retries) scores the
+same 187 and dropping retrieved notes 186, so the checks and the retrieval show no
+measurable effect on this set; the difference is fine-tuning. The first published
+baseline (31%) was handicapped by a reply-cleanup bug and was corrected on 2026-10-23:
+see the correction in [accuracy.md](accuracy.md#the-public-benchmark-nl2sh-alfa), which
+also has the full table, the difficulty breakdown, the judge's context-error caveat and
+why other tools' numbers on this set are not comparable.
 
 ### v0.8.0: a restriction adapter for the requests that need it
 

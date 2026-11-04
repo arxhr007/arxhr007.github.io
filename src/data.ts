@@ -3,7 +3,6 @@ export const profile = {
   title: "Backend Engineer | Full-Stack Developer",
   location: "Thrissur, Kerala",
   email: "aaron123thomas098@gmail.com",
-  phone: "+91 9567086845",
   avatar: "/Aaron.webp",
   links: {
     github: "https://github.com/arxhr007",

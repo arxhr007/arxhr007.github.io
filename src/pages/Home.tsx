@@ -36,7 +36,6 @@ export function Home() {
             <div className="meta">
               <span>{profile.location}</span>
               <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
             </div>
             <div className="meta">
               <a href={profile.links.github} target="_blank" rel="noreferrer">

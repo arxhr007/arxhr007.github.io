@@ -1,8 +1,9 @@
 export const profile = {
   name: "Aaron Thomas",
-  title: "Full-Stack Developer | AI/RAG Systems Engineer",
+  title: "Backend Engineer | Full-Stack Developer",
   location: "Thrissur, Kerala",
   email: "aaron123thomas098@gmail.com",
+  phone: "+91 9567086845",
   avatar: "/Aaron.webp",
   links: {
     github: "https://github.com/arxhr007",
@@ -14,19 +15,19 @@ export const profile = {
 };
 
 export const summary =
-  "Computer Science undergraduate building **production-ready full-stack platforms**, " +
-  "**scalable backends**, and **AI systems**. Experienced in **RAG pipelines**, " +
-  "**CMS/LMS platforms**, **cloud deployment**, **automation**, and " +
-  "**developer-focused open-source tools**.";
+  "Final year Computer Science student building **production backends** — " +
+  "**REST APIs** in **Python/FastAPI** and **Node.js**, **PostgreSQL** and " +
+  "**Firebase** data models, and **AWS deployments** — from **government CMS " +
+  "and LMS platforms** to **Android app backends**.";
 
 export const skills: { group: string; items: string[] }[] = [
   {
     group: "Languages",
-    items: ["Python", "TypeScript/JavaScript", "Rust", "Java", "C", "C++"],
+    items: ["Python", "Go", "Rust", "TypeScript/JavaScript", "Java", "C"],
   },
   {
     group: "Backend",
-    items: ["Node.js", "REST APIs", "PostgreSQL", "MongoDB", "Redis", "Firebase", "Supabase"],
+    items: ["Node.js", "FastAPI", "REST APIs", "PostgreSQL", "MongoDB", "Firebase", "Supabase"],
   },
   {
     group: "Frontend",
@@ -34,11 +35,15 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Cloud/DevOps",
-    items: ["AWS", "GCP", "Docker", "Kubernetes", "CI/CD"],
+    items: ["AWS", "GCP", "Docker", "CI/CD"],
   },
   {
     group: "AI/ML",
-    items: ["PyTorch", "TensorFlow", "LangChain", "LangGraph", "LlamaIndex"],
+    items: ["LangChain", "LangGraph", "LlamaIndex", "Prompt Engineering"],
+  },
+  {
+    group: "Soft Skills",
+    items: ["Communication", "Teamwork", "Leadership", "Problem Solving"],
   },
 ];
 
@@ -62,10 +67,9 @@ export const experience: {
   {
     role: "Software Engineering Intern",
     company: "Stride, K-DISC",
-    meta: "10/2025 - Present | Thiruvananthapuram, KL",
+    meta: "10/2025 - 10/2026 | Thiruvananthapuram, KL",
     points: [
       "Developed enterprise **CMS** and **LMS platforms** for the **Government of Kerala** using **Next.js**, **Node.js**, and **AWS**.",
-      "Built **scalable backend services**, **REST APIs**, and **cloud-integrated workflows** for reliable content delivery.",
     ],
   },
   {
@@ -83,7 +87,6 @@ export const experience: {
     meta: "12/2024 - 06/2025 | New Zealand (Remote)",
     points: [
       "Developed **responsive frontend interfaces** using **React.js** and **Tailwind CSS** for international client projects.",
-      "Integrated **SEO best practices** that increased **organic search visibility** for project deployments.",
     ],
   },
 ];
@@ -98,12 +101,22 @@ export const projects: {
   {
     name: "Aliens Eye",
     url: "https://github.com/arxhr007/Aliens_eye",
-    tagline: "AI-Powered Public Data Analysis Platform",
+    tagline: "AI-Powered Cross-Platform Profile Analysis",
     points: [
-      "Built an **AI-powered platform** for large-scale public data analysis, with **parallel processing pipelines** and **automated information extraction** over high-volume web data.",
-      "Achieved **4000+ GitHub stars**, demonstrating strong community adoption and developer interest.",
+      "Built an **async platform** analyzing public profiles across **840+ sites** with **ML/heuristic scoring** and cross-site profile correlation.",
+      "Achieved **4700+ GitHub stars**.",
     ],
     tags: ["Python", "Bash"],
+  },
+  {
+    name: "AYRA",
+    url: "https://blog.myosa-sensors.org/blog.html?file=blogs%2Fayra.md",
+    tagline: "TinyML-Based Autonomic Dysreflexia Early Warning System",
+    points: [
+      "Built a **below-knee early-warning wearable** for autonomic dysreflexia, combining **GSR**, **PPG/HRV**, **ECG**, skin temperature, humidity, and motion with an **int8-quantized TinyML model** on **ESP32**.",
+      "Presented AYRA at the **IEEE BioSensors 2026** conference in Bangkok, Thailand.",
+    ],
+    tags: ["TinyML", "ESP32", "TensorFlow Lite"],
   },
   {
     name: "NeuroLearn",
@@ -111,7 +124,7 @@ export const projects: {
     tagline: "Adaptive AI Tutor",
     points: [
       "Built an **adaptive tutor for neurodivergent learners** using **LangGraph**, personalized learning flows, and **RAG**.",
-      "Presented at an **OpenAI Community Meetup**, showcasing adaptive learning and AI-driven remediation workflows.",
+      "Presented at an **OpenAI Community Meetup**.",
     ],
     tags: ["LangGraph", "RAG", "FastAPI"],
   },
@@ -120,28 +133,26 @@ export const projects: {
     url: "https://github.com/arxhr007/amma",
     tagline: "Malayalam Programming Language",
     points: [
-      "Designed a custom **interpreter in Rust** — lexer, parser, and evaluator — supporting variables, control flow, recursive functions, lists, strings, and file I/O.",
-      "Built a **transliteration layer** so code runs in Malayalam script or romanized English, and shipped prebuilt Windows and Linux binaries with a full language reference and sample programs.",
+      "Designed a **Rust interpreter** — lexer, parser, and evaluator — with transliteration for **Malayalam script** or romanized English.",
     ],
     tags: ["Rust"],
   },
-  {
-    name: "AYRA",
-    url: "https://blog.myosa-sensors.org/blog.html?file=blogs%2Fayra.md",
-    tagline: "TinyML-Based Autonomic Dysreflexia Early Warning System",
-    points: [
-      "Developed a **below-knee wearable** for real-time autonomic dysreflexia early warning, fusing **GSR**, **PPG/HRV**, **ECG**, skin temperature, humidity, and motion signals from a single placement.",
-      "Implemented an **int8 quantized TinyML neural network** on an **ESP32** for on-device inference with **sub-50 ms latency** and real-time alerts via OLED, buzzer, and **MQTT**.",
-      "Presented at the **IEEE BioSensors 2026** international conference in Bangkok, Thailand.",
-    ],
-    tags: ["TinyML", "ESP32", "TensorFlow Lite", "MQTT"],
-  },
+];
+
+export const openSource: string[] = [
+  "**ggml-org/llama.cpp** (Python): Rejected malformed **gguf-py** tokenizer merge pairs to prevent corrupted models.",
+  "**apache/kafka** (Java) & **apache/airflow** (Python): Rejected negative wire-decoded field sizes reaching new byte[size]; fixed a secrets masker leaking a prefixed secret's tail into logs.",
+  "**docker/docker-agent** (Go): Fixed safety rules that let sort -o and tree -o overwrite files without a prompt; added regression tests.",
+  "**redis/redis-py** (Python): Fixed CLIENT LIST parsing splitting records on VT, FF, NEL and U+2028; unified both parse paths.",
+  "**projectdiscovery** nuclei, httpx & subfinder (Go): Fixed template validation, charset decoding, and -max-results limits.",
+  "**awslabs/llrt** & **VirusTotal/yara-x** (Rust): Aligned Buffer encodings and concat with Node.js; let --ignore-module skip partially implemented modules.",
+  "**radareorg/radare2** & **fastfetch** (C): Added a histogram ruler, fixed Cs arguments, and three format-parser bugs.",
+  "Also contributed: **python-pillow/Pillow**, **bettercap/bettercap**, **TabularisDB/tabularis**, **mvt-project/mvt**, **awslabs/amazon-documentdb-tools**.",
 ];
 
 export const leadership: string[] = [
   "**Coders Club Lead**, IEDC Sahrdaya: Organized developer workshops, project sessions, and innovation activities.",
   "**Technical Team**, IEEE Sahrdaya: Built event websites, attendance systems, and event management applications.",
-  "**Mentor**, TinkerHub: Guided peers on project architecture, development workflows, and implementation strategy.",
 ];
 
 export const education = {
@@ -154,7 +165,6 @@ export const education = {
 };
 
 export const achievements: string[] = [
-  "**4x CTF Winner** — First-place finishes across four Capture The Flag security competitions.",
-  "**MYOSA International Hackathon Finalist** — Selected as a finalist for developing **AYRA**, a real-time autonomic dysreflexia early-warning wearable using TinyML.",
-  "**IEEE BioSensors 2026** — Presented **AYRA** at the IEEE BioSensors 2026 international conference in Bangkok, Thailand.",
+  "**AYRA** — **MYOSA International Hackathon Finalist**; presented at **IEEE BioSensors 2026**, Bangkok, Thailand.",
+  "**4x CTF Winner** — Won four **Capture The Flag** cybersecurity competitions.",
 ];

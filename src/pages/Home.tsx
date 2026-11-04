@@ -9,6 +9,7 @@ import {
   skills,
   experience,
   projects,
+  openSource,
   leadership,
   education,
   achievements,
@@ -35,6 +36,7 @@ export function Home() {
             <div className="meta">
               <span>{profile.location}</span>
               <a href={`mailto:${profile.email}`}>{profile.email}</a>
+              <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
             </div>
             <div className="meta">
               <a href={profile.links.github} target="_blank" rel="noreferrer">
@@ -116,6 +118,11 @@ export function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="card reveal">
+        <h2>Open Source Contributions</h2>
+        <Points items={openSource} />
       </section>
 
       <section className="card reveal">

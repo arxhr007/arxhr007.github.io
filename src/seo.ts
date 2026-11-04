@@ -67,7 +67,7 @@ export function getHead(pathname: string): Head {
     ...base,
     title: `${profile.name} — ${profile.title}`,
     description:
-      "Full-Stack Developer and AI/RAG Systems Engineer. Production platforms, scalable backends, and AI systems.",
+      "Backend Engineer and Full-Stack Developer. Production backends, REST APIs, PostgreSQL and Firebase data models, and AWS deployments.",
     canonical: `${SITE_URL}/`,
     jsonLd: personLd,
   };

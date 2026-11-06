@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture · lxask docs</title>
+<meta name="description" content="lxask is one Rust program and four files: the model, its restriction adapter, a small encoder and a SQLite index of documentation. Everything runs on your machine, on the CPU. Pyth">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/architecture">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Architecture · lxask docs">
+<meta property="og:description" content="lxask is one Rust program and four files: the model, its restriction adapter, a small encoder and a SQLite index of documentation. Everything runs on your machine, on the CPU. Pyth">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/architecture">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture" aria-current="page">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Reference</div>
+      <div class="prose">
+<h1 id="architecture">Architecture</h1>
+<p>lxask is one Rust program and four files: the model, its restriction adapter, a small
+encoder and a SQLite index of documentation. Everything runs on your machine, on the
+CPU. Python is used only to build those files and to measure the result, and it calls
+the same Rust core the program uses, so what is measured is what ships.</p>
+<p>For the reasoning behind each step in prose, see <a href="/lxask/how-it-works">How it works</a>;
+for numbers, <a href="/lxask/results">Results</a>.</p>
+<h2 id="answering-a-request"><a class="anchor" href="#answering-a-request" aria-label="Link to this section">#</a>Answering a request</h2>
+<p>What happens between <code class="nw">lxask &quot;...&quot;</code> and the printed command
+(<code class="nw">rust/crates/lxask/src/main.rs</code>, <code>rust/crates/lxask-core/src/answer.rs</code>):</p>
+<figure class="diagram"><a class="light" href="/lxask/diagrams/6b1f94c25f56.light.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/6b1f94c25f56.light.svg" width="1004" height="3966" alt="Diagram: Answering a request" loading="lazy"></a><a class="dark" href="/lxask/diagrams/6b1f94c25f56.dark.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/6b1f94c25f56.dark.svg" width="1004" height="3966" alt="Diagram: Answering a request" loading="lazy"></a><figcaption>Click to open at full size</figcaption></figure>
+<p>Two shortcuts answer without the model at all: questions about lxask itself, and
+requests too vague for one command (&quot;add a proxy&quot;). Everything else goes through the
+model, one call per task plus one for the split, and up to two more per task when the
+checks object.</p>
+<h2 id="components"><a class="anchor" href="#components" aria-label="Link to this section">#</a>Components</h2>
+<figure class="diagram"><a class="light" href="/lxask/diagrams/dead32f4d835.light.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/dead32f4d835.light.svg" width="1499" height="1694" alt="Diagram: Components" loading="lazy"></a><a class="dark" href="/lxask/diagrams/dead32f4d835.dark.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/dead32f4d835.dark.svg" width="1499" height="1694" alt="Diagram: Components" loading="lazy"></a><figcaption>Click to open at full size</figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>crate</th>
+<th>what it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="nw">lxask</code></td>
+<td>the program: options, the server, feedback, settings</td>
+</tr>
+<tr>
+<td><code class="nw">lxask-core</code></td>
+<td>every rule, with no I/O: the model and the search are passed in, so it is tested without them</td>
+</tr>
+<tr>
+<td><code class="nw">lxask-llm</code></td>
+<td>the model, the adapter and the encoder, through llama.cpp</td>
+</tr>
+<tr>
+<td><code class="nw">lxask-py</code></td>
+<td>the core as the Python module <code class="nw">lxask._core</code>, used by <code class="nw">src/lxask</code> and <code class="nw">scripts/</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="the-server"><a class="anchor" href="#the-server" aria-label="Link to this section">#</a>The server</h2>
+<p><code class="nw">lxask --serve</code> keeps everything loaded, so later questions skip the few seconds of
+loading. With <code class="nw">serve = auto</code> (the installer&#39;s default) a question that finds no
+server starts one in the background, detached from the terminal, and waits for it;
+a lock next to the socket makes sure only one is started (<code class="nw">server::start_and_wait</code>).</p>
+<figure class="diagram"><a class="light" href="/lxask/diagrams/8783cd838b50.light.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/8783cd838b50.light.svg" width="651" height="825" alt="Diagram: The server" loading="lazy"></a><a class="dark" href="/lxask/diagrams/8783cd838b50.dark.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/8783cd838b50.dark.svg" width="651" height="825" alt="Diagram: The server" loading="lazy"></a><figcaption>Click to open at full size</figcaption></figure>
+<h2 id="feedback"><a class="anchor" href="#feedback" aria-label="Link to this section">#</a>Feedback</h2>
+<figure class="diagram"><a class="light" href="/lxask/diagrams/ccae61096a3b.light.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/ccae61096a3b.light.svg" width="1365" height="302" alt="Diagram: Feedback" loading="lazy"></a><a class="dark" href="/lxask/diagrams/ccae61096a3b.dark.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/ccae61096a3b.dark.svg" width="1365" height="302" alt="Diagram: Feedback" loading="lazy"></a><figcaption>Click to open at full size</figcaption></figure>
+<h2 id="how-the-model-and-the-index-are-made"><a class="anchor" href="#how-the-model-and-the-index-are-made" aria-label="Link to this section">#</a>How the model and the index are made</h2>
+<p>Offline, on a machine with a GPU (a free Colab T4 or a laptop RTX card):</p>
+<figure class="diagram"><a class="light" href="/lxask/diagrams/0ae034cc1c54.light.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/0ae034cc1c54.light.svg" width="620" height="2383" alt="Diagram: How the model and the index are made" loading="lazy"></a><a class="dark" href="/lxask/diagrams/0ae034cc1c54.dark.svg" target="_blank" rel="noopener" title="Open the diagram at full size"><img src="/lxask/diagrams/0ae034cc1c54.dark.svg" width="620" height="2383" alt="Diagram: How the model and the index are made" loading="lazy"></a><figcaption>Click to open at full size</figcaption></figure>
+<p>The evaluation sets are kept out of training throughout; the execution tests run each
+command as an unprivileged user in a container with no network
+(<a href="/lxask/development#measuring-it">Development</a>).</p>
+<h2 id="files-on-disk"><a class="anchor" href="#files-on-disk" aria-label="Link to this section">#</a>Files on disk</h2>
+<p>Everything lives in <code class="nw">~/.local/share/lxask</code>: the model, the adapter, the encoder, the
+index, <code class="nw">last.json</code> and your <code class="nw">feedback.jsonl</code>; the program is <code class="nw">~/.local/bin/lxask</code>.
+The full list and every setting: <a href="/lxask/configuration">Configuration</a>.</p>
+<h2 id="design-choices"><a class="anchor" href="#design-choices" aria-label="Link to this section">#</a>Design choices</h2>
+<ul>
+<li><strong>Check, don&#39;t trust.</strong> A 1.5B model gets details wrong, so every command is
+checked against the documentation and the request, retried when a check objects,
+and marked <code class="nw">unverified:</code> when it still fails. It never runs a command.</li>
+<li><strong>Small, local, offline.</strong> One program and about 1.1 GB of files, 1.3 GB of memory
+while answering, no network after installing.</li>
+<li><strong>Route instead of retrain.</strong> The model fine-tuned on restrictions got worse on
+everyday questions, so it ships as an adapter used only for the requests it is
+better at (<a href="/lxask/results">Results</a>).</li>
+<li><strong>Ask back instead of guessing</strong> when a request means different commands in
+different contexts.</li>
+<li><strong>Fixed text for questions about lxask</strong>, rather than teaching the model facts
+about itself.</li>
+<li><strong>One core for the program and the measurements.</strong> Training and evaluation call
+the same Rust code through <code class="nw">lxask._core</code>.</li>
+</ul>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/how-it-works"><small>Previous</small><span class="title">How it works</span></a>
+<a class="next" href="/lxask/accuracy"><small>Next</small><span class="title">Accuracy and limits</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/architecture.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#answering-a-request">Answering a request</a><a class="depth-2" href="#components">Components</a><a class="depth-2" href="#the-server">The server</a><a class="depth-2" href="#feedback">Feedback</a><a class="depth-2" href="#how-the-model-and-the-index-are-made">How the model and the index are made</a><a class="depth-2" href="#files-on-disk">Files on disk</a><a class="depth-2" href="#design-choices">Design choices</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

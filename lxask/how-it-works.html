@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works · lxask docs</title>
+<meta name="description" content="The same flow as diagrams, with the components and the build: Architecture.">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/how-it-works">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="How it works · lxask docs">
+<meta property="og:description" content="The same flow as diagrams, with the components and the build: Architecture.">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/how-it-works">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works" aria-current="page">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Reference</div>
+      <div class="prose">
+<h1 id="how-it-works">How it works</h1>
+<p>The same flow as diagrams, with the components and the build: <a href="/lxask/architecture">Architecture</a>.</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">question -&gt; split into tasks -&gt; for each task: retrieve -&gt; answer -&gt; check
+                                (another try if a check objects) -&gt; explain -&gt; warn</code></pre></div><p>Everything runs locally: a 1.5B-parameter language model and a small encoder through
+llama.cpp, and a SQLite index of documentation. The program is written in Rust.</p>
+<h2 id="1-split"><a class="anchor" href="#1-split" aria-label="Link to this section">#</a>1. Split</h2>
+<p>A request with several parts (&quot;find the busiest process, see its open files, stop
+it&quot;) is turned into separate tasks by one model call. Short single questions skip
+this. Each part is searched and answered on its own, because a long request searched
+as a whole brings back notes about the wrong commands.</p>
+<p>If the split loses a detail that decides which files are meant (an extension, a
+size, an age), it is tried again.</p>
+<h2 id="2-retrieve"><a class="anchor" href="#2-retrieve" aria-label="Link to this section">#</a>2. Retrieve</h2>
+<p>Each task is embedded with bge-small (37 MB) and matched against about 38,000
+entries: the examples and summaries of <a href="https://github.com/tldr-pages/tldr" target="_blank" rel="noopener noreferrer">tldr-pages</a>,
+plus a summary for each command only a man page documents.
+The search first picks the four commands the task is most likely about, favouring
+common ones over obscure tools unless a tool is named, then takes their closest
+examples. These notes go into the model&#39;s prompt. Without the encoder, the search
+falls back to keywords (BM25).</p>
+<h2 id="3-answer"><a class="anchor" href="#3-answer" aria-label="Link to this section">#</a>3. Answer</h2>
+<p>A fine-tuned Qwen2.5-Coder-1.5B, quantized to 4 bits, writes one command line for
+the task, and nothing else.</p>
+<h2 id="4-check"><a class="anchor" href="#4-check" aria-label="Link to this section">#</a>4. Check</h2>
+<p>The command is checked without running it:</p>
+<ul>
+<li><strong>Against the documentation.</strong> The program exists, every option is documented for
+it, the subcommand after <code class="nw">systemctl</code> and its kin is real, the line parses as
+shell, and it is not a macOS or BSD form (<code class="nw">top -l</code>, <code class="nw">sed -i ''</code>, <code class="nw">pbcopy</code>).</li>
+<li><strong>Against the task.</strong> The paths, extensions, sizes, ages, counts and ports the task
+names must appear in the command, in any form a command can write them: 30 days
+is <code class="nw">-mtime +30</code>, <code class="nw">-mmin +43200</code> or <code class="nw">--since '30 days ago'</code>.</li>
+<li><strong>Against known slips.</strong> <code class="nw">grep</code> on a directory without <code class="nw">-r</code>, a reboot for &quot;shut
+down&quot;, <code class="nw">pip list</code> for the system&#39;s packages, <code class="nw">$HOME/...</code> when the request never
+mentioned home, a command that deletes for a request that only asks to look.</li>
+</ul>
+<p>When a check objects, or no command came back, the model gets up to two more tries
+(sampled, so they differ), and the answer with the fewest objections is kept. What
+still fails is shown as <code class="nw">unverified:</code>.</p>
+<p>Slips with exactly one right fix are repaired instead: <code class="nw">head -n 1</code> after <code class="nw">ps</code> (that
+is only the header) becomes <code class="nw">head -n 2</code>; <code class="nw">grep</code> on a directory gets <code class="nw">-r</code>; a bare
+crontab line is installed with <code class="nw">crontab</code>; a command that always needs root gets
+<code class="nw">sudo</code>; another distribution&#39;s package listing or search becomes this machine&#39;s.</p>
+<h3 id="restrictions"><a class="anchor" href="#restrictions" aria-label="Link to this section">#</a>Restrictions</h3>
+<p>&quot;Without lsof&quot;, &quot;don&#39;t use sudo&quot;, &quot;instead of curl&quot;, &quot;netstat isn&#39;t installed&quot;: a
+command that runs a ruled-out program is an objection, judged on what it actually
+runs (<code class="nw">sudo lsof</code>, <code class="nw">xargs grep</code>, <code class="nw">find -exec rm</code>), not on the words (&quot;without
+deleting&quot; rules out nothing). Documentation notes about that program are kept out of
+the prompt.</p>
+<p>Such requests, and requests about proxies, are answered with a small LoRA adapter
+(37 MB) applied on top of the model. It was trained on these requests and keeps
+restrictions much better (80% against 60%), but it is worse on everyday questions,
+so every other request gets the model alone. <code class="nw">LXASK_ADAPTER=off</code> turns it off.</p>
+<h3 id="asking-back"><a class="anchor" href="#asking-back" aria-label="Link to this section">#</a>Asking back</h3>
+<p>Some requests mean different commands in different contexts. For those (&quot;add a
+proxy&quot; with no word on where), lxask asks which one is meant instead of guessing.</p>
+<h2 id="5-explain"><a class="anchor" href="#5-explain" aria-label="Link to this section">#</a>5. Explain</h2>
+<p>Each program and option in the command is looked up in the tldr summaries and the
+man pages. Where the documentation says nothing, nothing is printed.</p>
+<h2 id="6-warn"><a class="anchor" href="#6-warn" aria-label="Link to this section">#</a>6. Warn</h2>
+<p>Commands that delete, overwrite or reformat (<code class="nw">rm -r</code>, <code class="nw">find -delete</code>, <code class="nw">dd</code> to a
+device, <code class="nw">mkfs</code>, <code class="nw">shred</code>, <code class="nw">git reset --hard</code>) carry a <code class="nw">warning:</code> saying what kind of
+command it is. The
+warning does not say whether the command&#39;s filter is right; you check that.</p>
+<h2 id="where-the-model-came-from"><a class="anchor" href="#where-the-model-came-from" aria-label="Link to this section">#</a>Where the model came from</h2>
+<p>The base model was fine-tuned on about 39,000 examples, from tldr-pages, NL2Bash
+and generated requests checked by the same validator. It then had a round of
+reinforcement learning on commands that were actually run in a sandbox, rewarded
+when they produced the right result. <a href="/lxask/results">Results</a> has every training
+round, including the ones that were not shipped.</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/configuration"><small>Previous</small><span class="title">Configuration</span></a>
+<a class="next" href="/lxask/architecture"><small>Next</small><span class="title">Architecture</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/how-it-works.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#1-split">1. Split</a><a class="depth-2" href="#2-retrieve">2. Retrieve</a><a class="depth-2" href="#3-answer">3. Answer</a><a class="depth-2" href="#4-check">4. Check</a><a class="depth-3" href="#restrictions">Restrictions</a><a class="depth-3" href="#asking-back">Asking back</a><a class="depth-2" href="#5-explain">5. Explain</a><a class="depth-2" href="#6-warn">6. Warn</a><a class="depth-2" href="#where-the-model-came-from">Where the model came from</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results · lxask docs</title>
+<meta name="description" content="lxask was called linu from 0.3 to 0.8, and these notes use the names of their time.">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/results">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Results · lxask docs">
+<meta property="og:description" content="lxask was called linu from 0.3 to 0.8, and these notes use the names of their time.">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/results">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results" aria-current="page">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Project</div>
+      <div class="prose">
+<h1 id="results">Results</h1>
+<p>lxask was called linu from 0.3 to 0.8, and these notes use the names of their time.</p>
+<p>Every version and training round, newest first, with what was tried and not shipped.</p>
+<h3 id="the-public-benchmark-nl2sh-alfa-300-tasks-the-shipped-model"><a class="anchor" href="#the-public-benchmark-nl2sh-alfa-300-tasks-the-shipped-model" aria-label="Link to this section">#</a>The public benchmark: NL2SH-ALFA (300 tasks), the shipped model</h3>
+<p>The model shipped since 0.8 (round 4 with the restriction adapter) was run on the
+public NL2SH-ALFA test set through the InterCode-ALFA harness (<code class="nw">icalfa</code> 0.3.6, every
+answer executed in Docker, embedding judge at 0.75, local). It solves 187 of 300
+(62%, 95% CI 57-68%) against 162 of 300 (54%, CI 48-60%) for the untuned
+Qwen2.5-Coder-1.5B it was trained from when that model is given three worked examples
+(paired exact McNemar, p = 0.003); on the 237 tasks with no overlap with its training
+sources, 61% against 54% (p = 0.024). Keeping the first answer (no retries) scores the
+same 187 and dropping retrieved notes 186, so the checks and the retrieval show no
+measurable effect on this set; the difference is fine-tuning. The first published
+baseline (31%) was handicapped by a reply-cleanup bug and was corrected on 2026-10-23:
+see the correction in <a href="/lxask/accuracy#the-public-benchmark-nl2sh-alfa">Accuracy and limits</a>, which
+also has the full table, the difficulty breakdown, the judge&#39;s context-error caveat and
+why other tools&#39; numbers on this set are not comparable.</p>
+<h3 id="v080-a-restriction-adapter-for-the-requests-that-need-it"><a class="anchor" href="#v080-a-restriction-adapter-for-the-requests-that-need-it" aria-label="Link to this section">#</a>v0.8.0: a restriction adapter for the requests that need it</h3>
+<p>Round 6&#39;s fine-tune (6d, below) keeps restrictions far better than round 4 but drifts
+on everyday requests. It ships as a 37 MB LoRA adapter of round 4 instead of a new
+model, and is applied only to requests that rule out a program the catalogue knows,
+or that mention a proxy (<code class="nw">linu_core::route</code>); every other request gets round 4
+unchanged.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>0.7.1</th>
+<th>0.8</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>forbidden (40) passed</td>
+<td>60.0%</td>
+<td><strong>80.0%</strong></td>
+</tr>
+<tr>
+<td>forbidden: ruled-out program used</td>
+<td>30.0%</td>
+<td><strong>10.0%</strong></td>
+</tr>
+<tr>
+<td>forbidden_heldout (79) passed</td>
+<td>60.8%</td>
+<td><strong>75.9%</strong></td>
+</tr>
+<tr>
+<td>ambiguous (24) passed</td>
+<td>70.8%</td>
+<td><strong>79.2%</strong></td>
+</tr>
+<tr>
+<td>exec_tasks (46), strict</td>
+<td>84.8%</td>
+<td><strong>87.0%</strong></td>
+</tr>
+<tr>
+<td>exec_heldout (200), strict</td>
+<td>75.0%</td>
+<td>75.0%</td>
+</tr>
+<tr>
+<td>the other sets (everyday, tldr, nl2bash, multistep, regressions)</td>
+<td></td>
+<td>1 of 745 answers changed, same scores</td>
+</tr>
+</tbody></table></div>
+<p>(GPU for the sets, the program on the CPU in Docker for the execution sets.) Only
+the restriction tasks of exec_tasks are routed: 3 more pass (<code class="nw">awk 'END {print NR}'</code>
+without wc, <code class="nw">awk /error/</code> without grep, <code class="nw">cat &gt; copy</code> without cp) and 2 fewer (<code class="nw">cat /dev/null &gt; old.txt</code> empties the file instead of deleting it; <code class="nw">perl</code> counting lines
+for words). None of the 200 heldout tasks is routed; their commands are identical.
+The adapter adds about 90 MB of memory (1.30 GB peak) and switching it costs the
+prompt cache, a few percent of time.</p>
+<p>Of those 745 questions one is routed (an ssh SOCKS proxy; same answer). The one
+changed answer (<code class="nw">rsync -an</code> for <code class="nw">rsync -av</code> on a dry run) is the question after it:
+switching back empties the prompt cache, and a prompt computed whole rounds slightly
+differently from one that reuses a cached prefix.</p>
+<p>Applied at run time to the quantized model, the adapter does a little worse than the
+same fine-tune merged before quantizing (forbidden 80.0% against 87.5%), and the same
+elsewhere. The model alone is a <code class="nw">--model</code> or <code class="nw">LINU_ADAPTER=off</code> away.</p>
+<h3 id="v071-three-rule-fixes-same-model"><a class="anchor" href="#v071-three-rule-fixes-same-model" aria-label="Link to this section">#</a>v0.7.1: three rule fixes (same model)</h3>
+<ul>
+<li>A list of ruled-out programs is read to its end: &quot;without lsof, netstat, or ss&quot;
+rules out all three, while &quot;show the log without the header, and grep for ERROR&quot;
+still rules out nothing but the header.</li>
+<li>A request that only asks to look (&quot;show which files can safely be removed&quot;,
+&quot;list&quot;, &quot;check&quot;, &quot;count&quot;) answered with a command that deletes (<code class="nw">rm</code>, <code class="nw">rmdir</code>,
+<code class="nw">unlink</code>, <code class="nw">shred</code>, <code class="nw">find -delete</code>) is an objection: retried, and marked if it
+stays. It flags 2 of 32,421 known-good pairs.</li>
+<li>&quot;Set a proxy in .curlrc&quot; (or <code class="nw">.wgetrc</code>) names a context and is no longer asked
+back.</li>
+</ul>
+<p>Every evaluation answer is the same as 0.7.0 (0 of 809 changed on the GPU); the
+fixes are for requests the sets do not have.</p>
+<h3 id="round-6-training-on-restrictions-and-proxy-contexts-shipped-as-the-08-adapter"><a class="anchor" href="#round-6-training-on-restrictions-and-proxy-contexts-shipped-as-the-08-adapter" aria-label="Link to this section">#</a>Round 6: training on restrictions and proxy contexts (shipped as the 0.8 adapter)</h3>
+<p>The gaps 0.7.0 left need data: new generator jobs <code class="nw">forbid</code> (963 requests that rule a
+program out, answered without it), <code class="nw">forbid_scenarios</code> (98 multi-part ones),
+<code class="nw">contexts</code> (311 proxy requests for APT, <code class="nw">/etc/environment</code>, the Docker daemon, npm
+and others) and <code class="nw">forbid_twins</code> (905 of the same requests with the restriction
+removed and the usual command, so that the model does not learn to avoid the tool
+everywhere). A short LoRA fine-tune of round 4 on them plus a replay sample of the
+old training data (<code class="nw">scripts/mix_finetune.py</code>), with a held-out set of programs never
+ruled out in training (<code class="nw">forbidden_heldout</code>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>round 4</th>
+<th>6 (no twins)</th>
+<th>6b (twins)</th>
+<th>6c (replay answered by round 4)</th>
+<th>6d</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>forbidden passed</td>
+<td>60.0%</td>
+<td>82.5%</td>
+<td>75.0%</td>
+<td>82.5%</td>
+<td><strong>87.5%</strong></td>
+</tr>
+<tr>
+<td>forbidden_heldout passed</td>
+<td>60.8%</td>
+<td>79.7%</td>
+<td>78.5%</td>
+<td>77.2%</td>
+<td>75.9%</td>
+</tr>
+<tr>
+<td>ambiguous passed</td>
+<td>70.8%</td>
+<td>79.2%</td>
+<td>91.7%</td>
+<td>79.2%</td>
+<td>79.2%</td>
+</tr>
+<tr>
+<td>everyday program</td>
+<td>98.6%</td>
+<td>94.3%</td>
+<td>97.1%</td>
+<td>98.6%</td>
+<td>97.1%</td>
+</tr>
+<tr>
+<td>test_everyday program</td>
+<td>96.2%</td>
+<td>93.8%</td>
+<td>95.0%</td>
+<td>93.8%</td>
+<td>95.0%</td>
+</tr>
+<tr>
+<td>nl2bash_test program</td>
+<td>80.0%</td>
+<td>78.0%</td>
+<td>81.3%</td>
+<td>76.0%</td>
+<td>77.3%</td>
+</tr>
+<tr>
+<td>tldr_heldout exact</td>
+<td>50.0%</td>
+<td>55.3%</td>
+<td>52.0%</td>
+<td>54.0%</td>
+<td>52.7%</td>
+</tr>
+<tr>
+<td>exec_tasks / exec_heldout, strict</td>
+<td>84.8% / 75.0%</td>
+<td></td>
+<td>82.6% / 74.0%</td>
+<td>87.0% / 71.0%</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>Restrictions are learned, and they carry over to programs never seen ruled out
+(heldout 60.8% -&gt; 77-80%). The price is drift elsewhere: without twins the model
+avoided the usual tool even when nothing was ruled out (<code class="nw">watch</code> -&gt; <code class="nw">free --seconds 2</code>, <code class="nw">lsb_release</code> -&gt; <code class="nw">uname</code>); replaying the original references pulled the
+RL-trained model back toward pre-RL habits (<code class="nw">&quot;$HOME/work&quot;</code> for a relative path);
+answering the replay with round 4 itself fixed most of that, but 6c still turns
+some <code class="nw">find</code> answers into <code class="nw">grep -r</code> or <code class="nw">ls</code> and fails the ship rule on
+test_everyday, nl2bash_test and exec_heldout. 6c also kept its step-100 checkpoint:
+<code class="nw">train_lora.py</code> keeps the lowest loss on <code class="nw">data/val.jsonl</code>, whose original references
+an RL-trained model has moved away from. 6d validates on 400 examples held out of its
+own mix (<code class="nw">mix_finetune.py --val-out</code>), repeats the restriction examples once instead
+of twice, replays 600 more answers that run <code class="nw">find</code>, <code class="nw">umount</code> or <code class="nw">apt</code>, at half the
+learning rate. It is the best on restrictions and closer elsewhere, but still drifts
+on a few everyday requests (<code class="nw">watch -n 2</code> -&gt; <code class="nw">free --seconds 2</code>, <code class="nw">rm -r</code> -&gt; <code class="nw">rmdir</code>):
+every fine-tune on this data has paid for restrictions with everyday answers. So 6d
+ships as an adapter used only where it is better (v0.8.0).</p>
+<h3 id="v070-restrictions-kept-vague-requests-asked-back-stricter-execution-checks"><a class="anchor" href="#v070-restrictions-kept-vague-requests-asked-back-stricter-execution-checks" aria-label="Link to this section">#</a>v0.7.0: restrictions kept, vague requests asked back, stricter execution checks</h3>
+<p>Same model. Three rules, measured on two new sets and the strict execution checks:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>0.6.1</th>
+<th>0.7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>forbidden (40): request&#39;s ruled-out program used</td>
+<td>57.5%</td>
+<td><strong>32.5%</strong></td>
+</tr>
+<tr>
+<td>forbidden: right program and nothing ruled out</td>
+<td>37.5%</td>
+<td><strong>60.0%</strong></td>
+</tr>
+<tr>
+<td>ambiguous (24): passed (vague ones asked back, others in form)</td>
+<td>37.5%</td>
+<td><strong>70.8%</strong></td>
+</tr>
+<tr>
+<td>exec_tasks (46), strict / without the strict checks</td>
+<td>78.3% / 93.5%</td>
+<td><strong>84.8%</strong> / 95.7%</td>
+</tr>
+<tr>
+<td>exec_heldout (200), strict</td>
+<td>75.0%</td>
+<td>75.0%</td>
+</tr>
+<tr>
+<td>the 745 answers of the other sets</td>
+<td></td>
+<td>0 changed</td>
+</tr>
+</tbody></table></div>
+<p>(The program on the CPU for the first rows and the execution sets; the other sets on
+the GPU through the same core.) The ruled-out check flags none of about 30,000
+known-good generated and reference pairs, and asking back fires on none of the
+1,018 questions of the other sets or the 18,777 of the training data.</p>
+<p>What is left: the model still reaches for the tool it was told to avoid when it
+knows no other way (<code class="nw">tail</code> without tail, <code class="nw">find</code> without find, <code class="nw">uname</code> without
+uname: three tries, all the same). Asked a clear proxy question it knows the shell,
+Git, pip and SSH forms, not APT&#39;s <code class="nw">Acquire::http::Proxy</code>, the system-wide
+<code class="nw">/etc/environment</code>, Docker&#39;s daemon settings or <code class="nw">npm config set proxy</code>. Both need
+training data, not rules. The strict execution checks changed no heldout result
+(every failure there was already a wrong output); on exec_tasks they catch the
+ruled-out programs that print the right answer.</p>
+<h3 id="retries-told-what-was-wrong-tried-not-shipped"><a class="anchor" href="#retries-told-what-was-wrong-tried-not-shipped" aria-label="Link to this section">#</a>Retries told what was wrong (tried, not shipped)</h3>
+<p>A retry samples the same prompt again. The alternative tried: show the model its
+answer and the objection as a second turn (&quot;That command is not right: the request
+says &#39;.log&#39;; ...&quot;), greedy first, then sampled. Full GPU evaluation against 0.6.1:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>resample (0.6.1)</th>
+<th>told what was wrong</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>regressions passed</td>
+<td>7 of 7</td>
+<td>6 of 7 (<code class="nw">pip list</code> for installed packages)</td>
+</tr>
+<tr>
+<td>everyday program / clean</td>
+<td>98.6% / 100%</td>
+<td>97.1% / 95.7%</td>
+</tr>
+<tr>
+<td>tldr_heldout program / exact</td>
+<td>74.7% / 50.0%</td>
+<td>76.0% / 49.3%</td>
+</tr>
+<tr>
+<td>nl2bash_test clean</td>
+<td>98.0%</td>
+<td>96.7%</td>
+</tr>
+<tr>
+<td>multistep_heldout coverage</td>
+<td>90.9%</td>
+<td>91.4%</td>
+</tr>
+</tbody></table></div>
+<p>The model was trained on single-turn prompts; given a second turn it wrote
+placeholders (<code>systemctl status unit.service|timer|socket</code>) or dropped what the
+objection named, where a fresh sample of the first prompt usually found a clean
+command. Used only after both samples fail it would help little: 15 of about 1,100
+steps still have an objection then, and the feedback turn fixed 1 of them (<code class="nw">git rename-tag</code> -&gt; <code class="nw">git tag --delete</code> and <code class="nw">git tag</code>). Retries stay as they are.</p>
+<h3 id="v061-verbs-checked-against-the-manual"><a class="anchor" href="#v061-verbs-checked-against-the-manual" aria-label="Link to this section">#</a>v0.6.1: verbs checked against the manual</h3>
+<p><code class="nw">systemctl inspect</code> passed the validator in 0.6.0: options were checked, but not the
+command word after the program. For the programs that take a verb first (<code class="nw">systemctl</code>,
+<code class="nw">loginctl</code>, <code class="nw">hostnamectl</code>, <code class="nw">timedatectl</code>, <code class="nw">localectl</code>, <code class="nw">resolvectl</code>, <code class="nw">networkctl</code>,
+<code class="nw">busctl</code>) the index now keeps the verbs their man pages list under COMMANDS, plus the
+older names they still accept (<code class="nw">systemctl force-reload</code>, <code class="nw">hostnamectl set-hostname</code>),
+and any other word there is an objection: retried, and marked if it stays
+(<code>unverified: systemctl: inspect is not a documented command</code>). It flags none of the
+1,469 known-good commands that use these programs (tldr examples, evaluation
+references, training data), and of all the 0.6.0 evaluation and execution answers
+only that one; the rest are unchanged. Its retries did not find a better command
+there: the split had already asked to &quot;inspect&quot; a directory. An index built before
+0.6.1 has no verbs, and nothing is checked with it.</p>
+<h3 id="v060-the-runtime-in-rust-same-model-same-rules"><a class="anchor" href="#v060-the-runtime-in-rust-same-model-same-rules" aria-label="Link to this section">#</a>v0.6.0: the runtime in Rust (same model, same rules)</h3>
+<p>The whole runtime was ported to Rust, one module at a time against 0.5 as the
+reference; Python keeps training and evaluation and calls the same core.</p>
+<ul>
+<li><strong>The core</strong> (split, prompts, retrieval ranking, validator with an exact port of
+Python&#39;s <code class="nw">shlex</code>, task checks and repairs, explanations, safety): 1,273,962 calls
+over every evaluation question and training reference, 0 differences from 0.5. All
+346 Python tests pass on it. Evaluation through it on the GPU changed 0 of 745
+answers, and in Docker 233 of 233 execution-task commands are the same.</li>
+<li><strong>The models</strong> (llama.cpp through <code class="nw">llama-cpp-2</code>, set up and sampled the way
+llama-cpp-python 0.3.36 does): prompt tokens identical on all 622 prompts, encoder
+vectors within cosine 0.99988, and 310 of 311 answers byte-identical to 0.5 on the
+same CPU build. The release builds target AVX2 rather than the build machine&#39;s AVX-512,
+and 270 of 311 come out byte-identical; the rest differ the way two CPUs&#39; rounding
+does, so they are judged on the evaluation below.</li>
+</ul>
+<p>The program (<code class="nw">linu-x86_64-v3</code>, CPU, through <code class="nw">linu batch</code>) against 0.5 (GPU, measured
+again for this comparison):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>0.5</th>
+<th>0.6 program</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>regressions passed</td>
+<td>7 of 7</td>
+<td>7 of 7</td>
+</tr>
+<tr>
+<td>everyday / test_everyday program</td>
+<td>98.6% / 96.3%</td>
+<td>98.6% / 97.5%</td>
+</tr>
+<tr>
+<td>tldr_heldout program / exact</td>
+<td>74.7% / 50.0%</td>
+<td>74.0% / 50.0%</td>
+</tr>
+<tr>
+<td>nl2bash_test program / exact</td>
+<td>80.0% / 8.0%</td>
+<td>80.7% / 6.7%</td>
+</tr>
+<tr>
+<td>multistep (10) coverage</td>
+<td>100%</td>
+<td>97.5%</td>
+</tr>
+<tr>
+<td>multistep_heldout complete / coverage</td>
+<td>99.4% / 90.9%</td>
+<td>99.4% / 90.7%</td>
+</tr>
+<tr>
+<td>multistep3_heldout complete</td>
+<td>94.4%</td>
+<td>94.3%</td>
+</tr>
+<tr>
+<td>exec_tasks (33) / exec_heldout (200)</td>
+<td>93.9% / 75.5%</td>
+<td>93.9% / 75.0%</td>
+</tr>
+</tbody></table></div>
+<p>Two sets fall by more than a point, each by one or two answers whose numbers came
+out differently: the nl2bash exact matches lost are <code class="nw">alias m='...'</code> for <code class="nw">&quot;...&quot;</code> and
+<code class="nw">find / -user admin</code> without <code class="nw">-print</code>, and the multistep loss is the systemd request,
+where the answer now has an invented <code class="nw">systemctl inspect</code> (0.6.1 marks it) and
+<code class="nw">journalctl --follow</code> in a pipeline. The execution loss is <code class="nw">uniq -d</code> for <code class="nw">uniq -u</code>.</p>
+<ul>
+<li><strong>Install</strong>: one 9 MB program and the model files. Tested in fresh containers with
+no Python and no network: Debian 12 and Ubuntu 20.04 install and answer; CentOS 7
+(glibc 2.17) and Alpine (musl) are refused with a message. <code class="nw">linu-x86_64</code> answers on
+an emulated Nehalem CPU (SSE4.2, no AVX), where <code class="nw">linu-x86_64-v3</code> stops with an
+illegal instruction, as it should; <code class="nw">linu-aarch64</code> installs and answers under
+emulation.</li>
+<li><strong>Memory</strong>: in a 2 GB container (no swap) all 10 multistep requests, 5 single
+questions and 5 more through <code class="nw">--serve</code>, no OOM; capped at 1.5 GB, the same with a
+container peak of 1,430 MB, page cache included. The process itself peaks at
+1,280 MB (0.5: 1,347 MB).</li>
+<li><strong>Time</strong>: start-up is the model load either way (3.5 to 6 s cold); answers take what
+llama.cpp takes, the same as 0.5.</li>
+</ul>
+<h3 id="v050-rules-for-round-4s-real-losses-same-model"><a class="anchor" href="#v050-rules-for-round-4s-real-losses-same-model" aria-label="Link to this section">#</a>v0.5.0: rules for round 4&#39;s real losses (same model)</h3>
+<p>Two of round 4&#39;s losses had one right fix, so they are rules, not training: the
+package manager of this machine (<code class="nw">yum list installed</code> -&gt; <code class="nw">dpkg -l</code>, <code class="nw">yum search</code> -&gt;
+<code class="nw">apt search</code>, any other foreign manager a slip that is retried) and <code class="nw">sudo</code> for
+commands that always need root. Round 4 through the pipeline, before and after (GPU
+evaluation on WSL Ubuntu as a normal user; execution sets in Docker as root, where
+no <code class="nw">sudo</code> is added):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>before</th>
+<th>after</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>regressions passed</td>
+<td>6 of 7</td>
+<td><strong>7 of 7</strong></td>
+</tr>
+<tr>
+<td>everyday / test_everyday program</td>
+<td>97.1% / 95.0%</td>
+<td><strong>98.6%</strong> / 95.0%</td>
+</tr>
+<tr>
+<td>tldr_heldout program / exact</td>
+<td>74.0% / 50.7%</td>
+<td>74.7% / 50.0%</td>
+</tr>
+<tr>
+<td>nl2bash_test program / exact</td>
+<td>80.0% / 8.7%</td>
+<td>80.0% / 8.0%</td>
+</tr>
+<tr>
+<td>multistep coverage, multistep_heldout / multistep3 complete</td>
+<td>100%, 99.4% / 94.4%</td>
+<td>same</td>
+</tr>
+<tr>
+<td>exec_tasks (33) / exec_heldout (200)</td>
+<td>93.9% / 75.5%</td>
+<td>93.9% / 75.5% (no task changed)</td>
+</tr>
+</tbody></table></div>
+<p>The two exact-match losses are one case each, where the reference leaves out the
+<code class="nw">sudo</code> a normal user needs (<code class="nw">systemctl restart unit1 unit2</code>, <code class="nw">mount --bind</code>).
+Memory: 1,645 MB peak in a 2 GB container, 1,300 MB at 1.5 GB, no OOM; the server
+and its clients 1,319 MB.</p>
+<h3 id="round-5-a-second-rl-run-not-shipped"><a class="anchor" href="#round-5-a-second-rl-run-not-shipped" aria-label="Link to this section">#</a>Round 5 (a second RL run, not shipped)</h3>
+<p>Aimed at round 4&#39;s side effects. 1,200 more execution tasks on its weak spots
+(<code class="nw">exec2</code>: windows of minutes and hours, only directories or files, counts, <code class="nw">cat</code> versus
+<code class="nw">paste</code>; 1,118 proved, $0.10), and 3 of every 8 tasks per step taken from the
+supervised training set and scored against their reference (right program 0.6, exact
+form 0.4, less 0.2 when a needed <code class="nw">sudo</code> is dropped), with twice the KL weight (0.1),
+200 steps from round 4. The held-out checks barely moved (execution 74% -&gt; 76%,
+right program on held-out ordinary questions 87% -&gt; 88%), and the full evaluation
+of the best checkpoint (step 40) matches round 4 instead of repairing it:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>round 4</th>
+<th>round 5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>exec_heldout (200)</td>
+<td>75.5%</td>
+<td>76.0%</td>
+</tr>
+<tr>
+<td>exec_tasks (33)</td>
+<td>93.9%</td>
+<td>93.9%</td>
+</tr>
+<tr>
+<td>everyday / test_everyday program</td>
+<td>97.1% / 95.0%</td>
+<td>97.1% / 95.0%</td>
+</tr>
+<tr>
+<td>tldr_heldout program / exact</td>
+<td>74.0% / 50.7%</td>
+<td>72.0% / 50.7%</td>
+</tr>
+<tr>
+<td>nl2bash_test program</td>
+<td>80.0%</td>
+<td>80.7%</td>
+</tr>
+<tr>
+<td>multistep (10) coverage</td>
+<td>100%</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>regressions passed</td>
+<td>6 of 7</td>
+<td>6 of 7</td>
+</tr>
+</tbody></table></div>
+<p>Round 4 stays installed. Most ordinary questions already earned full reward, so
+they gave little signal, and the stronger KL held the model in place; recovering the
+flag style or the <code class="nw">yum</code> regression would need examples aimed at those, not a broader
+reward.</p>
+<h3 id="round-4-reinforcement-learning-the-installed-model-since-v040"><a class="anchor" href="#round-4-reinforcement-learning-the-installed-model-since-v040" aria-label="Link to this section">#</a>Round 4 (reinforcement learning; the installed model since v0.4.0)</h3>
+<p>Reinforcement learning on executed commands. <code class="nw">generate_data.py exec</code> wrote 3,600
+file and text tasks, each with a fixture, an expected output or check, and a
+reference command ($0.27); <code class="nw">prove_exec_tasks.py</code> kept the 3,353 whose reference passes
+and whose check fails <code class="nw">true</code> and an empty command; <code class="nw">prepare_rl.py</code> removed
+near-duplicates and anything close to a test question, froze 200 as
+<code class="nw">evalsets/exec_heldout.jsonl</code>, and kept 1,546 for training with the CLI&#39;s own prompts.
+<code class="nw">train_grpo.py</code> (GRPO, LoRA on round 3, laptop GPU, 300 steps x 8 tasks x 6 samples,
+about 1.7 h, 6.5 GB GPU, 4 GB RAM) rewards a reply 1 when its command does the job in
+the sandbox (<code class="nw">exec_server.py</code>: Docker, no network, <code class="nw">nobody</code>), less 0.3 for an
+unverified option or a dropped literal and 0.5 for unasked-for destruction, with a
+KL penalty towards round 3. Held-out greedy success, raw (no repairs, no retries),
+went 52% -&gt; 78%.</p>
+<p>Through the full pipeline (checks, retries, repairs), against round 3 measured again
+with the same code:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>round 3</th>
+<th>round 4, step 200</th>
+<th>round 4, step 300</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>exec_heldout (200), task done</td>
+<td>60.0%</td>
+<td>72.0%</td>
+<td><strong>75.5%</strong></td>
+</tr>
+<tr>
+<td>... of which the 100 never used to pick a checkpoint</td>
+<td>65</td>
+<td>71</td>
+<td><strong>75</strong></td>
+</tr>
+<tr>
+<td>exec_tasks (33), task done</td>
+<td>87.9%</td>
+<td><strong>100%</strong></td>
+<td>93.9%</td>
+</tr>
+<tr>
+<td>everyday (70) program</td>
+<td>94.3%</td>
+<td>95.7%</td>
+<td><strong>97.1%</strong></td>
+</tr>
+<tr>
+<td>test_everyday (80) program</td>
+<td><strong>96.2%</strong></td>
+<td><strong>96.2%</strong></td>
+<td>95.0%</td>
+</tr>
+<tr>
+<td>tldr_heldout (150) program / exact</td>
+<td><strong>74.0% / 54.0%</strong></td>
+<td>72.7% / 51.3%</td>
+<td>74.0% / 50.7%</td>
+</tr>
+<tr>
+<td>nl2bash_test (150) program / exact</td>
+<td><strong>81.3% / 12.7%</strong></td>
+<td>81.3% / 8.7%</td>
+<td>80.0% / 8.7%</td>
+</tr>
+<tr>
+<td>multistep (10) coverage / violations</td>
+<td>95% / 0</td>
+<td>95% / 1 of 10</td>
+<td><strong>100% / 0</strong></td>
+</tr>
+<tr>
+<td>multistep_heldout complete / coverage</td>
+<td>98.2% / 91.2%</td>
+<td>98.8% / 91.8%</td>
+<td><strong>99.4%</strong> / 90.9%</td>
+</tr>
+<tr>
+<td>multistep3_heldout complete</td>
+<td>94.5%</td>
+<td>94.4%</td>
+<td>94.4%</td>
+</tr>
+<tr>
+<td>regressions passed</td>
+<td>7 of 7</td>
+<td>7 of 7</td>
+<td>6 of 7</td>
+</tr>
+</tbody></table></div>
+<p>The rule set before training was: ship only if execution success rises by 3 points
+and no other set falls by more than 1. Both checkpoints fail it. Step 300 was shipped
+anyway, by the owner&#39;s decision: 15 more points of commands that do the job against
+losses that are mostly style. Round 3 stays installed beside it
+(<code class="nw">models/linu-round3-Q4_K_M.gguf</code>; point <code class="nw">model.gguf</code> at it to go back). Most of the
+exact-match loss is style: the reinforced model
+writes short flags (<code class="nw">tail -n 20</code>, <code class="nw">grep -i</code>, <code class="nw">cp -p</code>) where tldr&#39;s references spell
+them out (<code class="nw">--lines 20</code>). Some changes are real losses: <code class="nw">find . -mtime 0</code> for &quot;changed
+in the last hour&quot;, <code class="nw">find . -type d</code> for &quot;only the directories here&quot;, <code class="nw">sudo</code> dropped
+from <code class="nw">fsck</code> and <code class="nw">apt update</code>, <code class="nw">yum list installed</code> for installed packages (step 300),
+<code class="nw">chmod -R</code> on a single file (step 200). Some are real gains: <code class="nw">watch --interval 2</code>,
+<code class="nw">setfacl -m u:appuser:r--</code> as the smallest permission change, the biggest files
+rather than directories.</p>
+<h3 id="round-3"><a class="anchor" href="#round-3" aria-label="Link to this section">#</a>Round 3</h3>
+<p>Round 2 dropped literals: a third of its training scenarios described paths and
+counts in words while their commands used literal ones, so the model learned to
+leave <code class="nw">.log</code> or <code class="nw">/var/log/myapp</code> out and guess. Round 3 adds four generation jobs
+aimed at that: <code class="nw">scenarios3</code> (1,416 new multi-part requests where every literal
+appears in the steps), <code class="nw">retask</code> (1,012 round-2 scenarios rewritten the same way),
+<code class="nw">constraints</code> (1,727 single tasks built around a size, duration, count, port,
+extension or path) and <code class="nw">fix</code> (877 corrected answers to tasks the reviewer rejected).
+38,873 training examples, one epoch on a Colab T4 (2,430 steps, about 4 hours);
+validation loss fell the whole way, to 0.235 (on round 3&#39;s validation set, so not
+comparable with round 2&#39;s 0.290).</p>
+<p>The 873 corrected answers were also tried as DPO pairs (<code class="nw">scripts/train_dpo.py</code>, on
+the laptop GPU: 18 minutes, 5.2 GB peak). It worked on its own terms (the model
+preferred the corrected answer on 79% of held-back pairs, up from a tie) but cost
+tldr exact match 53% → 30% and multistep coverage 95% → 87.5%, so the shipped model
+is the supervised one without it.</p>
+<p>All three with checks and retries, retrieval on, GPU:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>round 2</th>
+<th><strong>round 3</strong></th>
+<th>round 3 + DPO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>everyday (70, dev) program</td>
+<td>94.3%</td>
+<td>92.9%</td>
+<td>92.9%</td>
+</tr>
+<tr>
+<td>test_everyday (80) program</td>
+<td>95.0%</td>
+<td><strong>96.2%</strong></td>
+<td>96.2%</td>
+</tr>
+<tr>
+<td>tldr_heldout (150) program / exact</td>
+<td>74.0% / 52.0%</td>
+<td><strong>74.0% / 53.3%</strong></td>
+<td>72.7% / 30.0%</td>
+</tr>
+<tr>
+<td>nl2bash_test (150) program / exact</td>
+<td>77.3% / 11.3%</td>
+<td><strong>81.3% / 12.7%</strong></td>
+<td>81.3% / 6.0%</td>
+</tr>
+<tr>
+<td>multistep (10) coverage</td>
+<td>95.0%</td>
+<td><strong>95.0%</strong></td>
+<td>87.5%</td>
+</tr>
+<tr>
+<td>multistep_heldout (205) complete / coverage</td>
+<td>92.4% / 89.6%</td>
+<td><strong>98.2% / 91.2%</strong></td>
+<td>98.2% / 91.1%</td>
+</tr>
+<tr>
+<td>multistep3_heldout (73) complete / coverage</td>
+<td>81.5% / 92.7%</td>
+<td><strong>94.5% / 94.3%</strong></td>
+<td>96.3% / 94.5%</td>
+</tr>
+<tr>
+<td>regressions passed</td>
+<td>6 of 7</td>
+<td>6 of 7</td>
+<td>6 of 7</td>
+</tr>
+</tbody></table></div>
+<p>&quot;Complete&quot; is the share of answers that keep every literal of the request (size,
+duration, extension, path, ...). <code class="nw">multistep3_heldout</code> was set aside from the
+round-3 scenarios before training. The everyday difference is one question.</p>
+<p>Read by hand, the 10 multistep requests come out about 5 right, 3 partly right and
+2 wrong (round 2: 3, 4, 3). The old-<code class="nw">.log</code>-files delete now keeps <code class="nw">-name '*.log'</code>
+on the first try. Still wrong: a <code class="nw">grep</code> on <code class="nw">/var/log</code> without <code class="nw">-r</code> and without the
+24-hour limit, and the CSV request (wrong columns). Through the CLI, offline on the
+CPU: peak memory 1.34 GB, 7-12 s per question.</p>
+<h4 id="slip-checks-and-repairs-and-the-first-execution-tests"><a class="anchor" href="#slip-checks-and-repairs-and-the-first-execution-tests" aria-label="Link to this section">#</a>Slip checks and repairs, and the first execution tests</h4>
+<p>The slip rules and repairs described under &quot;How it works&quot; were added after
+reading round 3&#39;s failures (same model, GPU):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>before</th>
+<th>after</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>everyday (70) program</td>
+<td>92.9%</td>
+<td>94.3%</td>
+</tr>
+<tr>
+<td>regressions passed</td>
+<td>6 of 7</td>
+<td><strong>7 of 7</strong></td>
+</tr>
+<tr>
+<td>every other set</td>
+<td></td>
+<td>unchanged on the main metrics</td>
+</tr>
+</tbody></table></div>
+<p>What changed, case by case: <code class="nw">grep -r</code> for the <code class="nw">/var/log</code> search, the 3 am schedule
+installed with <code class="nw">crontab</code> instead of printed as a crontab line, <code class="nw">apt list --upgradable</code> instead of <code class="nw">pip list --outdated</code>. Not all good: two <code class="nw">pip list</code>
+answers became <code class="nw">rpm --query --list --all</code>, which lists every package&#39;s files.
+The <code class="nw">$HOME</code> check adds a flag to four guessed paths and fixes none of them.</p>
+<p>Execution tests (<code class="nw">exec_eval.py</code>, 33 file and text tasks, each command run as
+<code class="nw">nobody</code> in a Docker container with no network; HOME is an empty directory, so a
+guessed <code class="nw">$HOME/data</code> for &quot;the data directory&quot; fails), same pipeline and rules:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>commands that did the job</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stock Qwen2.5-Coder-1.5B</td>
+<td>63.6% (21 of 33)</td>
+</tr>
+<tr>
+<td>round 2</td>
+<td>84.8% (28)</td>
+</tr>
+<tr>
+<td><strong>round 3</strong></td>
+<td><strong>87.9% (29)</strong></td>
+</tr>
+</tbody></table></div>
+<p>Round 3 still fails: two <code class="nw">$HOME/...</code> guesses (flagged, but no retry did better),
+<code class="nw">wc -l &lt; &lt;(find docs)</code> (counts the directory itself), and <code class="nw">paste</code> where <code class="nw">cat</code> was
+needed. Before the head/tail, <code class="nw">path/to/</code> and relative-<code class="nw">grep</code> repairs, round 3
+passed 27 of the same 33 under the looser harness.</p>
+<p>On a 2 GB machine: the CLI in a container capped at 2 GB of memory with no swap,
+CPU only, answered all 10 multistep requests and 5 single questions with no
+out-of-memory kill; the container&#39;s peak, page cache of the model included, was
+1,707 MB. Capped at 1.5 GB it still ran (peak 1,287 MB). 7-24 s per answer.</p>
+<h3 id="round-2"><a class="anchor" href="#round-2" aria-label="Link to this section">#</a>Round 2</h3>
+<p>Qwen2.5-Coder-1.5B with LoRA on 33,167 examples, trained on a Colab T4 (fp16,
+batch 16). Planned for two epochs; stopped at step 1,900 of 4,146 because the
+validation loss stopped improving once the second epoch began (0.290 at 1,900,
+0.292-0.297 up to 2,400 while training loss kept falling). Q4_K_M, 986 MB. All
+three models go through the same round-2 pipeline (split, retrieve, answer,
+validate), with retrieval on. &quot;Program&quot; is the share of answers using the right
+program; &quot;coverage&quot; the share of a request&#39;s parts handled with an accepted program.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>stock</th>
+<th>round 1</th>
+<th><strong>round 2</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>everyday (70, dev) program</td>
+<td>84.3%</td>
+<td>94.3%</td>
+<td><strong>95.7%</strong></td>
+</tr>
+<tr>
+<td>test_everyday (80, unseen) program</td>
+<td>91.2%</td>
+<td>92.5%</td>
+<td><strong>95.0%</strong></td>
+</tr>
+<tr>
+<td>tldr_heldout (150) program / exact</td>
+<td>68.7% / 26.0%</td>
+<td>68.7%</td>
+<td><strong>74.0% / 52.7%</strong></td>
+</tr>
+<tr>
+<td>nl2bash_test (150) program / exact</td>
+<td>71.3% / 2.7%</td>
+<td><strong>85.3%</strong></td>
+<td>76.7% / 11.3%</td>
+</tr>
+<tr>
+<td>multistep (the 10 hand-written requests) coverage</td>
+<td>80.8%</td>
+<td>62.5%</td>
+<td><strong>95.0%</strong></td>
+</tr>
+<tr>
+<td>multistep_heldout (205) coverage / step count off by</td>
+<td>70.9% / 0.65</td>
+<td>~55%*</td>
+<td><strong>89.6% / 0.05</strong></td>
+</tr>
+<tr>
+<td>regressions passed</td>
+<td>5 of 7</td>
+<td></td>
+<td><strong>6 of 7</strong></td>
+</tr>
+</tbody></table></div>
+<p>* round 1 was stopped after 49 of the 205; it cannot split, so most of its answers
+are one command. The no-retrieval runs have not been run; for the execution tests
+see round 3.</p>
+<p>Round 1 is better on NL2Bash: it was trained on 14,578 mostly-NL2Bash pairs, round 2
+on at most 4,000 of them (macOS forms removed) next to generated questions phrased
+the way people ask. Peak memory 1.2-1.5 GB; 4.3 s per question on the laptop CPU,
+0.7 s on its GPU, with the same answers to within a couple of cases.</p>
+<p>With the task checks, retries and the <code class="nw">head -n 1</code> repair (run <code class="nw">new-rag-checks</code>,
+same model, GPU):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>set</th>
+<th>valid without → with</th>
+<th>right program without → with</th>
+<th>steps retried</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>everyday</td>
+<td>98.6% → 100%</td>
+<td>95.7% → 94.3%</td>
+<td>1.4%</td>
+</tr>
+<tr>
+<td>test_everyday</td>
+<td>97.5% → 100%</td>
+<td>95.0% → 95.0%</td>
+<td>2.5%</td>
+</tr>
+<tr>
+<td>tldr_heldout</td>
+<td>93.7% → 95.7%</td>
+<td>74.0% → 74.0%</td>
+<td>7.0%</td>
+</tr>
+<tr>
+<td>nl2bash_test</td>
+<td>98.7% → 99.3%</td>
+<td>76.7% → 77.3%</td>
+<td>2.7%</td>
+</tr>
+<tr>
+<td>multistep_heldout</td>
+<td>99.6% → 100%</td>
+<td>coverage 89.6% → 89.6%</td>
+<td>0.6%</td>
+</tr>
+</tbody></table></div>
+<p>Retries swap invented options for documented ones (a <code class="nw">ps</code> report for a nonexistent
+<code class="nw">sysstat --processes</code>), which is what &quot;valid&quot; measures; whether the replacement does
+the job is another matter (<code class="nw">kill -0 PID</code> replaced an invalid <code class="nw">kill -TERM -p PID</code>, and
+signal 0 stops nothing). 7.6% of the held-out multi-step answers lose a literal of the
+request in every command and get a <code class="nw">note:</code>. Most of those come from the split: the
+training scenarios often name a path or count in words (&quot;the compressed nginx log&quot;),
+the model learned to do the same, and its steps then guess paths.</p>
+<p>Read by hand, the 10 multistep requests come out about 3 right, 4 partly right and
+3 wrong. Coverage counts the right programs, not right commands, so it reads higher
+than that. Mistakes seen: <code class="nw">ps ... | head -n 1</code> (shows only the header), a dropped
+<code class="nw">-name '*.log'</code> that widens a delete to every old file, a backup split into four
+separate <code class="nw">tar</code> runs, and an invented <code class="nw">systemd-env</code> that the validator flagged.</p>
+<h3 id="round-1"><a class="anchor" href="#round-1" aria-label="Link to this section">#</a>Round 1</h3>
+<p>Qwen2.5-Coder-1.5B, stock against fine-tuned (LoRA, one epoch, 14,578 examples),
+Q4_K_M, CPU, answering with a command plus a model-written sentence. &quot;Command&quot; is
+the share of answers using the right program; &quot;exact&quot; is the share matching the
+reference up to whitespace.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>everyday (70) command</th>
+<th>tldr held-out (150) command / exact</th>
+<th>NL2Bash held-out (100) command / exact</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stock, no retrieval</td>
+<td>95.7%</td>
+<td>44.7% / 1.3%</td>
+<td>57.0% / 9.0%</td>
+</tr>
+<tr>
+<td>stock + retrieval</td>
+<td>84.3%</td>
+<td>73.3% / 37.3%</td>
+<td>67.0% / 7.0%</td>
+</tr>
+<tr>
+<td>fine-tuned, no retrieval</td>
+<td>91.4%</td>
+<td>50.0% / 6.7%</td>
+<td>79.0% / 13.0%</td>
+</tr>
+<tr>
+<td><strong>fine-tuned + retrieval</strong></td>
+<td><strong>91.4%</strong></td>
+<td><strong>76.0% / 64.0%</strong></td>
+<td><strong>78.0% / 13.0%</strong></td>
+</tr>
+</tbody></table></div>
+<p>Peak memory for the whole pipeline was 1.4 GB (Q4_K_M).</p>
+<p>What round 1 got wrong, and what was changed because of it:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>failure</th>
+<th>cause</th>
+<th>change</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>macOS command for a Linux question (<code class="nw">top -l 1 -s 10</code>)</td>
+<td>NL2Bash contains macOS commands</td>
+<td>validator; NL2Bash filtered by it</td>
+</tr>
+<tr>
+<td>explanation repeated the question, or was wrong</td>
+<td>96% of NL2Bash training explanations were the question restated</td>
+<td>model writes no prose; explanations come from the documentation</td>
+</tr>
+<tr>
+<td>one command for a four-part request</td>
+<td>every training answer was a single line</td>
+<td>requests are split and answered step by step</td>
+</tr>
+<tr>
+<td>3 of 100 long prompts looped</td>
+<td>no repeat penalty or loop check</td>
+<td>both, with one retry</td>
+</tr>
+<tr>
+<td>numbers hard to trust</td>
+<td>dev set reported as a test; exact match as the main metric</td>
+<td>frozen test sets; separate metrics; execution tests</td>
+</tr>
+</tbody></table></div>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/development"><small>Previous</small><span class="title">Development</span></a>
+<a class="next" href="/lxask/contributing"><small>Next</small><span class="title">Contributing</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/results.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-3" href="#the-public-benchmark-nl2sh-alfa-300-tasks-the-shipped-model">The public benchmark: NL2SH-ALFA (300 tasks), the shipped model</a><a class="depth-3" href="#v080-a-restriction-adapter-for-the-requests-that-need-it">v0.8.0: a restriction adapter for the requests that need it</a><a class="depth-3" href="#v071-three-rule-fixes-same-model">v0.7.1: three rule fixes (same model)</a><a class="depth-3" href="#round-6-training-on-restrictions-and-proxy-contexts-shipped-as-the-08-adapter">Round 6: training on restrictions and proxy contexts (shipped as the 0.8 adapter)</a><a class="depth-3" href="#v070-restrictions-kept-vague-requests-asked-back-stricter-execution-checks">v0.7.0: restrictions kept, vague requests asked back, stricter execution checks</a><a class="depth-3" href="#retries-told-what-was-wrong-tried-not-shipped">Retries told what was wrong (tried, not shipped)</a><a class="depth-3" href="#v061-verbs-checked-against-the-manual">v0.6.1: verbs checked against the manual</a><a class="depth-3" href="#v060-the-runtime-in-rust-same-model-same-rules">v0.6.0: the runtime in Rust (same model, same rules)</a><a class="depth-3" href="#v050-rules-for-round-4s-real-losses-same-model">v0.5.0: rules for round 4's real losses (same model)</a><a class="depth-3" href="#round-5-a-second-rl-run-not-shipped">Round 5 (a second RL run, not shipped)</a><a class="depth-3" href="#round-4-reinforcement-learning-the-installed-model-since-v040">Round 4 (reinforcement learning; the installed model since v0.4.0)</a><a class="depth-3" href="#round-3">Round 3</a><a class="depth-3" href="#round-2">Round 2</a><a class="depth-3" href="#round-1">Round 1</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

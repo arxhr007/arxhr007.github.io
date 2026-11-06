@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/Aaron.webp" />
+  <link rel="preload" as="image" href="/Aaron.webp" />
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var s = localStorage.getItem("theme");
+        var t = s || "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <title>Blog — Aaron Thomas</title>
+    <meta name="description" content="Security research, malware analysis, and reverse engineering write-ups by Aaron Thomas." />
+    <link rel="canonical" href="https://arxhr007.github.io/blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog — Aaron Thomas" />
+    <meta property="og:description" content="Security research, malware analysis, and reverse engineering write-ups by Aaron Thomas." />
+    <meta property="og:url" content="https://arxhr007.github.io/blog" />
+    <meta property="og:image" content="https://arxhr007.github.io/og-image.png" />
+    <meta property="og:site_name" content="Aaron Thomas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Blog — Aaron Thomas" />
+    <meta name="twitter:description" content="Security research, malware analysis, and reverse engineering write-ups by Aaron Thomas." />
+    <meta name="twitter:image" content="https://arxhr007.github.io/og-image.png" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Aaron Thomas","jobTitle":"Backend Engineer | Full-Stack Developer","email":"mailto:aaron123thomas098@gmail.com","url":"https://arxhr007.github.io","sameAs":["https://github.com/arxhr007","https://www.linkedin.com/in/aaron-thomas-parakkal","https://arxhr007.tech"]}</script>
+  <script type="module" crossorigin src="/assets/index-DDpEh1BO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-w5tfyKVj.css">
+</head>
+<body>
+  <div id="root"><nav class="top-nav"><div class="nav-left"><a href="/" class="brand">Aaron Thomas</a><button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"></path></svg></button></div><button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="nav-actions"><a href="/blog" class="nav-btn" aria-current="page">Blog</a><a class="nav-btn" href="/Aaron_Thomas.pdf" target="_blank" rel="noreferrer">Download Resume</a></div></nav><main class="container"><section class="card"><h2>Blog</h2><p class="about-text" style="margin-bottom:18px">Security research, malware analysis, and reverse engineering write-ups.</p><div class="tag-filter"><button class="tag tag-on" type="button">All</button><button class="tag" type="button">Android</button><button class="tag" type="button">Anti-Analysis</button><button class="tag" type="button">Assembly</button><button class="tag" type="button">Linux</button><button class="tag" type="button">Malware</button><button class="tag" type="button">Malware Analysis</button><button class="tag" type="button">Malware PoC</button><button class="tag" type="button">OSINT</button><button class="tag" type="button">Reverse Engineering</button><button class="tag" type="button">Rust</button><button class="tag" type="button">Sandbox</button><button class="tag" type="button">Windows</button></div><div class="blog-list"><a href="/blog/self-modifying-binary" class="blog-card reveal"><h3>How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC</h3><p class="post-meta">Oct 12, 2026<!-- --> · <!-- -->10<!-- --> min read</p><p class="job-meta" style="margin-bottom:10px">A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV.</p><div class="tag-list"><span class="tag">Assembly</span><span class="tag">Malware PoC</span><span class="tag">Reverse Engineering</span><span class="tag">Linux</span></div></a><a href="/blog/parivahan-scam" class="blog-card reveal"><h3>Android Malware Analysis: A Sophisticated SMS Stealer</h3><p class="post-meta">Jul 14, 2025<!-- --> · <!-- -->7<!-- --> min read</p><p class="job-meta" style="margin-bottom:10px">Reverse engineering a fake Parivahan APK spread over WhatsApp that exfiltrates victims&#x27; SMS messages.</p><div class="tag-list"><span class="tag">Android</span><span class="tag">Malware Analysis</span><span class="tag">Reverse Engineering</span></div></a><a href="/blog/rust-malware" class="blog-card reveal"><h3>Hacking Printers: Intercepting Print Jobs with Rust Malware</h3><p class="post-meta">Jun 2, 2025<!-- --> · <!-- -->10<!-- --> min read</p><p class="job-meta" style="margin-bottom:10px">How Windows printing works, where raw print data lives, and a Rust PoC that captures .SPL spool files.</p><div class="tag-list"><span class="tag">Rust</span><span class="tag">Windows</span><span class="tag">Malware PoC</span></div></a><a href="/blog/scam-app" class="blog-card reveal"><h3>Turning the Tables on a Scammer&#x27;s Banking Trojan</h3><p class="post-meta">Apr 20, 2025<!-- --> · <!-- -->9<!-- --> min read</p><p class="job-meta" style="margin-bottom:10px">Analyzing a fake bank APK, finding the developer&#x27;s exposed database, and flipping the attack.</p><div class="tag-list"><span class="tag">Android</span><span class="tag">Reverse Engineering</span><span class="tag">OSINT</span></div></a><a href="/blog/sandbox-evasion" class="blog-card reveal"><h3>Sandbox Evasion: How Malware Detects Analysis Environments</h3><p class="post-meta">Mar 8, 2025<!-- --> · <!-- -->14<!-- --> min read</p><p class="job-meta" style="margin-bottom:10px">A technical tour of the techniques malware uses to spot sandboxes and VMs, and the countermeasures analysts use.</p><div class="tag-list"><span class="tag">Malware</span><span class="tag">Sandbox</span><span class="tag">Anti-Analysis</span></div></a></div></section></main><footer class="footer"><p>Aaron Thomas<!-- --> — <span>2026</span></p><p><a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a> <!-- -->•<!-- --> <a href="/blog">Blog</a> •<!-- --> <a href="mailto:aaron123thomas098@gmail.com">Email</a></p></footer></div>
+</body>
+</html>

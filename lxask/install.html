@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install · lxask docs</title>
+<meta name="description" content="(wget https://github.com/arxhr007/lxask/releases/latest/download/install.sh works too.) To check the script before running it, against the release's checksums:">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/install">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Install · lxask docs">
+<meta property="og:description" content="(wget https://github.com/arxhr007/lxask/releases/latest/download/install.sh works too.) To check the script before running it, against the release's checksums:">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/install">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install" aria-current="page">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Getting started</div>
+      <div class="prose">
+<h1 id="install">Install</h1>
+<h2 id="requirements"><a class="anchor" href="#requirements" aria-label="Link to this section">#</a>Requirements</h2>
+<ul>
+<li>Linux on x86_64 or ARM64 (ARMv8-A: Raspberry Pi 4 and 5, ARM servers).</li>
+<li>glibc 2.28 or newer: Debian 10, Ubuntu 18.10, Fedora, RHEL 8, Arch, openSUSE and
+later. Alpine and other musl systems are not supported.</li>
+<li>About 1.1 GB of disk and 1.3 GB of free memory while answering.</li>
+<li>Nothing else: no Python, no compiler, no GPU. After installing, no network.</li>
+</ul>
+<h2 id="platforms"><a class="anchor" href="#platforms" aria-label="Link to this section">#</a>Platforms</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>platform</th>
+<th>build</th>
+<th>tested</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x86_64 with AVX2 (most PCs since 2015)</td>
+<td><code class="nw">lxask-x86_64-v3</code></td>
+<td>yes: Ubuntu 24.04 (WSL2) and Debian/Ubuntu containers, every release; CI on each push</td>
+</tr>
+<tr>
+<td>older x86_64 (SSE4.2)</td>
+<td><code class="nw">lxask-x86_64</code></td>
+<td>yes, the same way, less often</td>
+</tr>
+<tr>
+<td>ARM64 (Raspberry Pi 4/5, ARM servers)</td>
+<td><code class="nw">lxask-aarch64</code></td>
+<td>yes: installs and answers the same as x86_64; reports from real devices welcome</td>
+</tr>
+<tr>
+<td>other distributions (Fedora, Arch, openSUSE)</td>
+<td>same builds</td>
+<td>the program runs anywhere with glibc 2.28+; answers are tuned and measured on Debian/Ubuntu (<a href="/lxask/accuracy#platforms">Accuracy and limits</a>)</td>
+</tr>
+</tbody></table></div>
+<h2 id="install-or-upgrade"><a class="anchor" href="#install-or-upgrade" aria-label="Link to this section">#</a>Install or upgrade</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">curl -fsSLO https://github.com/arxhr007/lxask/releases/latest/download/install.sh
+sh install.sh</code></pre></div><p>(<code>wget https://github.com/arxhr007/lxask/releases/latest/download/install.sh</code> works
+too.) To check the script before running it, against the release&#39;s checksums:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">curl -fsSLO https://github.com/arxhr007/lxask/releases/latest/download/SHA256SUMS
+<span class="hljs-built_in">sha256sum</span> -c --ignore-missing SHA256SUMS      <span class="hljs-comment"># install.sh: OK</span></code></pre></div><p>The script:</p>
+<ol>
+<li>picks the build for your CPU: <code class="nw">lxask-x86_64-v3</code> (AVX2, nearly every x86 PC since
+2015), <code class="nw">lxask-x86_64</code> (older x86) or <code class="nw">lxask-aarch64</code>;</li>
+<li>downloads it with the model, its adapter, the encoder and the documentation
+index, using curl, wget or a logged-in <code class="nw">gh</code>;</li>
+<li>checks every file against <code class="nw">SHA256SUMS</code>;</li>
+<li>puts <code class="nw">lxask</code> in <code class="nw">~/.local/bin</code> and the rest in <code class="nw">~/.local/share/lxask</code>;</li>
+<li>asks whether to keep lxask loaded between questions, for answers in about 2 s
+instead of 7 (recommended, the default; without a terminal to ask in, yes);</li>
+<li>asks one question to prove it runs.</li>
+</ol>
+<p>It needs no root and writes nothing else: no system files, no shell startup files, no
+services. Upgrading from linu also moves <code class="nw">~/.local/share/linu</code> (below).</p>
+<p>If <code class="nw">~/.local/bin</code> is not on your <code class="nw">PATH</code>, it says how to add it.</p>
+<p>Running it again upgrades. The previous program is kept as
+<code>~/.local/share/lxask/lxask.previous</code> and the previous model as <code class="nw">model.gguf.previous</code>.</p>
+<p>Options: <code class="nw">--tag v1.0.0</code> installs a given release, <code class="nw">--serve</code> / <code class="nw">--no-serve</code> answer
+the question above, <code class="nw">--no-test</code> skips the test question, and <code class="nw">LXASK_HOME</code> or <code class="nw">LXASK_BIN</code> install somewhere else.</p>
+<h2 id="without-a-network"><a class="anchor" href="#without-a-network" aria-label="Link to this section">#</a>Without a network</h2>
+<p>On a machine with a network, download every file of a release from its GitHub page
+into one directory. Copy that directory to the other machine and run:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">sh install.sh --from DIR</code></pre></div><h2 id="check-it"><a class="anchor" href="#check-it" aria-label="Link to this section">#</a>Check it</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask --version
+lxask <span class="hljs-string">&quot;show disk usage of each folder here&quot;</span></code></pre></div><p>The first answer takes a few seconds while the model loads. To keep it loaded, see
+<a href="/lxask/usage#keep-the-model-loaded">the server</a>.</p>
+<h2 id="go-back-to-the-previous-version"><a class="anchor" href="#go-back-to-the-previous-version" aria-label="Link to this section">#</a>Go back to the previous version</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">mv</span> ~/.local/share/lxask/lxask.previous ~/.local/bin/lxask
+<span class="hljs-built_in">ln</span> -sfn <span class="hljs-string">&quot;<span class="hljs-subst">$(readlink -f ~/.local/share/lxask/model.gguf.previous)</span>&quot;</span> ~/.local/share/lxask/model.gguf</code></pre></div><p>Or run an older release&#39;s own installer, from its page on GitHub (<code class="nw">--tag</code> works only
+between releases from 0.9 on: before that the program was called linu and its files
+are named so).</p>
+<h2 id="upgrading-from-linu-08-and-earlier"><a class="anchor" href="#upgrading-from-linu-08-and-earlier" aria-label="Link to this section">#</a>Upgrading from linu (0.8 and earlier)</h2>
+<p>lxask was called linu up to version 0.8. Installing 0.9 or later over it moves
+<code class="nw">~/.local/share/linu</code> to <code class="nw">~/.local/share/lxask</code>, keeps one copy of the model (the
+same model, under its new name), and leaves <code class="nw">linu</code> working as a link to <code class="nw">lxask</code>. The
+old <code class="nw">LINU_*</code> environment variables are still read; the <code class="nw">LXASK_*</code> names come first.</p>
+<h2 id="uninstall"><a class="anchor" href="#uninstall" aria-label="Link to this section">#</a>Uninstall</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask --stop                      <span class="hljs-comment"># if a server is running</span>
+<span class="hljs-built_in">rm</span> ~/.local/bin/lxask
+<span class="hljs-built_in">rm</span> -r ~/.local/share/lxask        <span class="hljs-comment"># the model, the index, your feedback reports</span></code></pre></div><h2 id="problems"><a class="anchor" href="#problems" aria-label="Link to this section">#</a>Problems</h2>
+<ul>
+<li><strong>&quot;this CPU lacks SSE4.2&quot;</strong> or <strong>&quot;glibc ... is too old&quot;</strong>: the machine is older
+than lxask supports.</li>
+<li><strong>&quot;this system uses musl libc&quot;</strong>: Alpine. Use a Debian or Ubuntu container instead.</li>
+<li><strong>&quot;checksum mismatch&quot;</strong>: the download was damaged. Run the installer again.</li>
+<li><strong>Slow answers</strong>: about 7 seconds on a recent laptop is normal. <code class="nw">lxask --serve</code>
+brings it to about 2. On a small ARM board, expect several times that.</li>
+<li><strong>Out of memory</strong>: lxask needs about 1.3 GB free. Close other programs, or stop a
+<code class="nw">lxask --serve</code> you no longer need with <code class="nw">lxask --stop</code>.</li>
+</ul>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/"><small>Previous</small><span class="title">Overview</span></a>
+<a class="next" href="/lxask/usage"><small>Next</small><span class="title">Usage</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/install.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#requirements">Requirements</a><a class="depth-2" href="#platforms">Platforms</a><a class="depth-2" href="#install-or-upgrade">Install or upgrade</a><a class="depth-2" href="#without-a-network">Without a network</a><a class="depth-2" href="#check-it">Check it</a><a class="depth-2" href="#go-back-to-the-previous-version">Go back to the previous version</a><a class="depth-2" href="#upgrading-from-linu-08-and-earlier">Upgrading from linu (0.8 and earlier)</a><a class="depth-2" href="#uninstall">Uninstall</a><a class="depth-2" href="#problems">Problems</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

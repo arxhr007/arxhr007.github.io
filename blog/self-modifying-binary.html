@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/Aaron.webp" />
+  <link rel="preload" as="image" href="/Aaron.webp" />
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var s = localStorage.getItem("theme");
+        var t = s || "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <title>How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC — Aaron Thomas</title>
+    <meta name="description" content="A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV." />
+    <link rel="canonical" href="https://arxhr007.github.io/blog/self-modifying-binary" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC — Aaron Thomas" />
+    <meta property="og:description" content="A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV." />
+    <meta property="og:url" content="https://arxhr007.github.io/blog/self-modifying-binary" />
+    <meta property="og:image" content="https://arxhr007.github.io/og-image.png" />
+    <meta property="og:site_name" content="Aaron Thomas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC — Aaron Thomas" />
+    <meta name="twitter:description" content="A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV." />
+    <meta name="twitter:image" content="https://arxhr007.github.io/og-image.png" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC","description":"A deep dive into a FASM x86-64 program that re-encrypts its own payload with a new random key on every run — and why that defeats signature-based AV.","datePublished":"2026-10-12","keywords":"Assembly, Malware PoC, Reverse Engineering, Linux","author":{"@type":"Person","name":"Aaron Thomas","url":"https://arxhr007.github.io"},"mainEntityOfPage":"https://arxhr007.github.io/blog/self-modifying-binary"}</script>
+  <script type="module" crossorigin src="/assets/index-DDpEh1BO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-w5tfyKVj.css">
+</head>
+<body>
+  <div id="root"><nav class="top-nav"><div class="nav-left"><a href="/" class="brand">Aaron Thomas</a><button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"></path></svg></button></div><button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="nav-actions"><a href="/blog" class="nav-btn" aria-current="page">Blog</a><a class="nav-btn" href="/Aaron_Thomas.pdf" target="_blank" rel="noreferrer">Download Resume</a></div></nav><main class="container"><article class="card post"><a href="/blog" class="back-link">← All posts</a><header class="post-header"><h1>How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC</h1><p class="post-meta">Oct 12, 2026<!-- --> · <!-- -->10<!-- --> min read</p><div class="tag-list"><span class="tag">Assembly</span><span class="tag">Malware PoC</span><span class="tag">Reverse Engineering</span><span class="tag">Linux</span></div></header><div class="post-body"><nav class="toc" aria-label="Table of contents"><button class="toc-toggle" type="button" aria-expanded="false">On this page</button><ul><li class=""><a href="#binary-layout-marker-delimited-regions" class="">Binary Layout: Marker-Delimited Regions</a></li><li class=""><a href="#the-xor-cipher" class="">The XOR Cipher</a></li><li class=""><a href="#execution-flow-run-decrypt-mutate-persist" class="">Execution Flow: Run → Decrypt → Mutate → Persist</a></li><li class=""><a href="#the-write-then-replace-pattern" class="">The Write-Then-Replace Pattern</a></li><li class=""><a href="#what-this-looks-like-to-behavior-based-detection" class="">What This Looks Like to Behavior-Based Detection</a></li><li class=""><a href="#proof-running-it" class="">Proof: Running It</a></li><li class="toc-sub"><a href="#hex-dump-on-disk-mutation" class="">Hex dump: on-disk mutation</a></li><li class=""><a href="#conclusion" class="">Conclusion</a></li></ul></nav><div class="prose"><h1 id="how-polymorphic-binaries-work-dissecting-a-self-modifying-fasm-poc">How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC</h1>
+<blockquote>
+<p><strong>Educational PoC only.</strong> All techniques shown come from publicly available malware research. The payload is a harmless string. Source: <a href="https://github.com/arxhr007/self-modifying-binary-PoC" target="_blank" rel="noreferrer">arxhr007/self-modifying-binary-PoC</a>.</p>
+</blockquote>
+<p>Signature-based antivirus works by matching known byte patterns against files on disk. Feed it a binary it has never seen before and it has nothing to match. Polymorphic malware exploits this: it mutates its own bytes on every execution so no two copies share the same signature.</p>
+<p>This post dissects a minimal PoC written in FASM (Flat Assembler) for x86-64 Linux that demonstrates exactly how this works. By the end you&#39;ll understand the marker-scanning self-locate trick, the rotating XOR cipher, the write-then-replace technique, and — crucially — why none of this defeats a behavioral detection engine.</p>
+<hr>
+<h2 id="binary-layout-marker-delimited-regions">Binary Layout: Marker-Delimited Regions</h2>
+<p>The first problem any self-modifying binary faces: how does it find its own data inside the file? You can&#39;t use fixed offsets; the assembler and linker shift things around. ELF section headers are an option, but parsing them is complex. This PoC uses a simpler trick: ASCII sentinel markers embedded directly in the data segment.</p>
+<p>Three regions are defined, each preceded by a unique ASCII tag:</p>
+<pre><code class="language-asm">; Key marker and key storage
+marker_begin_key: db &quot;KEYBEGIN/9a7c4f2e:&quot;
+key: dd 0x12345678               ; 32-bit XOR key (initial value)
+
+; Payload metadata
+marker_begin_metadata: db &quot;METAMETA/4d7a2c5b:&quot;
+payload_stored_length: dd 10     ; payload byte count
+payload_checksum: dd 0x00000000  ; XOR fold of plaintext
+
+; Encrypted payload
+marker_begin_payload: db &quot;PAYLOAD/5b2e1c9d:&quot;
+; &quot;HELLOWORLD&quot; XOR 0x12345678 (little-endian key bytes: 0x78, 0x56, 0x34, 0x12)
+; H=0x48^0x78=0x30  E=0x45^0x56=0x13  L=0x4C^0x34=0x78  L=0x4C^0x12=0x5E
+; O=0x4F^0x78=0x37  W=0x57^0x56=0x01  O=0x4F^0x34=0x7B  R=0x52^0x12=0x40
+; L=0x4C^0x78=0x34  D=0x44^0x56=0x12  (null terminator not part of payload)
+payload: db 0x30, 0x13, 0x78, 0x5E, 0x37, 0x01, 0x7B, 0x40, 0x34, 0x12, 0x00
+payload_max_len = 31  ; 0x00 is a C-string terminator; payload_stored_length=10 excludes it
+</code></pre>
+<p>At runtime, when the binary wants to rewrite itself, it reads its own file into a fixed 64 KB static buffer (<code>file_buffer: rb 65536</code>) and linearly scans for those byte sequences. The moment it finds <code>KEYBEGIN/9a7c4f2e:</code>, the next 4 bytes are the key. Find <code>PAYLOAD/5b2e1c9d:</code> and the next <code>payload_stored_length</code> bytes are the ciphertext to patch. No ELF header parsing required.</p>
+<p>The fixed buffer is also a hard limit: the read routine checks the file size against 65536 and bails out if the binary is larger, so this design only works for small single-file binaries. A production tool would size the buffer dynamically or reject oversized input explicitly rather than relying on a compile-time constant.</p>
+<p>The marker strings include random-looking hex suffixes (<code>9a7c4f2e</code>, <code>5b2e1c9d</code>) to avoid false positives if the payload ever happens to contain the word <code>PAYLOAD</code>.</p>
+<hr>
+<h2 id="the-xor-cipher">The XOR Cipher</h2>
+<p>Encryption here is a 4-byte rotating XOR. The 32-bit key is split into its four constituent bytes in little-endian order, then applied cyclically:</p>
+<pre><code>Key 0x12345678 → bytes [0x78, 0x56, 0x34, 0x12]
+
+position 0:  byte ^= 0x78
+position 1:  byte ^= 0x56
+position 2:  byte ^= 0x34
+position 3:  byte ^= 0x12
+position 4:  byte ^= 0x78   ← wraps
+...
+</code></pre>
+<p>The assembly that implements it:</p>
+<pre><code class="language-asm">; xor_payload: rsi=src, rdi=dst, ecx=length, eax=key
+xor_payload:
+    ; Key arrives in eax; copy to ebx so al is free for byte loads
+    mov ebx, eax
+    ; Unpack key into four byte registers
+    mov r8b, bl          ; key[0] = byte 0 (low)
+    shr ebx, 8
+    mov r9b, bl          ; key[1]
+    shr ebx, 8
+    mov dl,  bl          ; key[2]
+    shr ebx, 8
+                         ; key[3] now in bl
+
+    xor r10, r10         ; position counter
+.xor_loop:
+    test ecx, ecx
+    jz .xor_done
+    mov al, [rsi]        ; load source byte
+    mov r11, r10
+    and r11, 3           ; r11 = position % 4
+    cmp r11, 0
+    je .use_key0
+    cmp r11, 1
+    je .use_key1
+    cmp r11, 2
+    je .use_key2
+    xor al, bl           ; key[3]
+    jmp .store_result
+.use_key0:
+    xor al, r8b
+    jmp .store_result
+.use_key1:
+    xor al, r9b
+    jmp .store_result
+.use_key2:
+    xor al, dl
+.store_result:
+    mov [rdi], al
+    inc rsi
+    inc rdi
+    inc r10
+    dec ecx
+    jmp .xor_loop
+</code></pre>
+<p><strong>Why this can invalidate naive byte-pattern signatures:</strong> the encrypted bytes change with every new key. A signature that depends on the exact ciphertext bytes will fail to match after one run. The binary&#39;s code segment is unchanged, so scanners that use structural features, heuristics, or entropy analysis are unaffected by this technique.</p>
+<p><strong>Why this is trivially breakable:</strong> XOR with a known plaintext is trivially reversible. If an analyst knows (or guesses) any portion of the plaintext, they recover the key in one XOR. Sophisticated polymorphic malware layers this with compression, multiple cipher rounds, and metamorphic code restructuring. This PoC is the minimal baseline.</p>
+<hr>
+<h2 id="execution-flow-run-decrypt-mutate-persist">Execution Flow: Run → Decrypt → Mutate → Persist</h2>
+<p>Here is what happens on each execution, step by step:</p>
+<p><strong>1. Locate self.</strong> The binary reads <code>argv[0]</code> to get its own path. This is the file it will overwrite.</p>
+<p><strong>2. Validate.</strong> It checks that the stored <code>payload_stored_length</code> is sane and that the XOR-fold checksum of the decrypted payload matches <code>payload_checksum</code>. If either fails, it halts.</p>
+<p><strong>3. Decrypt and print.</strong> It calls <code>xor_payload</code> to decrypt the current ciphertext into a stack buffer, then writes it to stdout.</p>
+<p><strong>4. Generate a new key.</strong> This is the mutation step. A fresh 32-bit key is requested from the kernel:</p>
+<pre><code class="language-asm">generate_new_key:
+    mov rax, 318        ; sys_getrandom
+    mov rdi, new_key    ; destination buffer
+    mov rsi, 4          ; 4 bytes
+    mov rdx, 0          ; flags (blocking)
+    syscall
+    cmp rax, 4
+    je .done
+    ; fallback: /dev/urandom via open/read/close
+</code></pre>
+<p><code>sys_getrandom</code> (syscall 318 on x86-64 Linux) pulls bytes directly from the kernel CSPRNG. The fallback opens <code>/dev/urandom</code> manually with raw syscalls — no libc, no dynamic linking.</p>
+<p><strong>5. Re-encrypt.</strong> The decrypted plaintext is XOR&#39;d with the new key, producing a new ciphertext.</p>
+<p><strong>6. Patch the in-memory binary image.</strong> The entire binary is read into the 64 KB static buffer. Three marker scans locate the key field, metadata block, and payload region. All three are overwritten in the buffer with their new values.</p>
+<p><strong>7. Write and replace self.</strong> The patched buffer is written to <code>argv[0].tmp</code>, then:</p>
+<pre><code class="language-asm">replace_original_with_temp:
+    mov rax, 87             ; sys_unlink — delete original
+    mov rdi, [orig_filename]
+    syscall
+
+    mov rax, 82             ; sys_rename — temp becomes original
+    mov rdi, temp_filename
+    mov rsi, [orig_filename]
+    syscall
+</code></pre>
+<hr>
+<h2 id="the-write-then-replace-pattern">The Write-Then-Replace Pattern</h2>
+<p>Writing directly to the binary while it&#39;s executing is risky: an interruption mid-write can corrupt the file. The safer pattern writes a complete replacement first, then swaps the filename.</p>
+<p>This PoC uses an <code>unlink</code> → <code>rename</code> sequence:</p>
+<ol>
+<li>Write the full patched image to <code>argv[0].tmp</code>.</li>
+<li><code>sys_unlink</code> the original — the pathname disappears.</li>
+<li><code>sys_rename</code> the temp file to the original name.</li>
+</ol>
+<p><strong>The gap.</strong> This is not atomic. Between <code>sys_unlink</code> completing and <code>sys_rename</code> completing, the original pathname does not exist. If the process is killed or the rename fails in that window, the executable is gone. A truly atomic replacement on Linux passes the destination path directly to <code>rename()</code> without unlinking first — <code>rename()</code> can replace an existing destination atomically when both paths are on the same filesystem. This PoC&#39;s unlink-first approach sacrifices that guarantee, but works in practice for a single-threaded self-rewriter with no concurrent writers on the file.</p>
+<p><strong>Forensic consequence.</strong> When <code>sys_rename</code> completes, the on-disk binary references a new inode with the updated bytes. The process that just ran, however, was mapped from the old inode. Linux keeps open file descriptors and memory mappings alive until all references drop, so the running process&#39;s pages still reflect the pre-mutation image. An incident responder who hashes the binary on disk after execution and compares it to a memory dump of the process would see divergence — the on-disk and in-memory images are different files. The exact comparison requires identifying the correct mapped region in <code>/proc/&lt;pid&gt;/maps</code> and <code>/proc/&lt;pid&gt;/mem</code>, not a simple xxd diff, but the divergence is real and repeatable.</p>
+<hr>
+<h2 id="what-this-looks-like-to-behavior-based-detection">What This Looks Like to Behavior-Based Detection</h2>
+<p>Signature scanners match bytes. Behavioral engines watch what programs <em>do</em>. This PoC&#39;s syscall sequence is distinctive regardless of what the bytes look like:</p>
+<pre><code>open(argv[0], O_RDONLY)         ← process opens its own binary
+lseek(fd, 0, SEEK_END)          ← sizes itself
+read(fd, buf, size)             ← reads itself into memory
+close(fd)
+getrandom(new_key, 4, 0)        ← requests kernel entropy
+open(&quot;argv[0].tmp&quot;, O_WRONLY|O_CREAT, 0755)
+write(fd_tmp, patched_buf, size) ← writes modified image
+close(fd_tmp)
+unlink(argv[0])                 ← deletes itself
+rename(&quot;argv[0].tmp&quot;, argv[0])  ← replaces itself
+</code></pre>
+<p>A process opening its own executable path, reading it, modifying the bytes, and then replacing the file via rename is a strong behavioral IOC (indicator of compromise). EDR products and sandboxes that trace syscall sequences or monitor filesystem events can flag this pattern independent of any byte signature.</p>
+<p>Polymorphism that mutates only the encrypted data region — as this PoC does — leaves the code segment completely unchanged, so any signature anchored to stable code bytes still matches. Modern malware pairs byte mutation with additional techniques like metamorphism (restructuring the code itself), process hollowing, signed binary abuse, or living-off-the-land tactics. This PoC demonstrates the baseline that those techniques build on.</p>
+<hr>
+<h2 id="proof-running-it">Proof: Running It</h2>
+<p>Compiled with FASM 1.73.32 on Ubuntu 24.04 (WSL2, x86-64). Three consecutive runs:</p>
+<pre><code class="language-bash">$ ./selfrewrite
+Current key: 305419896
+Payload length validation: PASS
+Encrypted payload (hex): 3013785E37017B403412
+Payload checksum verification: PASS
+Decrypted payload: HELLOWORLD
+New key: 2508764718
+Re-encrypted payload (hex): 66F3C4D961E1C7C762F2
+Binary updated with new key and payload re-encrypted
+
+$ ./selfrewrite
+Current key: 2508764718
+Payload length validation: PASS
+Encrypted payload (hex): 66F3C4D961E1C7C762F2
+Payload checksum verification: PASS
+Decrypted payload: HELLOWORLD
+New key: 2111318775
+Re-encrypted payload (hex): BF6F9431B87D972FBB6E
+Binary updated with new key and payload re-encrypted
+
+$ ./selfrewrite
+Current key: 2111318775
+Payload length validation: PASS
+Encrypted payload (hex): BF6F9431B87D972FBB6E
+Payload checksum verification: PASS
+Decrypted payload: HELLOWORLD
+New key: 3642765678
+Re-encrypted payload (hex): 26746C9521666F8B2275
+Binary updated with new key and payload re-encrypted
+</code></pre>
+<p>Each run: key mutates, ciphertext changes, plaintext stays <code>HELLOWORLD</code>. A signature anchored to the payload ciphertext bytes would fail to match after the first run. The code segment — everything outside the three marker regions — is byte-for-byte identical across all runs.</p>
+<h3 id="hex-dump-on-disk-mutation">Hex dump: on-disk mutation</h3>
+<p><code>xxd</code> of the binary before and after a single run, showing only the changed lines:</p>
+<pre><code class="language-text">13c13
+&lt; 000000c0: 653a 7856 3412 4d45 5441 4d45 5441 2f34  e:xV4.METAMETA/4
+---
+&gt; 000000c0: 653a 7e32 5317 4d45 5441 4d45 5441 2f34  e:~2S.METAMETA/4
+16c16
+&lt; 000000f0: 3a30 1378 5e37 017b 4034 1200 2f70 726f  :0.x^7.{@4../pro
+---
+&gt; 000000f0: 3a36 771f 5b31 651c 4532 7600 2f70 726f  :6w.[1e.E2v./pro
+</code></pre>
+<p>Line <code>0x0c0</code> is the key field (immediately after <code>KEYBEGIN/9a7c4f2e:</code>). Line <code>0x0f0</code> is the encrypted payload (immediately after <code>PAYLOAD/5b2e1c9d:</code>). Those are the only two regions that change — everything else, including the code itself, is identical.</p>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>Self-modifying code is not new. The concept predates modern AV by decades. But it remains relevant as a foundation: polymorphic malware families — which change their encrypted representation each generation — and metamorphic families — which restructure their code itself — both rely on the same core primitives this PoC exposes: locate your own data, mutate it, replace the file on disk.</p>
+<p>What this PoC makes concrete:</p>
+<ul>
+<li><strong>Marker-based self-location</strong> is simpler than ELF section parsing for small, single-file binaries. Robustness requires validating bounds after every marker find.</li>
+<li><strong>Rotating XOR can invalidate a naive ciphertext-anchored signature</strong> and is insufficient to withstand any real cryptanalysis.</li>
+<li><strong>Unlink-then-rename</strong> avoids partial-write corruption but is not atomic — there is a brief window where the original pathname does not exist. It creates a forensically interesting inode-vs-pathname divergence after completion.</li>
+<li><strong>Behavioral monitoring can detect this pattern</strong> regardless of what the bytes look like, because the syscall sequence of a process that reads and replaces its own binary is distinctive.</li>
+</ul>
+<p>Source: <a href="https://github.com/arxhr007/self-modifying-binary-PoC" target="_blank" rel="noreferrer">github.com/arxhr007/self-modifying-binary-PoC</a></p>
+</div></div><nav class="post-nav"><a href="/blog/parivahan-scam" class="post-nav-link"><span>← Older</span><strong>Android Malware Analysis: A Sophisticated SMS Stealer</strong></a><span></span></nav></article></main><footer class="footer"><p>Aaron Thomas<!-- --> — <span>2026</span></p><p><a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a> <!-- -->•<!-- --> <a href="/blog">Blog</a> •<!-- --> <a href="mailto:aaron123thomas098@gmail.com">Email</a></p></footer></div>
+</body>
+</html>

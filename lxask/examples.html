@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examples · lxask docs</title>
+<meta name="description" content="Real answers from lxask 0.9 (the round-4 model with its adapter), one run, not edited. Most requests below got a right answer; the ones that did not are at the end, with what was w">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/examples">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Examples · lxask docs">
+<meta property="og:description" content="Real answers from lxask 0.9 (the round-4 model with its adapter), one run, not edited. Most requests below got a right answer; the ones that did not are at the end, with what was w">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/examples">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples" aria-current="page">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Getting started</div>
+      <div class="prose">
+<h1 id="examples">Examples</h1>
+<p>Real answers from lxask 0.9 (the round-4 model with its adapter), one run, not edited.
+Most requests below got a right answer; the ones that did not are at the end, with
+what was wrong. How often each kind of answer is right: <a href="/lxask/accuracy">Accuracy and limits</a>.
+The explanations under each command are left out here (<code class="nw">--no-explain</code>); a plain
+<code class="nw">lxask &quot;...&quot;</code> prints them.</p>
+<h2 id="files"><a class="anchor" href="#files" aria-label="Link to this section">#</a>Files</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;find files bigger than 1GB in my home folder&quot;
+$ find ~/ -type f -size +1G
+
+$ lxask &quot;show disk usage of each folder here, biggest first&quot;
+$ du -h --max-depth=1 . | sort -hr
+
+$ lxask &quot;delete all .tmp files in this folder&quot;
+$ find . -name '*.tmp' -exec rm {} \;
+  warning: deletes every file the find expression matches
+
+$ lxask &quot;make a tar.gz of the logs folder&quot;
+$ tar -czf logs.tar.gz logs/
+
+$ lxask &quot;extract archive.tar.gz into /tmp/out&quot;
+$ tar -xzf archive.tar.gz -C /tmp/out
+
+$ lxask &quot;copy everything from src to backup, keeping permissions and timestamps&quot;
+$ rsync -a src/ backup/</code></pre></div><h2 id="text"><a class="anchor" href="#text" aria-label="Link to this section">#</a>Text</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;count the lines in data.txt&quot;
+$ wc -l data.txt
+
+$ lxask &quot;show the lines containing ERROR in app.log, with line numbers&quot;
+$ grep -n 'ERROR' app.log</code></pre></div><h2 id="processes"><a class="anchor" href="#processes" aria-label="Link to this section">#</a>Processes</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;show the 10 processes using the most memory&quot;
+$ ps -eo pid,comm,%mem --sort=-%mem | head -n 10
+
+$ lxask &quot;which process is listening on port 8080&quot;
+$ lsof -i :8080
+
+$ lxask &quot;kill all processes named node&quot;
+$ kill $(pidof node)</code></pre></div><h2 id="system"><a class="anchor" href="#system" aria-label="Link to this section">#</a>System</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;show free disk space in human-readable form&quot;
+$ df -h
+
+$ lxask &quot;how long has this machine been running&quot;
+$ uptime --pretty
+
+$ lxask &quot;which Linux distribution and version is this&quot;
+$ lsb_release -a
+
+$ lxask &quot;search for a package named ripgrep&quot;
+$ apt list ripgrep</code></pre></div><h2 id="services-network-git"><a class="anchor" href="#services-network-git" aria-label="Link to this section">#</a>Services, network, git</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;restart the ssh service and check that it is running&quot;
+1. Restart the ssh service
+   $ sudo systemctl restart ssh.service
+
+2. Check that the ssh service is running
+   $ systemctl is-active ssh.service
+
+$ lxask &quot;download https://example.com/file.zip&quot;
+$ curl -L -o file.zip https://example.com/file.zip
+
+$ lxask &quot;check if port 443 is open on example.com&quot;
+$ nc -zv example.com 443
+
+$ lxask &quot;undo the last commit but keep the changes&quot;
+$ git reset HEAD~</code></pre></div><h2 id="ruling-a-program-out"><a class="anchor" href="#ruling-a-program-out" aria-label="Link to this section">#</a>Ruling a program out</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;count the words in essay.txt without wc&quot;
+$ awk '{n+=NF} END {print n+0}' essay.txt
+
+$ lxask &quot;which process uses port 3000, without lsof or netstat&quot;
+$ ss -ltnp 'sport = :3000'</code></pre></div><h2 id="several-steps"><a class="anchor" href="#several-steps" aria-label="Link to this section">#</a>Several steps</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;find the busiest process, see what files it has open, and stop it gracefully&quot;
+1. Find the process with the highest reported CPU usage
+   $ ps -eo pid,comm,%cpu --sort=-%cpu | head -n 2
+
+2. List the files open by the selected process
+   $ lsof -p PID
+
+3. Send SIGTERM to the selected process
+   $ kill -TERM PID</code></pre></div><p><code class="nw">PID</code> is for you to fill in from the step before.</p>
+<h2 id="asking-back"><a class="anchor" href="#asking-back" aria-label="Link to this section">#</a>Asking back</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;add a proxy&quot;
+&quot;add a proxy&quot; can mean several things. Which one? Ask again naming it, e.g.:
+  this shell session  lxask &quot;set an http proxy for this shell session&quot;
+  the whole system    lxask &quot;set an http proxy system-wide for all users&quot;
+  Git                 lxask &quot;set a proxy for git&quot;
+  APT                 lxask &quot;set a proxy for apt&quot;
+  ...</code></pre></div><h2 id="where-it-slipped-same-run"><a class="anchor" href="#where-it-slipped-same-run" aria-label="Link to this section">#</a>Where it slipped (same run)</h2>
+<p>These are why every command deserves a read:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>request</th>
+<th>lxask said</th>
+<th>what is wrong</th>
+<th>a right command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>find files changed in the last 24 hours</td>
+<td><code>git diff-files --since '24 hours ago'</code></td>
+<td>a git command for a file question</td>
+<td><code class="nw">find . -type f -mtime -1</code></td>
+</tr>
+<tr>
+<td>replace foo with bar in every .conf file here</td>
+<td><code>find . -name '*.conf' -exec sed 's/foo/bar/g' {} \;</code></td>
+<td>without <code class="nw">-i</code>, sed only prints the result</td>
+<td><code>find . -name '*.conf' -exec sed -i 's/foo/bar/g' {} +</code></td>
+</tr>
+<tr>
+<td>print the second column of data.csv</td>
+<td><code class="nw">awk '{print $2}' data.csv</code></td>
+<td>splits on spaces, not commas</td>
+<td><code class="nw">awk -F, '{print $2}' data.csv</code></td>
+</tr>
+<tr>
+<td>install nginx</td>
+<td><code class="nw">sudo yum install nginx</code> (marked <code>unverified: yum is not installed here</code>)</td>
+<td>the wrong package manager; lxask flagged it</td>
+<td><code class="nw">sudo apt install nginx</code></td>
+</tr>
+<tr>
+<td>show the last 50 lines of the nginx service log</td>
+<td><code>tail -n 50 /var/log/nginx.service.log</code></td>
+<td>an invented path</td>
+<td><code class="nw">journalctl -u nginx -n 50</code></td>
+</tr>
+<tr>
+<td>rename every .jpeg file to .jpg</td>
+<td><code class="nw">rename .jpeg .jpg *.jpeg</code></td>
+<td>right for util-linux <code class="nw">rename</code>; Debian and Ubuntu&#39;s <code class="nw">rename</code> wants <code class="nw">'s/\.jpeg$/.jpg/'</code></td>
+<td><code>rename 's/\.jpeg$/.jpg/' *.jpeg</code></td>
+</tr>
+</tbody></table></div>
+<p>Found one of your own? <code class="nw">lxask --bad &quot;what was wrong&quot;</code>, then <code class="nw">lxask --share</code>.</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/usage"><small>Previous</small><span class="title">Usage</span></a>
+<a class="next" href="/lxask/configuration"><small>Next</small><span class="title">Configuration</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/examples.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#files">Files</a><a class="depth-2" href="#text">Text</a><a class="depth-2" href="#processes">Processes</a><a class="depth-2" href="#system">System</a><a class="depth-2" href="#services-network-git">Services, network, git</a><a class="depth-2" href="#ruling-a-program-out">Ruling a program out</a><a class="depth-2" href="#several-steps">Several steps</a><a class="depth-2" href="#asking-back">Asking back</a><a class="depth-2" href="#where-it-slipped-same-run">Where it slipped (same run)</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

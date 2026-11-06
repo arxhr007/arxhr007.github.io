@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security · lxask docs</title>
+<meta name="description" content="If you find a security problem (for example a way for one user to talk to another user's server, a file written where it should not be, or the installer trusting something it shoul">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/security">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Security · lxask docs">
+<meta property="og:description" content="If you find a security problem (for example a way for one user to talk to another user's server, a file written where it should not be, or the installer trusting something it shoul">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/security">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security" aria-current="page">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Project</div>
+      <div class="prose">
+<h1 id="security">Security</h1>
+<h2 id="what-lxask-does-and-does-not-do"><a class="anchor" href="#what-lxask-does-and-does-not-do" aria-label="Link to this section">#</a>What lxask does and does not do</h2>
+<ul>
+<li>lxask <strong>never runs the commands it suggests</strong>. It prints them; you decide whether to
+run them. Read every command before you do, especially ones marked <code class="nw">warning:</code> or
+<code class="nw">unverified:</code>.</li>
+<li>It needs no network after installing and sends nothing anywhere. <code class="nw">lxask --share</code>
+only prints a link; nothing leaves your machine unless you open it and submit the
+issue yourself.</li>
+<li><code class="nw">lxask --serve</code> listens on a Unix socket in a directory only your user can open
+(<code class="nw">$XDG_RUNTIME_DIR/lxask/</code>) and answers only that user.</li>
+<li>The installer checks every downloaded file against the release&#39;s <code class="nw">SHA256SUMS</code>.</li>
+</ul>
+<h2 id="reporting-a-problem"><a class="anchor" href="#reporting-a-problem" aria-label="Link to this section">#</a>Reporting a problem</h2>
+<p>If you find a security problem (for example a way for one user to talk to another
+user&#39;s server, a file written where it should not be, or the installer trusting
+something it should not), please report it privately through GitHub&#39;s
+<a href="https://github.com/arxhr007/lxask/security/advisories/new" target="_blank" rel="noopener noreferrer">security advisory form</a>
+rather than a public issue. Say what you found, how to reproduce it, and the lxask
+version (<code class="nw">lxask --version</code>). If the form is not available, open an issue that only
+asks for a private way to report, without the details.</p>
+<p>A dangerous command suggested by the model is a wrong answer rather than a security
+hole in the program: report it with <code class="nw">lxask --bad</code> and <code class="nw">lxask --share</code>, or as a &quot;Bad
+answer&quot; issue.</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/contributing"><small>Previous</small><span class="title">Contributing</span></a>
+
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/SECURITY.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#what-lxask-does-and-does-not-do">What lxask does and does not do</a><a class="depth-2" href="#reporting-a-problem">Reporting a problem</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

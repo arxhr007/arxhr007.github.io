@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accuracy and limits · lxask docs</title>
+<meta name="description" content="lxask usually picks the right tool and the right shape of command. The details (an awk field number, uniq -d against -u, one flag) are wrong often enough that every command deserve">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/accuracy">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Accuracy and limits · lxask docs">
+<meta property="og:description" content="lxask usually picks the right tool and the right shape of command. The details (an awk field number, uniq -d against -u, one flag) are wrong often enough that every command deserve">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/accuracy">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy" aria-current="page">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Reference</div>
+      <div class="prose">
+<h1 id="accuracy-and-limits">Accuracy and limits</h1>
+<p>lxask usually picks the right tool and the right shape of command. The details (an
+awk field number, <code class="nw">uniq -d</code> against <code class="nw">-u</code>, one flag) are wrong often enough that
+every command deserves a read before you run it. A 1.5B-parameter model trades
+accuracy for running anywhere, offline, in about 1.3 GB of memory.</p>
+<h2 id="numbers-version-08"><a class="anchor" href="#numbers-version-08" aria-label="Link to this section">#</a>Numbers (version 0.8)</h2>
+<p>Every set below was kept out of training.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>test</th>
+<th>n</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>right program, everyday questions (hand-written)</td>
+<td>150</td>
+<td>96-99%</td>
+</tr>
+<tr>
+<td>right program, tldr examples</td>
+<td>150</td>
+<td>75% (50% exactly the reference command)</td>
+</tr>
+<tr>
+<td>right program, NL2Bash questions</td>
+<td>150</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>multi-part requests: parts handled</td>
+<td>288</td>
+<td>91-100%</td>
+</tr>
+<tr>
+<td><strong>command run in a sandbox does the job</strong>, generated file and text tasks</td>
+<td>200</td>
+<td><strong>75%</strong></td>
+</tr>
+<tr>
+<td>the same, hand-written tasks</td>
+<td>46</td>
+<td>87%</td>
+</tr>
+<tr>
+<td>restriction kept (&quot;without lsof&quot;)</td>
+<td>40</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>restriction kept, programs never ruled out in training</td>
+<td>79</td>
+<td>76%</td>
+</tr>
+<tr>
+<td>vague proxy request asked back, clear one answered in the right form</td>
+<td>24</td>
+<td>79%</td>
+</tr>
+<tr>
+<td>past mistakes that must not come back</td>
+<td>7</td>
+<td>7 of 7</td>
+</tr>
+</tbody></table></div>
+<p>&quot;Right program&quot; means the command uses a program a correct answer would use; it
+says nothing about the options. The sandbox tests are the real measure: each builds
+a few files, runs lxask&#39;s command on them as an unprivileged user with no network,
+and checks the result. To pass, the command must also exit cleanly, leave files
+alone when the task only asks a question, and use nothing the task ruled out.</p>
+<p>How each set is made and scored: <a href="/lxask/development#measuring-it">Development</a>.
+Every version&#39;s numbers: <a href="/lxask/results">Results</a>.</p>
+<h2 id="the-public-benchmark-nl2sh-alfa"><a class="anchor" href="#the-public-benchmark-nl2sh-alfa" aria-label="Link to this section">#</a>The public benchmark: NL2SH-ALFA</h2>
+<p>The sets above are lxask&#39;s own. For a number that can be checked against other
+tools, the model was also run on the public
+<a href="https://huggingface.co/datasets/westenfelder/NL2SH-ALFA" target="_blank" rel="noopener noreferrer">NL2SH-ALFA</a> test set (300
+shell tasks) through the InterCode-ALFA harness (<code class="nw">icalfa</code> 0.3.6): each answer is run
+in a Docker container and counts as solved only when the harness gives it a reward
+of exactly 1. The harness&#39;s embedding judge decides (threshold 0.75, a local
+embedding model; nothing hosted).</p>
+<p>Answers come from the real pipeline (retrieval, checks, retries, the 0.8 adapter) and,
+for comparison, from the untuned Qwen2.5-Coder-1.5B the model was trained from (the stock
+Q4_K_M build), greedy, with no retrieval and no checks. The untuned model is run three
+ways, because how it is asked changes its score a lot:</p>
+<ul>
+<li><strong>base, raw</strong>: a plain instruction, and only code fences stripped from its reply. This
+was the baseline first published here (31%). It was handicapped: 199 of its 300 replies
+were wrapped in backticks or started with <code class="nw">$ </code>, which fail when run, and 169 of those
+scored 0 for that reason alone.</li>
+<li><strong>base, cleaned</strong>: the same replies with the backticks and <code class="nw">$ </code> removed.</li>
+<li><strong>base, three examples</strong>: the plain instruction plus three worked examples (none from
+the test set) and &quot;no backticks, no <code class="nw">$</code>&quot;. This is the strongest baseline and the one the
+README compares against.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>variant</th>
+<th>solved</th>
+<th>95% CI (Wilson)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>lxask</strong></td>
+<td><strong>187/300 (62%)</strong></td>
+<td>57-68%</td>
+</tr>
+<tr>
+<td>untuned base, three examples</td>
+<td>162/300 (54%)</td>
+<td>48-60%</td>
+</tr>
+<tr>
+<td>untuned base, cleaned</td>
+<td>153/300 (51%)</td>
+<td>45-57%</td>
+</tr>
+<tr>
+<td>untuned base, raw (the handicapped first run)</td>
+<td>92/300 (31%)</td>
+<td>26-36%</td>
+</tr>
+<tr>
+<td>the test set&#39;s own reference commands (harness sanity check)</td>
+<td>299/300 (99.7%)</td>
+<td></td>
+</tr>
+<tr>
+<td>lxask, first answer kept (no retries)</td>
+<td>187/300 (62%)</td>
+<td>57-68%</td>
+</tr>
+<tr>
+<td>lxask, without retrieved notes</td>
+<td>186/300 (62%)</td>
+<td>56-67%</td>
+</tr>
+</tbody></table></div>
+<p>Paired, against the strongest baseline (three examples), lxask solves 46 tasks the base
+model misses and misses 21 the base solves (exact McNemar, two-sided p = 0.003). Against
+the cleaned base: 54 vs 20 (p = 1e-4).</p>
+<p>63 of the 300 tasks overlap lxask&#39;s training sources (19 share the request text, 61
+share a command). On the 237 that do not:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>variant</th>
+<th>solved</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>lxask</strong></td>
+<td><strong>145/237 (61%, CI 55-67%)</strong></td>
+</tr>
+<tr>
+<td>untuned base, three examples</td>
+<td>128/237 (54%, CI 48-60%)</td>
+</tr>
+<tr>
+<td>untuned base, cleaned</td>
+<td>118/237 (50%, CI 44-56%)</td>
+</tr>
+</tbody></table></div>
+<p>(Against the three-example base: 34 tasks lxask only, 17 base only; p = 0.024.) On the 63
+overlapping tasks lxask solves 42 (67%) against 34 (54%) for the three-example base.</p>
+<p>The set&#39;s own difficulty field, 100 tasks each:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>difficulty</th>
+<th>lxask</th>
+<th>base, three examples</th>
+<th>base, cleaned</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0 (easiest)</td>
+<td>75%</td>
+<td>69%</td>
+<td>66%</td>
+</tr>
+<tr>
+<td>1</td>
+<td>64%</td>
+<td>54%</td>
+<td>51%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>48%</td>
+<td>39%</td>
+<td>36%</td>
+</tr>
+</tbody></table></div>
+<p>Things to read honestly here. The gain over a fairly prompted untuned model is about 8
+points, and the two confidence intervals overlap (the paired test does not, because the
+same tasks are compared). The retries and the retrieved notes make no measurable
+difference on this set: keeping the first answer scores the same 187, and dropping
+retrieval moves one task (186). The gain is fine-tuning, not the pipeline around it. And
+30 of the 1,800 scored answers (4 to 6 per variant, none of them the reference-command
+rows) got 0 from an embedding-judge context error, spread evenly across variants; the
+reference commands scoring 299/300 is what says the harness itself is sound.</p>
+<p><strong>A correction.</strong> Until 2026-10-23 this page and the README reported the raw baseline
+(31%) and so a 31-point gap. The raw run&#39;s reply cleanup only removed code fences, so
+most of its replies failed on formatting, not on content. It is kept in the table above
+for the record and the cleanup is fixed in <code class="nw">scripts/nl2sh_alfa_answers.py</code>.</p>
+<p>Numbers from other tools on this set are not directly comparable. whatisit-nl2sh
+self-reports 0.62 for its tuned 1.5B and 0.54 for the untuned one, and
+barbarabhb/nl2sh-qwen25-coder-1.5b-GGUF self-reports 0.657; both used their own answer
+protocol (one reports <code class="nw">max_tokens=64</code>). The untuned model scoring 0.54 there and 0.54
+here with three examples is consistent. The benchmark authors publish 0.73 for GPT-4o, a
+hosted model; that number is theirs and was not re-run here.</p>
+<p>To reproduce: <code class="nw">scripts/nl2sh_alfa_answers.py</code> makes the answers (variants <code class="nw">lxask</code>,
+<code class="nw">no_retry</code>, <code class="nw">no_rag</code>, <code class="nw">base</code>, <code class="nw">base_fewshot</code>), <code class="nw">scripts/nl2sh_alfa_score.py</code> scores them
+with <code class="nw">icalfa</code> 0.3.6 (Docker, plus an Ollama server with <code class="nw">mxbai-embed-large</code>), and
+<code class="nw">scripts/nl2sh_alfa_stats.py</code> prints the tables above.</p>
+<h2 id="where-it-goes-wrong"><a class="anchor" href="#where-it-goes-wrong" aria-label="Link to this section">#</a>Where it goes wrong</h2>
+<ul>
+<li><strong>Details.</strong> The wrong field in <code class="nw">awk '{print $3}'</code>, <code class="nw">sort -u</code> where duplicates
+were wanted, <code class="nw">uniq -u</code> for <code class="nw">uniq -d</code>. Most failed sandbox tasks are like this.</li>
+<li><strong>Placeholders.</strong> A path from the documentation (<code class="nw">path/to/directory</code>) can stay in
+the command instead of the one you named.</li>
+<li><strong>Invented subcommands.</strong> Subcommands are checked for <code class="nw">systemctl</code> and its kin
+only; elsewhere an invented one (<code class="nw">apt-config set</code>) can pass unmarked.</li>
+<li><strong>Judgement.</strong> &quot;Which files are safe to remove&quot; gets commands for looking, not the
+judgement.</li>
+<li><strong>Heavy one-liners.</strong> Time-windowed aggregation over quoted CSV and similar are
+beyond a model this size.</li>
+<li><strong>Vague requests.</strong> Asking back covers proxies only; other vague requests still
+get a guess.</li>
+<li><strong>Explanations.</strong> Programs without a man page on the reference install are checked
+by name only, and their options are not explained.</li>
+</ul>
+<h2 id="platforms"><a class="anchor" href="#platforms" aria-label="Link to this section">#</a>Platforms</h2>
+<p>Tuned and tested on Debian and Ubuntu. On other distributions most commands are the
+same (find, grep, awk, tar, ssh, systemctl, ip, ss), and package commands adapt: see
+<a href="/lxask/configuration#package-managers">Configuration</a>. Other distribution-specific
+advice may still lean Debian, for example <code class="nw">ufw</code> where <code class="nw">firewalld</code> runs. No numbers
+have been measured on Fedora or Arch yet.</p>
+<h2 id="speed"><a class="anchor" href="#speed" aria-label="Link to this section">#</a>Speed</h2>
+<p>Measured with the release program (version 0.6; the adapter added in 0.8 cost about
+2% more time) on a Ryzen 9 270 laptop CPU, in a 2 GB container, median of five
+everyday questions, including loading (when not served), retrieval, checks and
+explanations:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>one question, <code class="nw">lxask &quot;...&quot;</code> (loads the model each time)</td>
+<td>6.6 s</td>
+</tr>
+<tr>
+<td>one question with <code class="nw">lxask --serve</code> running</td>
+<td>2.0 s</td>
+</tr>
+<tr>
+<td>multi-part request (median of ten), not served</td>
+<td>15.6 s</td>
+</tr>
+</tbody></table></div>
+<p>A multi-part request costs one model call per part plus one for the split, and up to
+two more per part when a check objects. Peak memory while answering is about 1.3 GB
+(resident, measured in the container); a slower or older CPU takes several times as
+long.</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/architecture"><small>Previous</small><span class="title">Architecture</span></a>
+<a class="next" href="/lxask/development"><small>Next</small><span class="title">Development</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/accuracy.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#numbers-version-08">Numbers (version 0.8)</a><a class="depth-2" href="#the-public-benchmark-nl2sh-alfa">The public benchmark: NL2SH-ALFA</a><a class="depth-2" href="#where-it-goes-wrong">Where it goes wrong</a><a class="depth-2" href="#platforms">Platforms</a><a class="depth-2" href="#speed">Speed</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

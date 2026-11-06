@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configuration · lxask docs</title>
+<meta name="description" content="lxask needs no configuration. Everything below is for when you want something other than the default.">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/configuration">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Configuration · lxask docs">
+<meta property="og:description" content="lxask needs no configuration. Everything below is for when you want something other than the default.">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/configuration">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration" aria-current="page">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Reference</div>
+      <div class="prose">
+<h1 id="configuration">Configuration</h1>
+<p>lxask needs no configuration. Everything below is for when you want something
+other than the default.</p>
+<h2 id="files"><a class="anchor" href="#files" aria-label="Link to this section">#</a>Files</h2>
+<p>All in <code class="nw">~/.local/share/lxask</code> (<code class="nw">$LXASK_HOME</code>, else <code class="nw">$XDG_DATA_HOME/lxask</code>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>file</th>
+<th>what</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="nw">model.gguf</code></td>
+<td>link to the model in <code class="nw">models/</code> (about 990 MB)</td>
+</tr>
+<tr>
+<td><code class="nw">restrict.gguf</code></td>
+<td>link to the model&#39;s restriction adapter in <code class="nw">models/</code> (37 MB)</td>
+</tr>
+<tr>
+<td><code class="nw">embed.gguf</code></td>
+<td>the encoder used to search the documentation (37 MB)</td>
+</tr>
+<tr>
+<td><code class="nw">docs.sqlite</code></td>
+<td>the documentation index: tldr pages and man page summaries and options (73 MB)</td>
+</tr>
+<tr>
+<td><code class="nw">last.json</code></td>
+<td>the last answer, for <code class="nw">lxask --bad</code></td>
+</tr>
+<tr>
+<td><code class="nw">feedback.jsonl</code></td>
+<td>your <code class="nw">--bad</code> reports</td>
+</tr>
+<tr>
+<td><code class="nw">settings</code></td>
+<td>your choices, as <code class="nw">key = value</code> lines (below)</td>
+</tr>
+<tr>
+<td><code class="nw">LICENSE</code>, <code class="nw">NOTICE</code></td>
+<td>licences of the files above</td>
+</tr>
+<tr>
+<td><code class="nw">*.previous</code></td>
+<td>what the last upgrade replaced</td>
+</tr>
+</tbody></table></div>
+<p>The program itself is <code class="nw">~/.local/bin/lxask</code>.</p>
+<h2 id="environment-variables"><a class="anchor" href="#environment-variables" aria-label="Link to this section">#</a>Environment variables</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>variable</th>
+<th>default</th>
+<th>what</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="nw">LXASK_HOME</code></td>
+<td><code class="nw">~/.local/share/lxask</code></td>
+<td>where the files above are</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_MODEL</code></td>
+<td><code class="nw">$LXASK_HOME/model.gguf</code></td>
+<td>the model</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_ADAPTER</code></td>
+<td><code class="nw">$LXASK_HOME/restrict.gguf</code></td>
+<td>the restriction adapter; <code class="nw">off</code> answers without it</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_EMBED_MODEL</code></td>
+<td><code class="nw">$LXASK_HOME/embed.gguf</code></td>
+<td>the encoder; without it, search is by keywords</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_INDEX</code></td>
+<td><code class="nw">$LXASK_HOME/docs.sqlite</code></td>
+<td>the documentation index</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_PACKAGE_MANAGERS</code></td>
+<td>found on the machine</td>
+<td>package managers to answer for, comma-separated (<code class="nw">apt,dpkg</code> or <code class="nw">dnf,rpm</code>)</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_AS_ROOT</code></td>
+<td>found from the user</td>
+<td><code class="nw">1</code>: don&#39;t add <code class="nw">sudo</code>; <code class="nw">0</code>: add it to commands that need root</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_GPU_LAYERS</code></td>
+<td><code class="nw">0</code></td>
+<td>model layers on the GPU; only builds with a GPU backend (the releases are CPU only)</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_TIMING</code></td>
+<td>unset</td>
+<td>set: print how long each start-up stage took</td>
+</tr>
+<tr>
+<td><code class="nw">LXASK_SERVE</code></td>
+<td>the <code class="nw">serve</code> setting</td>
+<td><code class="nw">auto</code>: keep lxask loaded between questions; <code class="nw">off</code>: load it for each</td>
+</tr>
+</tbody></table></div>
+<p><code class="nw">--model FILE</code> answers without the adapter, since an adapter is made for one model.
+The <code class="nw">LINU_*</code> names of lxask 0.8 and earlier still work; <code class="nw">LXASK_*</code> win.</p>
+<h2 id="settings"><a class="anchor" href="#settings" aria-label="Link to this section">#</a>Settings</h2>
+<p><code class="nw">~/.local/share/lxask/settings</code>, written by the installer:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">ini</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-ini"><span class="hljs-comment"># lxask settings, written by install.sh</span>
+<span class="hljs-attr">serve</span> = auto      <span class="hljs-comment"># keep lxask loaded between questions; off: load it for each question</span></code></pre></div><p><code class="nw">serve = auto</code> starts lxask in the background on the first question and stops it after
+30 minutes without one (<a href="/lxask/usage#keep-the-model-loaded">Usage</a>). Running the
+installer again keeps your choice; <code class="nw">sh install.sh --serve</code> or <code class="nw">--no-serve</code> changes it.</p>
+<h2 id="package-managers"><a class="anchor" href="#package-managers" aria-label="Link to this section">#</a>Package managers</h2>
+<p>lxask looks at which package managers the machine has (apt/dpkg, dnf/yum/rpm,
+pacman, zypper, apk). If an answer uses another distribution&#39;s (<code class="nw">yum</code> on Ubuntu),
+that counts as a mistake and is retried. Listing and searching packages are rewritten
+for this machine: on Arch, <code class="nw">apt search x</code> becomes <code class="nw">pacman -Ss x</code>. A request that
+names a package manager (&quot;with dnf&quot;) gets that one.</p>
+<h2 id="sudo"><a class="anchor" href="#sudo" aria-label="Link to this section">#</a>sudo</h2>
+<p>Commands that always need root (installing packages, <code class="nw">mount</code>, <code class="nw">mkfs</code>,
+<code class="nw">systemctl start</code>, <code class="nw">useradd</code>, ...) get <code class="nw">sudo</code>, unless lxask runs as root, the request
+is about a container, or the request says &quot;without sudo&quot;.</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/examples"><small>Previous</small><span class="title">Examples</span></a>
+<a class="next" href="/lxask/how-it-works"><small>Next</small><span class="title">How it works</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/configuration.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#files">Files</a><a class="depth-2" href="#environment-variables">Environment variables</a><a class="depth-2" href="#settings">Settings</a><a class="depth-2" href="#package-managers">Package managers</a><a class="depth-2" href="#sudo">sudo</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

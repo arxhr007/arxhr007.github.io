@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contributing · lxask docs</title>
+<meta name="description" content="Thanks for helping. The most useful contribution is a wrong answer.">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/contributing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Contributing · lxask docs">
+<meta property="og:description" content="Thanks for helping. The most useful contribution is a wrong answer.">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/contributing">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing" aria-current="page">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Project</div>
+      <div class="prose">
+<h1 id="contributing">Contributing</h1>
+<p>Thanks for helping. The most useful contribution is a wrong answer.</p>
+<h2 id="report-a-wrong-answer"><a class="anchor" href="#report-a-wrong-answer" aria-label="Link to this section">#</a>Report a wrong answer</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask <span class="hljs-string">&quot;what you asked&quot;</span>
+lxask --bad <span class="hljs-string">&quot;what was wrong, or the right command&quot;</span>
+lxask --share            <span class="hljs-comment"># prints the report and a link to a prefilled issue</span></code></pre></div><p>Open the link, remove anything private, and submit. Wrong answers become regression
+cases (<code class="nw">evalsets/regressions.jsonl</code>) that every later model must pass. You can also
+open a &quot;Bad answer&quot; issue by hand.</p>
+<h2 id="report-a-bug-or-suggest-something"><a class="anchor" href="#report-a-bug-or-suggest-something" aria-label="Link to this section">#</a>Report a bug or suggest something</h2>
+<p>Open a &quot;Something else&quot; issue: what you ran, what happened, what you expected, and
+<code class="nw">lxask --version</code>. For security problems, see <a href="/lxask/security">Security</a>.</p>
+<h2 id="change-the-code"><a class="anchor" href="#change-the-code" aria-label="Link to this section">#</a>Change the code</h2>
+<ul>
+<li>Setup, building and tests: <a href="/lxask/development">docs/development.md</a>.</li>
+<li>The rules (checks, repairs, routing) are in <code class="nw">rust/crates/lxask-core</code>, and the
+Python training and evaluation scripts call the same code through <code class="nw">lxask._core</code>.
+Rust tests: <code>cargo test --manifest-path rust/Cargo.toml -p lxask-core</code>; Python
+tests: <code class="nw">pytest</code> (no model needed).</li>
+<li>A change to a rule should not change answers it is not about. Run the evaluation
+before and after (<code class="nw">scripts/eval.py</code>, see <a href="/lxask/development#measuring-it">docs/development.md</a>)
+and say in the pull request what moved.</li>
+<li>Keep commits small and their messages about why.</li>
+</ul>
+<h2 id="training-data"><a class="anchor" href="#training-data" aria-label="Link to this section">#</a>Training data</h2>
+<p>The training data written by language models is not in this repository (see
+<a href="https://github.com/arxhr007/lxask/blob/main/NOTICE" target="_blank" rel="noopener noreferrer">NOTICE</a> and <a href="/lxask/development#training-data">docs/development.md</a>).
+<code class="nw">scripts/generate_data.py</code> makes it again with your own API key; read your
+model provider&#39;s terms on using its output for training before you do.</p>
+<h2 id="licence"><a class="anchor" href="#licence" aria-label="Link to this section">#</a>Licence</h2>
+<p>By contributing you agree that your contribution is under the MIT License of this
+repository (<a href="https://github.com/arxhr007/lxask/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">LICENSE</a>).</p>
+
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/results"><small>Previous</small><span class="title">Results</span></a>
+<a class="next" href="/lxask/security"><small>Next</small><span class="title">Security</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/CONTRIBUTING.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#report-a-wrong-answer">Report a wrong answer</a><a class="depth-2" href="#report-a-bug-or-suggest-something">Report a bug or suggest something</a><a class="depth-2" href="#change-the-code">Change the code</a><a class="depth-2" href="#training-data">Training data</a><a class="depth-2" href="#licence">Licence</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

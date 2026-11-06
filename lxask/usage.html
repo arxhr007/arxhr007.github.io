@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Usage · lxask docs</title>
+<meta name="description" content="Say what you want, the way you would ask a colleague. Name the files, sizes, ages and ports you mean: lxask checks that they appear in the command.">
+<link rel="canonical" href="https://arxhr007.github.io/lxask/usage">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="lxask">
+<meta property="og:title" content="Usage · lxask docs">
+<meta property="og:description" content="Say what you want, the way you would ask a colleague. Name the files, sizes, ages and ports you mean: lxask checks that they appear in the command.">
+<meta property="og:url" content="https://arxhr007.github.io/lxask/usage">
+<meta property="og:image" content="https://arxhr007.github.io/lxask/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="lxask-index" content="/lxask/search-index.json?v=6f645651">
+<link rel="icon" href="/lxask/assets/logo.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("lxask-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<link rel="preload" href="/lxask/assets/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/lxask/assets/docs.css?v=6f645651">
+</head>
+<body>
+<a class="skip" href="#content">Skip to the page</a>
+<header class="header">
+  <button class="icon-btn menu-btn" type="button" aria-label="Show the page list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="/lxask/"><img src="/lxask/assets/logo.svg" alt="" width="30" height="30"><span>lxask</span></a>
+  <span class="pill">v1.0.0</span>
+  <span class="header-spacer"></span>
+  <button class="search-btn" type="button" aria-label="Search the docs"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span class="label">Search docs</span><kbd>Ctrl K</kbd></button>
+  <a class="icon-btn" href="https://github.com/arxhr007/lxask" target="_blank" rel="noopener" aria-label="lxask on GitHub"><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+  <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</header>
+<div class="scrim"></div>
+<div class="shell">
+  <nav class="sidebar" aria-label="Documentation">
+<div class="group"><div class="group-title">Getting started</div><a href="/lxask/">Overview</a><a href="/lxask/install">Install</a><a href="/lxask/usage" aria-current="page">Usage</a><a href="/lxask/examples">Examples</a></div>
+<div class="group"><div class="group-title">Reference</div><a href="/lxask/configuration">Configuration</a><a href="/lxask/how-it-works">How it works</a><a href="/lxask/architecture">Architecture</a><a href="/lxask/accuracy">Accuracy and limits</a></div>
+<div class="group"><div class="group-title">Project</div><a href="/lxask/development">Development</a><a href="/lxask/results">Results</a><a href="/lxask/contributing">Contributing</a><a href="/lxask/security">Security</a></div>
+  </nav>
+  <main class="main" id="content">
+    <article class="article">
+      <div class="crumbs">Getting started</div>
+      <div class="prose">
+<h1 id="usage">Usage</h1>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask <span class="hljs-string">&quot;what you want to do&quot;</span></code></pre></div><p>Say what you want, the way you would ask a colleague. Name the files, sizes, ages
+and ports you mean: lxask checks that they appear in the command.</p>
+<h2 id="reading-an-answer"><a class="anchor" href="#reading-an-answer" aria-label="Link to this section">#</a>Reading an answer</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;delete all .tmp files in this folder&quot;
+$ find . -name '*.tmp' -exec rm {} \;
+  find  Find files or directories under a directory tree, recursively
+    -name  Base of file name (the path with the leading directories removed) matches shell pattern pattern
+    -exec  Execute command; true if 0 status is returned
+  rm    Remove files or directories
+  warning: deletes every file the find expression matches</code></pre></div><ul>
+<li>The line starting with <code class="nw">$</code> is the command. lxask never runs it.</li>
+<li>Below it, each program and option, as the documentation describes it. Where the
+documentation says nothing, nothing is printed: an explanation can be incomplete,
+but it is not invented.</li>
+<li><code class="nw">warning:</code> marks commands that delete, overwrite or reformat.</li>
+<li><code class="nw">unverified:</code> marks what lxask could not confirm. Treat that command with more care:</li>
+</ul>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ top -b -n 1 -l 1 -o %MEM | grep -v top
+  unverified: top: -l is not a documented option
+  closest documented example: ps --sort size</code></pre></div><p>Common <code class="nw">unverified</code> lines:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>line</th>
+<th>means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>top: -l is not a documented option</code></td>
+<td>the option is not in the program&#39;s manual</td>
+</tr>
+<tr>
+<td><code>systemctl: inspect is not a documented command</code></td>
+<td>no such subcommand in the manual</td>
+</tr>
+<tr>
+<td><code class="nw">foo: not a known Linux command</code></td>
+<td>no manual or tldr page knows the program</td>
+</tr>
+<tr>
+<td><code class="nw">pbcopy: not a Linux command</code></td>
+<td>a macOS or BSD command</td>
+</tr>
+<tr>
+<td><code>the request says '.log'; the command does not have it</code></td>
+<td>a detail you named is missing</td>
+</tr>
+<tr>
+<td><code>the request says without lsof; the command uses it</code></td>
+<td>it used a program you ruled out</td>
+</tr>
+</tbody></table></div>
+<p>lxask has already tried up to three answers before showing one with such a line.</p>
+<h2 id="requests-with-several-parts"><a class="anchor" href="#requests-with-several-parts" aria-label="Link to this section">#</a>Requests with several parts</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;find the busiest process, see what files it has open, and stop it gracefully&quot;
+1. Find the process with the highest reported CPU usage
+   $ ps -eo pid,comm,%cpu --sort=-%cpu | head -n 2
+   ...
+2. List the files open by the selected process
+   $ lsof -p PID
+   ...
+3. Send SIGTERM to the selected process
+   $ kill -TERM PID</code></pre></div><p>Each part becomes its own step, answered on its own. Words in capitals like <code class="nw">PID</code>
+are for you to fill in from the step before. A <code class="nw">note:</code> at the end says if something
+you asked for is in none of the commands.</p>
+<h2 id="ruling-a-program-out"><a class="anchor" href="#ruling-a-program-out" aria-label="Link to this section">#</a>Ruling a program out</h2>
+<p>Say &quot;without X&quot;, &quot;don&#39;t use X&quot;, &quot;instead of X&quot; or &quot;X isn&#39;t installed&quot;:</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;which process listens on port 8080, without lsof&quot;
+$ ss -ltnp 'sport = :8080'</code></pre></div><p>These requests, and requests about proxies, are answered with a version of the
+model trained for them (<a href="/lxask/how-it-works#restrictions">how it works</a>).</p>
+<h2 id="when-lxask-asks-back"><a class="anchor" href="#when-lxask-asks-back" aria-label="Link to this section">#</a>When lxask asks back</h2>
+<p>A request too vague for one command gets a question instead of a guess, and exit
+status 3:</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;add a proxy&quot;
+&quot;add a proxy&quot; can mean several things. Which one? Ask again naming it, e.g.:
+  this shell session  lxask &quot;set an http proxy for this shell session&quot;
+  the whole system    lxask &quot;set an http proxy system-wide for all users&quot;
+  Git                 lxask &quot;set a proxy for git&quot;
+  APT                 lxask &quot;set a proxy for apt&quot;
+  ...</code></pre></div><p>So far this covers proxies only.</p>
+<h2 id="straight-into-your-prompt-ctrlg"><a class="anchor" href="#straight-into-your-prompt-ctrlg" aria-label="Link to this section">#</a>Straight into your prompt (Ctrl+G)</h2>
+<p>Add one line to your shell&#39;s startup file:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(lxask --shell-init bash)</span>&quot;</span>     <span class="hljs-comment"># in ~/.bashrc</span>
+<span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(lxask --shell-init zsh)</span>&quot;</span>      <span class="hljs-comment"># or in ~/.zshrc</span></code></pre></div><p>Then type what you want to do at the prompt, as plain words, and press <strong>Ctrl+G</strong>:</p>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ count the lines in data.txt          &lt;- you type this, then Ctrl+G
+$ wc -l data.txt                       &lt;- the line is now the command</code></pre></div><p>The command waits on your prompt, to edit or run with Enter; nothing runs by itself.
+What lxask says about it (<code class="nw">unverified:</code>, <code class="nw">warning:</code>) is printed above the prompt. A
+request with several steps becomes one line joined by <code class="nw">&amp;&amp;</code>. When lxask asks back or
+answers about itself, your line stays as you typed it.</p>
+<p>With <code class="nw">lxask --serve</code> running, Ctrl+G answers in about 2 seconds. To use another key,
+bind the widget yourself: <code>bind -x '&quot;\C-x\C-l&quot;: __lxask_widget'</code> (bash) or
+<code class="nw">bindkey '^X^L' __lxask_widget</code> (zsh).</p>
+<h2 id="keep-the-model-loaded"><a class="anchor" href="#keep-the-model-loaded" aria-label="Link to this section">#</a>Keep the model loaded</h2>
+<p>Most of an answer&#39;s time on a CPU goes into loading the model. The installer asks
+whether to keep lxask loaded between questions (recommended, and the default):</p>
+<ul>
+<li><strong>On (<code class="nw">serve = auto</code>):</strong> your first question starts lxask in the background and is
+answered by it; later questions take about 2 s instead of about 7
+(<a href="/lxask/accuracy#speed">Accuracy and limits</a>). It holds about 1.3 GB of memory while loaded and
+stops itself after 30 minutes without a question, so the next question starts it
+again.</li>
+<li><strong>Off (<code class="nw">serve = off</code>):</strong> every question loads the model and frees it after.</li>
+</ul>
+<p>Change it in <code class="nw">~/.local/share/lxask/settings</code>, or for one shell with <code class="nw">LXASK_SERVE=auto</code>
+or <code class="nw">off</code>. Only one copy is ever started: questions asked while it is starting wait
+for it.</p>
+<p>By hand, whatever the setting:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask --serve &amp;        <span class="hljs-comment"># loads once, then waits; stops after 30 minutes without a question</span>
+lxask <span class="hljs-string">&quot;show disk usage of each folder here&quot;</span>
+lxask --stop</code></pre></div><p>Every <code class="nw">lxask</code> call uses a running server when it can, and answers the same way. It
+listens on a socket only your user can open (<code class="nw">$XDG_RUNTIME_DIR/lxask/</code>, else
+<code class="nw">~/.local/share/lxask/run/</code>). <code class="nw">--idle MINUTES</code> changes the timeout (0: never stop).</p>
+<p>To start it with your session, a systemd user unit:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">ini</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-ini"><span class="hljs-comment"># ~/.config/systemd/user/lxask.service, then: systemctl --user enable --now lxask</span>
+<span class="hljs-section">[Service]</span>
+<span class="hljs-attr">ExecStart</span>=%h/.local/bin/lxask --serve --idle <span class="hljs-number">0</span></code></pre></div><h2 id="when-an-answer-is-wrong"><a class="anchor" href="#when-an-answer-is-wrong" aria-label="Link to this section">#</a>When an answer is wrong</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask --bad                                       <span class="hljs-comment"># the last answer was wrong</span>
+lxask --bad <span class="hljs-string">&quot;should list directories only: ls -d */&quot;</span>   <span class="hljs-comment"># with a note (quote * and ?)</span></code></pre></div><p>The last answer is kept in <code class="nw">~/.local/share/lxask/last.json</code>; <code class="nw">--bad</code> adds it, with
+your note, to <code class="nw">feedback.jsonl</code> beside it. Nothing leaves your machine by itself.</p>
+<p>To send reports to lxask&#39;s developers:</p>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">lxask --share          <span class="hljs-comment"># the last report</span>
+lxask --share 3        <span class="hljs-comment"># the last three (up to 10)</span></code></pre></div><p>This prints exactly what would be sent (your question, lxask&#39;s commands, your note,
+the lxask version and model file) and a link to a new GitHub issue filled in with it.
+Open the link, remove anything private (the issue is public), and submit. lxask itself
+sends nothing; a GitHub account is needed to submit.</p>
+<p>Without a link: open an issue with the &quot;Bad answer&quot; template on
+<a href="https://github.com/arxhr007/lxask/issues/new/choose" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+<h2 id="options"><a class="anchor" href="#options" aria-label="Link to this section">#</a>Options</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>option</th>
+<th>does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code class="nw">--no-explain</code></td>
+<td>print only the commands</td>
+</tr>
+<tr>
+<td><code class="nw">--command-only</code></td>
+<td>print only the command line (steps joined by <code class="nw">&amp;&amp;</code>); notes on stderr</td>
+</tr>
+<tr>
+<td><code class="nw">--shell-init bash|zsh</code></td>
+<td>print the Ctrl+G key binding, above</td>
+</tr>
+<tr>
+<td><code class="nw">--no-retry</code></td>
+<td>keep the first answer even if the checks object (faster)</td>
+</tr>
+<tr>
+<td><code class="nw">--no-rag</code></td>
+<td>answer without the documentation notes</td>
+</tr>
+<tr>
+<td><code class="nw">--show-context</code></td>
+<td>print the notes the model was given, to stderr</td>
+</tr>
+<tr>
+<td><code class="nw">--threads N</code></td>
+<td>CPU threads (default: half the logical cores)</td>
+</tr>
+<tr>
+<td><code class="nw">--model FILE</code></td>
+<td>another model (answers without the adapter)</td>
+</tr>
+<tr>
+<td><code class="nw">--index FILE</code></td>
+<td>another documentation index</td>
+</tr>
+<tr>
+<td><code class="nw">--serve</code>, <code class="nw">--idle MIN</code>, <code class="nw">--stop</code></td>
+<td>the server, above</td>
+</tr>
+<tr>
+<td><code class="nw">--bad [NOTE]</code></td>
+<td>report the last answer</td>
+</tr>
+<tr>
+<td><code class="nw">--share [N]</code></td>
+<td>the last N reports and a link to send them as a GitHub issue</td>
+</tr>
+<tr>
+<td><code class="nw">--about</code></td>
+<td>who made lxask, and its links</td>
+</tr>
+<tr>
+<td><code class="nw">--version</code>, <code class="nw">--help</code></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<h2 id="about-lxask"><a class="anchor" href="#about-lxask" aria-label="Link to this section">#</a>About lxask</h2>
+<div class="code"><div class="code-bar"><span class="code-lang"></span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs">$ lxask &quot;who made you?&quot;
+lxask 1.0.0: an offline Linux command assistant.
+Made by Aaron Thomas (arxhr007).
+
+  project  https://github.com/arxhr007/lxask
+  GitHub   https://github.com/arxhr007
+  website  https://arxhr007.github.io
+...</code></pre></div><p><code class="nw">lxask --about</code> prints the same. Questions about lxask itself (&quot;who made you&quot;, &quot;who
+created lxask&quot;, &quot;what are you&quot;) get this answer instead of a command, without the
+model; a Linux question that only sounds similar (&quot;who created this file&quot;) is
+answered as usual.</p>
+<h2 id="exit-status"><a class="anchor" href="#exit-status" aria-label="Link to this section">#</a>Exit status</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>status</th>
+<th>means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>an answer was printed (check it for <code class="nw">unverified:</code> lines)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>an error, said on stderr</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a usage error, or no model found</td>
+</tr>
+<tr>
+<td>3</td>
+<td>lxask asked back instead of answering</td>
+</tr>
+</tbody></table></div>
+<h2 id="in-scripts"><a class="anchor" href="#in-scripts" aria-label="Link to this section">#</a>In scripts</h2>
+<div class="code"><div class="code-bar"><span class="code-lang">sh</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="hljs language-bash">cmd=$(lxask --command-only <span class="hljs-string">&quot;count the lines in data.txt&quot;</span>)
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$cmd</span>&quot;</span>      <span class="hljs-comment"># read it before you run it</span></code></pre></div>
+      </div>
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="/lxask/install"><small>Previous</small><span class="title">Install</span></a>
+<a class="next" href="/lxask/examples"><small>Next</small><span class="title">Examples</span></a>
+</nav>
+      <div class="doc-foot">
+        <a href="https://github.com/arxhr007/lxask/edit/main/docs/usage.md" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span>lxask 1.0.0 · MIT licence · made by <a href="https://arxhr007.github.io/">Aaron Thomas</a></span>
+      </div>
+    </article>
+  </main>
+  <aside class="toc" aria-label="On this page"><div class="toc-title">On this page</div><a class="depth-2" href="#reading-an-answer">Reading an answer</a><a class="depth-2" href="#requests-with-several-parts">Requests with several parts</a><a class="depth-2" href="#ruling-a-program-out">Ruling a program out</a><a class="depth-2" href="#when-lxask-asks-back">When lxask asks back</a><a class="depth-2" href="#straight-into-your-prompt-ctrlg">Straight into your prompt (Ctrl+G)</a><a class="depth-2" href="#keep-the-model-loaded">Keep the model loaded</a><a class="depth-2" href="#when-an-answer-is-wrong">When an answer is wrong</a><a class="depth-2" href="#options">Options</a><a class="depth-2" href="#about-lxask">About lxask</a><a class="depth-2" href="#exit-status">Exit status</a><a class="depth-2" href="#in-scripts">In scripts</a></aside>
+</div>
+<div class="search-overlay" role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="search-box">
+    <div class="search-input-row"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input class="search-input" type="text" role="searchbox" placeholder="Search the docs" autocomplete="off" spellcheck="false" aria-label="Search the docs"></div>
+    <div class="search-results"></div>
+    <div class="search-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+  </div>
+</div>
+<script src="/lxask/assets/docs.js?v=6f645651" defer></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/Aaron.webp" />
+  <link rel="preload" as="image" href="/Aaron.webp" />
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var s = localStorage.getItem("theme");
+        var t = s || "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  <title>Android Malware Analysis: A Sophisticated SMS Stealer — Aaron Thomas</title>
+    <meta name="description" content="Reverse engineering a fake Parivahan APK spread over WhatsApp that exfiltrates victims' SMS messages." />
+    <link rel="canonical" href="https://arxhr007.github.io/blog/parivahan-scam" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Android Malware Analysis: A Sophisticated SMS Stealer — Aaron Thomas" />
+    <meta property="og:description" content="Reverse engineering a fake Parivahan APK spread over WhatsApp that exfiltrates victims' SMS messages." />
+    <meta property="og:url" content="https://arxhr007.github.io/blog/parivahan-scam" />
+    <meta property="og:image" content="https://arxhr007.github.io/og-image.png" />
+    <meta property="og:site_name" content="Aaron Thomas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Android Malware Analysis: A Sophisticated SMS Stealer — Aaron Thomas" />
+    <meta name="twitter:description" content="Reverse engineering a fake Parivahan APK spread over WhatsApp that exfiltrates victims' SMS messages." />
+    <meta name="twitter:image" content="https://arxhr007.github.io/og-image.png" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Android Malware Analysis: A Sophisticated SMS Stealer","description":"Reverse engineering a fake Parivahan APK spread over WhatsApp that exfiltrates victims' SMS messages.","datePublished":"2025-07-14","keywords":"Android, Malware Analysis, Reverse Engineering","author":{"@type":"Person","name":"Aaron Thomas","url":"https://arxhr007.github.io"},"mainEntityOfPage":"https://arxhr007.github.io/blog/parivahan-scam"}</script>
+  <script type="module" crossorigin src="/assets/index-DDpEh1BO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-w5tfyKVj.css">
+</head>
+<body>
+  <div id="root"><nav class="top-nav"><div class="nav-left"><a href="/" class="brand">Aaron Thomas</a><button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"></path></svg></button></div><button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button><div class="nav-actions"><a href="/blog" class="nav-btn" aria-current="page">Blog</a><a class="nav-btn" href="/Aaron_Thomas.pdf" target="_blank" rel="noreferrer">Download Resume</a></div></nav><main class="container"><article class="card post"><a href="/blog" class="back-link">← All posts</a><header class="post-header"><h1>Android Malware Analysis: A Sophisticated SMS Stealer</h1><p class="post-meta">Jul 14, 2025<!-- --> · <!-- -->7<!-- --> min read</p><div class="tag-list"><span class="tag">Android</span><span class="tag">Malware Analysis</span><span class="tag">Reverse Engineering</span></div></header><div class="post-body"><nav class="toc" aria-label="Table of contents"><button class="toc-toggle" type="button" aria-expanded="false">On this page</button><ul><li class=""><a href="#introduction" class="">Introduction</a></li><li class=""><a href="#initial-contact-and-social-engineering" class="">Initial Contact and Social Engineering</a></li><li class=""><a href="#initial-static-analysis" class="">Initial Static Analysis</a></li><li class="toc-sub"><a href="#apk-unpacking" class="">APK Unpacking</a></li><li class="toc-sub"><a href="#about-obfuscation" class="">About Obfuscation</a></li><li class="toc-sub"><a href="#decompilation-attempts" class="">Decompilation Attempts</a></li><li class=""><a href="#dynamic-analysis" class="">Dynamic Analysis</a></li><li class="toc-sub"><a href="#emulator-setup" class="">Emulator Setup</a></li><li class="toc-sub"><a href="#frida-instrumentation" class="">Frida Instrumentation</a></li><li class="toc-sub"><a href="#bypassing-root-detection" class="">Bypassing Root Detection</a></li><li class="toc-sub"><a href="#cryptographic-function-analysis" class="">Cryptographic Function Analysis</a></li><li class="toc-sub"><a href="#anti-uninstallation-measures" class="">Anti-Uninstallation Measures</a></li><li class="toc-sub"><a href="#permission-requests" class="">Permission Requests</a></li><li class="toc-sub"><a href="#secondary-payload-delivery" class="">Secondary Payload Delivery</a></li><li class="toc-sub"><a href="#understanding-stagers" class="">Understanding Stagers</a></li><li class="toc-sub"><a href="#traffic-analysis" class="">Traffic Analysis</a></li><li class="toc-sub"><a href="#what-is-ssl-pinning" class="">What is SSL Pinning?</a></li><li class="toc-sub"><a href="#the-sms-trigger" class="">The SMS Trigger</a></li><li class=""><a href="#identifying-the-backend" class="">Identifying the Backend</a></li><li class="toc-sub"><a href="#firebase-rtdb-discovery" class="">Firebase RTDB Discovery</a></li><li class="toc-sub"><a href="#testing-database-permissions" class="">Testing Database Permissions</a></li><li class="toc-sub"><a href="#disrupting-the-operation" class="">Disrupting the Operation</a></li><li class=""><a href="#conclusion" class="">Conclusion</a></li><li class="toc-sub"><a href="#protective-measures" class="">Protective Measures</a></li></ul></nav><div class="prose"><h1 id="android-malware-analysis-uncovering-a-sophisticated-android-malware">Android Malware Analysis: Uncovering a Sophisticated Android Malware</h1>
+<h2 id="introduction">Introduction</h2>
+<p>What began as investigating a suspicious APK received via WhatsApp turned into discovering a sophisticated malware operation designed to steal SMS messages from victims. The attack started with a message from a fake number impersonating Parivahan (India&#39;s transport department), claiming I had violated road rules and needed to pay a fine through their app. Having previously written a blog about punishing scammer APKs, one of my friends forwarded this suspicious app to me for analysis. While the application closely resembled the official Parivahan interface, careful analysis revealed it was actually malware. This post walks through my analysis process, techniques used, and findings.</p>
+<p><img src="https://i.ibb.co/Pzwky5P9/w.jpg" alt="whatsapp"></p>
+<blockquote>
+<p><strong>Note:</strong> This malware was capable of much more damage than just SMS harvesting, but I&#39;ve focused on the primary functionality to avoid unnecessary complexity in this analysis.</p>
+</blockquote>
+<h2 id="initial-contact-and-social-engineering">Initial Contact and Social Engineering</h2>
+<p>The attackers used a classic social engineering approach:</p>
+<ul>
+<li>Sent a WhatsApp message from an unknown number</li>
+<li>Claimed to represent the Parivahan department</li>
+<li>Alleged I had violated traffic rules</li>
+<li>Created urgency by demanding immediate payment of a fine</li>
+<li>Provided an apk to install their &quot;official&quot; app for processing the payment</li>
+</ul>
+<p>The message contained just enough official-sounding language and urgency to potentially trick users into downloading the malicious application without verifying its authenticity.</p>
+<h2 id="initial-static-analysis">Initial Static Analysis</h2>
+<h3 id="apk-unpacking">APK Unpacking</h3>
+<p>The first step was unpacking the suspicious APK using apktool:</p>
+<pre><code class="language-bash">apktool d pari.apk -o pari
+</code></pre>
+<p>The files appeared heavily obfuscated, suggesting this wasn&#39;t the work of an amateur.</p>
+<p><img src="https://i.ibb.co/wZ3Q69fX/unziped.png" alt="unziped"></p>
+<p>A particularly interesting discovery was an additional APK file named &quot;childapp.apk&quot; in the assets directory, indicating a potential multi-stage infection.</p>
+<p><img src="https://i.ibb.co/wZxPNHp5/childapp.png" alt="kidapp"></p>
+<p>Upon further investigation of the child app:</p>
+<p><img src="https://i.ibb.co/3yM0Qkhn/chilunziped.png" alt="kidunziped"></p>
+<h3 id="about-obfuscation">About Obfuscation</h3>
+<p>Obfuscation is a technique used by developers to make code difficult to understand, reverse engineer, or analyze. In legitimate apps, it protects intellectual property, but malware authors use it to evade detection and analysis. Common obfuscation techniques include:</p>
+<ul>
+<li>Renaming variables to meaningless names</li>
+<li>Encrypting strings and values</li>
+<li>Breaking logical flow of code</li>
+<li>Adding dummy code</li>
+</ul>
+<p>The heavy obfuscation in this malware made static analysis challenging and indicated professional development.</p>
+<h3 id="decompilation-attempts">Decompilation Attempts</h3>
+<p>To analyze the code more effectively, I created a multithreaded bash script to decompile all DEX files using jadx:</p>
+<pre><code class="language-bash">#!/bin/bash
+find . -name &quot;*.dex&quot; | xargs -P 8 -I{} jadx -d decompiled_{} {}
+</code></pre>
+<p>Despite decompilation, the code remained heavily obfuscated. I ran YARA rules looking for suspicious API calls, but found nothing conclusive due to the extensive obfuscation. At this point, static analysis had reached its limits.</p>
+<h2 id="dynamic-analysis">Dynamic Analysis</h2>
+<h3 id="emulator-setup">Emulator Setup</h3>
+<p>I set up an Android emulator using a clean image and installed the suspicious APK. Initially, the app wouldn&#39;t launch due to sophisticated root detection mechanisms.</p>
+<p>The app&#39;s icon and interface were meticulously crafted to mimic the official Parivahan app:</p>
+<p><img src="https://i.ibb.co/DPyyqW9s/icon.png" alt="pari"></p>
+<h3 id="frida-instrumentation">Frida Instrumentation</h3>
+<p>I used Frida to extract runtime information about the APK:</p>
+<p><img src="https://i.ibb.co/1tvcJH4s/uai.png" alt="frida"></p>
+<p>The file &quot;sjy.mutk.fvdghu.qama&quot; was identified as the malware package name—deliberately nonsensical to avoid detection.</p>
+<h3 id="bypassing-root-detection">Bypassing Root Detection</h3>
+<p>I used Objection to bypass the root detection mechanisms:</p>
+<p><img src="https://i.ibb.co/nMJ1nrYz/root.png" alt="root"></p>
+<p>After bypassing root detection, I was able to launch the application.</p>
+<h3 id="cryptographic-function-analysis">Cryptographic Function Analysis</h3>
+<p>Using a Frida script for inspecting AES operations, I monitored the app&#39;s encryption activities:</p>
+<p><img src="https://i.ibb.co/m5MnTPkG/frida-enc.png" alt="enc"></p>
+<h3 id="anti-uninstallation-measures">Anti-Uninstallation Measures</h3>
+<p>When I attempted to uninstall the app, it actively interfered with the process:</p>
+<p><img src="https://i.ibb.co/FkN367Rh/uninstall.gif" alt="giv"></p>
+<h3 id="permission-requests">Permission Requests</h3>
+<p>Upon installation, the app requested multiple sensitive permissions:</p>
+<ul>
+<li>SMS access</li>
+<li>Call logs access</li>
+<li>Storage access</li>
+</ul>
+<h3 id="secondary-payload-delivery">Secondary Payload Delivery</h3>
+<p>The app immediately displayed an &quot;update required&quot; prompt, confirming it was using a stager approach:</p>
+<p><img src="https://i.ibb.co/jvgPXBcT/update.png" alt="update"></p>
+<h3 id="understanding-stagers">Understanding Stagers</h3>
+<p>A &quot;stager&quot; is an initial, lightweight malware component that establishes a foothold on the victim&#39;s device and then downloads or unpacks more powerful malware. This technique:</p>
+<ul>
+<li>Reduces initial detection risk (smaller, less suspicious first payload)</li>
+<li>Provides flexibility (can deliver different payloads to different victims)</li>
+<li>Creates persistence (even if the main malware is detected, the stager might remain)</li>
+</ul>
+<p>In this case, the initial APK acted as a stager by containing and later activating &quot;childapp.apk&quot;, the main payload.</p>
+<p>After clicking &quot;Update,&quot; it requested additional permissions:</p>
+<p><img src="https://i.ibb.co/S7HF59P4/c.png" alt="permission"></p>
+<p>Most concerningly, it requested accessibility permissions:</p>
+<p><img src="https://i.ibb.co/ZzXwYm2n/b.png" alt="asses"></p>
+<h3 id="traffic-analysis">Traffic Analysis</h3>
+<p>To intercept network traffic, I set up monitoring with Frida and Burp Suite. Surprisingly, the app made no immediate network requests. I suspected SSL certificate pinning and used Objection to disable it:</p>
+<p><img src="https://i.ibb.co/7d54z998/ssl.png" alt="ssl"></p>
+<h3 id="what-is-ssl-pinning">What is SSL Pinning?</h3>
+<p>SSL pinning is a security technique where an app will only accept specific SSL certificates, rejecting all others—even those that would normally be trusted by the device. Legitimate apps use this to prevent man-in-the-middle attacks, but malware uses it to prevent traffic analysis. Bypassing SSL pinning was necessary to observe the malware&#39;s communications.</p>
+<h3 id="the-sms-trigger">The SMS Trigger</h3>
+<p>The breakthrough came when I simulated receiving an SMS:</p>
+<p><img src="https://i.ibb.co/Rp271Qk0/a.png" alt="sms"></p>
+<p>Immediately after, the app began making network requests to a Firebase Realtime Database. I intercepted them using Burp Suite:</p>
+<p><img src="https://i.ibb.co/svLfFBHH/burp.png" alt="firebase"></p>
+<h2 id="identifying-the-backend">Identifying the Backend</h2>
+<h3 id="firebase-rtdb-discovery">Firebase RTDB Discovery</h3>
+<p>The intercepted requests revealed an exposed Firebase Realtime Database URL. Using a JavaScript script, I queried the database:</p>
+<pre><code class="language-javascript">const fetch = require(&#39;node-fetch&#39;); 
+
+const url = &#39;https://exposed-default-rtdb.firebaseio.com/.json&#39;;
+
+fetch(url)
+  .then(res =&gt; res.json())
+  .then(data =&gt; {
+    console.log(&quot;Full Firebase DB:&quot;, data);
+  })
+  .catch(err =&gt; {
+    console.error(&quot;Error fetching full DB:&quot;, err);
+  });
+</code></pre>
+<p>This revealed thousands of user records containing stolen SMS messages , Contact numbers , screen shot links etc:</p>
+<p><img src="https://i.ibb.co/wZbrjdvC/data.png" alt="data"></p>
+<h3 id="testing-database-permissions">Testing Database Permissions</h3>
+<p>I attempted to delete data (which was fortunately blocked):</p>
+<pre><code class="language-javascript">fetch(url, {
+  method: &#39;DELETE&#39;,
+  headers: { &#39;Content-Type&#39;: &#39;application/json&#39; }
+})
+.then(response =&gt; console.log(&#39;Delete response:&#39;, response.status))
+.catch(error =&gt; console.error(&#39;Error:&#39;, error));
+</code></pre>
+<p>However, I discovered write access was enabled, allowing me to insert data:</p>
+<pre><code class="language-javascript">fetch(url, {
+  method: &#39;POST&#39;,
+  headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+  body: JSON.stringify({
+    &quot;phone&quot;: &quot;TEST_SECURITY_ALERT&quot;,
+    &quot;message&quot;: &quot;YOUR_DATABASE_IS_EXPOSED&quot;,
+    &quot;timestamp&quot;: new Date().toISOString()
+  })
+})
+.then(response =&gt; console.log(&#39;Write response:&#39;, response.status))
+.catch(error =&gt; console.error(&#39;Error:&#39;, error));
+</code></pre>
+<h3 id="disrupting-the-operation">Disrupting the Operation</h3>
+<p>To mitigate the impact, I wrote a script to insert junk data into the database :</p>
+<blockquote>
+<p><strong>Note</strong> : The actual script was meant to insert fake picture links, rickroll videos, fake texts, and more, but I’ve only shown SMS insertion here.</p>
+</blockquote>
+<pre><code class="language-javascript">const fetch = require(&#39;node-fetch&#39;);
+const { faker } = require(&#39;@faker-js/faker&#39;);
+const url = &#39;https://exposed-default-rtdb.firebaseio.com/.json&#39;;
+(async () =&gt; {
+  console.log(&quot;Inserting junk data...&quot;);
+  for (let i = 1; i &lt;= 5; i++) {
+    const data = {
+      info: `Operator : mobinet, Number : ${faker.phone.number(&#39;+91##########&#39;)}`,
+      message: faker.lorem.sentences(2),
+      sender: faker.company.name(),
+      time: faker.date.past().toISOString()};
+    try {
+      const res = await fetch(url, {
+        method: &#39;POST&#39;,
+        headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+        body: JSON.stringify(data)});
+      if (res.ok) {
+        console.log(`Inserted ${i}:`, data);
+      } else {
+        console.error(`Failed ${i}: HTTP ${res.status}`);}
+    } catch (e) {
+      console.error(`Error ${i}:`, e.message);}}
+  console.log(&quot;Done!&quot;);})();
+</code></pre>
+<p>Output of the junk data insertion:</p>
+<p><img src="https://i.ibb.co/JRBpsDq1/inject.png" alt="inject"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This malware represents a sophisticated SMS harvesting operation using multiple advanced techniques:</p>
+<ul>
+<li>Multi-stage infection with a stager approach</li>
+<li>Heavy code obfuscation</li>
+<li>Root detection to evade analysis</li>
+<li>SSL pinning to protect network communications</li>
+<li>Trigger-based exfiltration (only activating when SMS is received)</li>
+<li>Anti-uninstallation mechanisms</li>
+</ul>
+<p>The exposed Firebase RTDB instance containing thousands of records indicates this was an active and successful campaign affecting many users.</p>
+<p>While the malware is capable of much more, I’ve chosen to omit those capabilities in this blog to keep it understandable and focused.</p>
+<h3 id="protective-measures">Protective Measures</h3>
+<ul>
+<li><strong>Avoid installing apps</strong> from unknown sources or links received in messages.  </li>
+<li><strong>Most government agencies</strong> will <strong>never send APK files</strong> directly or ask you to install apps outside the <strong>Google Play Store or Apple App Store</strong>.  </li>
+<li><strong>Verify official communications</strong> through legitimate government websites or hotlines.  </li>
+<li><strong>Review app permissions</strong> carefully before granting access to your data or device functions.  </li>
+<li><strong>Use trusted mobile security solutions</strong> that can detect and block malicious applications.  </li>
+<li><strong>Stay alert</strong> to unexpected messages demanding fines, fees, or personal information—these are often scams.</li>
+</ul>
+<p><em>Note: This post is intended for educational purposes. All discovered vulnerabilities were responsibly reported, and no actual user data was manipulated or exposed.</em></p>
+</div></div><nav class="post-nav"><a href="/blog/rust-malware" class="post-nav-link"><span>← Older</span><strong>Hacking Printers: Intercepting Print Jobs with Rust Malware</strong></a><a href="/blog/self-modifying-binary" class="post-nav-link post-nav-next"><span>Newer →</span><strong>How Polymorphic Binaries Work: Dissecting a Self-Modifying FASM PoC</strong></a></nav></article></main><footer class="footer"><p>Aaron Thomas<!-- --> — <span>2026</span></p><p><a href="https://github.com/arxhr007" target="_blank" rel="noreferrer">GitHub</a> <!-- -->•<!-- --> <a href="/blog">Blog</a> •<!-- --> <a href="mailto:aaron123thomas098@gmail.com">Email</a></p></footer></div>
+</body>
+</html>

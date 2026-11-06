@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arxhr007.github.io/sitemap.xml

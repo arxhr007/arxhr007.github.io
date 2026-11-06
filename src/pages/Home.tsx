@@ -172,10 +172,7 @@ export function Home() {
         </p>
         <p style={{ fontSize: "1.05rem" }}>
           Email me at{" "}
-          <a
-            href={`mailto:${profile.email}`}
-            style={{ color: "var(--accent)", fontWeight: 600, textDecoration: "none" }}
-          >
+          <a href={`mailto:${profile.email}`} style={{ fontWeight: 600 }}>
             {profile.email}
           </a>
         </p>

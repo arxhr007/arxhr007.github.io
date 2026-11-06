@@ -261,7 +261,6 @@ li {
   border-radius: 12px;
   object-fit: cover;
   border: 2px solid var(--text-strong);
-  filter: grayscale(100%);
   display: block;
   justify-self: start;
 }
